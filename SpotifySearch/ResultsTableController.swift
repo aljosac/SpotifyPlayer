@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 
-class ResultsTableController: UITableViewController,UISearchControllerDelegate,UISearchResultsUpdating {
+class ResultsTableController: UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
@@ -25,7 +25,4 @@ class ResultsTableController: UITableViewController,UISearchControllerDelegate,U
         return cell
     }
     
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
-        print("typeed")
-    }
 }

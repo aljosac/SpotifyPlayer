@@ -8,35 +8,46 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
-class ViewController: UITableViewController{
+class ViewController: UITableViewController, UISearchBarDelegate{
 
-    var searchController: UISearchController!
+    var searchController: UISearchController = UISearchController(searchResultsController: ResultsTableController())
+    var disposeBag = DisposeBag()
+    
+    private var searchBar: UISearchBar {
+        return self.searchController.searchBar
+    }
+    
+    private var resultsViewController: UITableViewController {
+        return (self.searchController.searchResultsController as? UITableViewController)!
+    }
+    
+    private var resultsTableView: UITableView {
+        return self.resultsViewController.tableView!
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let resultsController = ResultsTableController()
-        
-        searchController = UISearchController(searchResultsController: resultsController)
-        searchController.searchResultsUpdater = resultsController
-        searchController.searchBar.sizeToFit()
-        
-        searchController.searchBar.rx_text.asDriver().throttle(0.5).distinctUntilChanged()
-        
-        
         navigationItem.titleView = searchController.searchBar
         searchController.hidesNavigationBarDuringPresentation = false
         self.definesPresentationContext = true
         
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        setupRx()
+        
     }
     
+    func setupRx(){
+        searchBar.rx_text
+            .throttle(0.3, scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .subscribeNext { query in
+                print("sent")
+            }.addDisposableTo(disposeBag)
+    }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
