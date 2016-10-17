@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		53B1CD0DFDE0755CF6F2A2C9 /* Pods_SpotifySearch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99D28A58F76A19FCD7BE6563 /* Pods_SpotifySearch.framework */; };
+		693B4D541D91E8BF00CF51BF /* SpotifySearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693B4D531D91E8BF00CF51BF /* SpotifySearchModel.swift */; };
+		69C2A5B11D905E3F0000DFFE /* SpotifyEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C2A5B01D905E3F0000DFFE /* SpotifyEndpoint.swift */; };
 		F8D3866A1D70C274002A13FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D386691D70C274002A13FC /* AppDelegate.swift */; };
 		F8D3866C1D70C274002A13FC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D3866B1D70C274002A13FC /* ViewController.swift */; };
 		F8D3866F1D70C274002A13FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8D3866D1D70C274002A13FC /* Main.storyboard */; };
@@ -14,155 +17,15 @@
 		F8D386741D70C274002A13FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8D386721D70C274002A13FC /* LaunchScreen.storyboard */; };
 		F8D3867E1D70CB50002A13FC /* ResultsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D3867D1D70CB50002A13FC /* ResultsTableController.swift */; };
 		F8D386851D775461002A13FC /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D386841D775461002A13FC /* AVFoundation.framework */; };
-		F8D386CA1D78C34C002A13FC /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D386A11D78BE29002A13FC /* RxSwift.framework */; };
-		F8D386CB1D78C3B7002A13FC /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D386A91D78BE29002A13FC /* RxCocoa.framework */; };
 		F8D386FD1D7A1099002A13FC /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D386FC1D7A1099002A13FC /* Spotify.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		F8D386A01D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C8A56AD71AD7424700B4673B;
-			remoteInfo = "RxSwift-iOS";
-		};
-		F8D386A21D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C88BB8711B07E5ED0064D411;
-			remoteInfo = "RxSwift-OSX";
-		};
-		F8D386A41D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D2EA280C1BB9B5A200880ED3;
-			remoteInfo = "RxSwift-tvOS";
-		};
-		F8D386A61D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C8F0C0021BBBFB8B001B112F;
-			remoteInfo = "RxSwift-watchOS";
-		};
-		F8D386A81D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C809396D1B8A71760088E94D;
-			remoteInfo = "RxCocoa-iOS";
-		};
-		F8D386AA1D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C80939E71B8A71840088E94D;
-			remoteInfo = "RxCocoa-OSX";
-		};
-		F8D386AC1D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D2138C751BB9BE9800339B5C;
-			remoteInfo = "RxCocoa-tvOS";
-		};
-		F8D386AE1D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C8F0C04B1BBBFBB9001B112F;
-			remoteInfo = "RxCocoa-watchOS";
-		};
-		F8D386B01D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C8093BC71B8A71F00088E94D;
-			remoteInfo = "RxBlocking-iOS";
-		};
-		F8D386B21D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C8093C451B8A71FC0088E94D;
-			remoteInfo = "RxBlocking-OSX";
-		};
-		F8D386B41D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D2EBEB811BB9B99D003A27DC;
-			remoteInfo = "RxBlocking-tvOS";
-		};
-		F8D386B61D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C8F0C0581BBBFBCE001B112F;
-			remoteInfo = "RxBlocking-watchOS";
-		};
-		F8D386B81D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C88FA50C1C25C44800CCFEA4;
-			remoteInfo = "RxTests-iOS";
-		};
-		F8D386BA1D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C88FA51D1C25C4B500CCFEA4;
-			remoteInfo = "RxTests-OSX";
-		};
-		F8D386BC1D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C88FA52E1C25C4C000CCFEA4;
-			remoteInfo = "RxTests-tvOS";
-		};
-		F8D386BE1D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C88FA53F1C25C4CC00CCFEA4;
-			remoteInfo = "RxTests-watchOS";
-		};
-		F8D386C01D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C83508C31C386F6F0027C24C;
-			remoteInfo = "AllTests-iOS";
-		};
-		F8D386C21D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C83509841C38740E0027C24C;
-			remoteInfo = "AllTests-tvOS";
-		};
-		F8D386C41D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C83509941C38742C0027C24C;
-			remoteInfo = "AllTests-OSX";
-		};
-		F8D386C61D78BE29002A13FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C85BA04B1C3878740075D68E;
-			remoteInfo = PerformanceTests;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
+		33CBEBDC31B2C68EB58CD8A8 /* Pods-SpotifySearch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifySearch.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SpotifySearch/Pods-SpotifySearch.debug.xcconfig"; sourceTree = "<group>"; };
+		693B4D531D91E8BF00CF51BF /* SpotifySearchModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifySearchModel.swift; sourceTree = "<group>"; };
+		69C2A5B01D905E3F0000DFFE /* SpotifyEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyEndpoint.swift; sourceTree = "<group>"; };
+		99D28A58F76A19FCD7BE6563 /* Pods_SpotifySearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotifySearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF4168076E16B084927BB581 /* Pods-SpotifySearch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifySearch.release.xcconfig"; path = "Pods/Target Support Files/Pods-SpotifySearch/Pods-SpotifySearch.release.xcconfig"; sourceTree = "<group>"; };
 		F8D386661D70C273002A13FC /* SpotifySearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotifySearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8D386691D70C274002A13FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F8D3866B1D70C274002A13FC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -173,7 +36,6 @@
 		F8D3867D1D70CB50002A13FC /* ResultsTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultsTableController.swift; sourceTree = "<group>"; };
 		F8D3867F1D7753B8002A13FC /* SpotifySearch-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SpotifySearch-Bridging-Header.h"; sourceTree = "<group>"; };
 		F8D386841D775461002A13FC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		F8D386891D78BE29002A13FC /* Rx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Rx.xcodeproj; path = RxSwift/Rx.xcodeproj; sourceTree = SOURCE_ROOT; };
 		F8D386FC1D7A1099002A13FC /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Spotify.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -182,16 +44,32 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8D386CB1D78C3B7002A13FC /* RxCocoa.framework in Frameworks */,
-				F8D386CA1D78C34C002A13FC /* RxSwift.framework in Frameworks */,
 				F8D386851D775461002A13FC /* AVFoundation.framework in Frameworks */,
 				F8D386FD1D7A1099002A13FC /* Spotify.framework in Frameworks */,
+				53B1CD0DFDE0755CF6F2A2C9 /* Pods_SpotifySearch.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		83A9DECE4FF1988FD3D126CC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				33CBEBDC31B2C68EB58CD8A8 /* Pods-SpotifySearch.debug.xcconfig */,
+				CF4168076E16B084927BB581 /* Pods-SpotifySearch.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		C39651AD22CFC32A580AE8EB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				99D28A58F76A19FCD7BE6563 /* Pods_SpotifySearch.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F8D3865D1D70C273002A13FC = {
 			isa = PBXGroup;
 			children = (
@@ -199,6 +77,8 @@
 				F8D386841D775461002A13FC /* AVFoundation.framework */,
 				F8D386681D70C274002A13FC /* SpotifySearch */,
 				F8D386671D70C273002A13FC /* Products */,
+				83A9DECE4FF1988FD3D126CC /* Pods */,
+				C39651AD22CFC32A580AE8EB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -213,10 +93,11 @@
 		F8D386681D70C274002A13FC /* SpotifySearch */ = {
 			isa = PBXGroup;
 			children = (
-				F8D386891D78BE29002A13FC /* Rx.xcodeproj */,
 				F8D386691D70C274002A13FC /* AppDelegate.swift */,
 				F8D3866B1D70C274002A13FC /* ViewController.swift */,
+				693B4D531D91E8BF00CF51BF /* SpotifySearchModel.swift */,
 				F8D3867D1D70CB50002A13FC /* ResultsTableController.swift */,
+				69C2A5B01D905E3F0000DFFE /* SpotifyEndpoint.swift */,
 				F8D3866D1D70C274002A13FC /* Main.storyboard */,
 				F8D386701D70C274002A13FC /* Assets.xcassets */,
 				F8D386721D70C274002A13FC /* LaunchScreen.storyboard */,
@@ -226,33 +107,6 @@
 			path = SpotifySearch;
 			sourceTree = "<group>";
 		};
-		F8D3868A1D78BE29002A13FC /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F8D386A11D78BE29002A13FC /* RxSwift.framework */,
-				F8D386A31D78BE29002A13FC /* RxSwift.framework */,
-				F8D386A51D78BE29002A13FC /* RxSwift.framework */,
-				F8D386A71D78BE29002A13FC /* RxSwift.framework */,
-				F8D386A91D78BE29002A13FC /* RxCocoa.framework */,
-				F8D386AB1D78BE29002A13FC /* RxCocoa.framework */,
-				F8D386AD1D78BE29002A13FC /* RxCocoa.framework */,
-				F8D386AF1D78BE29002A13FC /* RxCocoa.framework */,
-				F8D386B11D78BE29002A13FC /* RxBlocking.framework */,
-				F8D386B31D78BE29002A13FC /* RxBlocking.framework */,
-				F8D386B51D78BE29002A13FC /* RxBlocking.framework */,
-				F8D386B71D78BE29002A13FC /* RxBlocking.framework */,
-				F8D386B91D78BE29002A13FC /* RxTests.framework */,
-				F8D386BB1D78BE29002A13FC /* RxTests.framework */,
-				F8D386BD1D78BE29002A13FC /* RxTests.framework */,
-				F8D386BF1D78BE29002A13FC /* RxTests.framework */,
-				F8D386C11D78BE29002A13FC /* AllTests-iOS.xctest */,
-				F8D386C31D78BE29002A13FC /* AllTests-tvOS.xctest */,
-				F8D386C51D78BE29002A13FC /* AllTests-OSX.xctest */,
-				F8D386C71D78BE29002A13FC /* PerformanceTests.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -260,9 +114,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F8D386781D70C274002A13FC /* Build configuration list for PBXNativeTarget "SpotifySearch" */;
 			buildPhases = (
+				BD6145683BD4C18368D4BBAA /* [CP] Check Pods Manifest.lock */,
 				F8D386621D70C273002A13FC /* Sources */,
 				F8D386631D70C273002A13FC /* Frameworks */,
 				F8D386641D70C273002A13FC /* Resources */,
+				13602B3E058F17CADEB7EFF8 /* [CP] Embed Pods Frameworks */,
+				139ED592B44322A94A22838F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -280,12 +137,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "cse-cucak003";
 				TargetAttributes = {
 					F8D386651D70C273002A13FC = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = 9YG3QBY4Y5;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -300,161 +158,12 @@
 			mainGroup = F8D3865D1D70C273002A13FC;
 			productRefGroup = F8D386671D70C273002A13FC /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = F8D3868A1D78BE29002A13FC /* Products */;
-					ProjectRef = F8D386891D78BE29002A13FC /* Rx.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				F8D386651D70C273002A13FC /* SpotifySearch */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		F8D386A11D78BE29002A13FC /* RxSwift.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RxSwift.framework;
-			remoteRef = F8D386A01D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F8D386A31D78BE29002A13FC /* RxSwift.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RxSwift.framework;
-			remoteRef = F8D386A21D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F8D386A51D78BE29002A13FC /* RxSwift.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RxSwift.framework;
-			remoteRef = F8D386A41D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F8D386A71D78BE29002A13FC /* RxSwift.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RxSwift.framework;
-			remoteRef = F8D386A61D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F8D386A91D78BE29002A13FC /* RxCocoa.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RxCocoa.framework;
-			remoteRef = F8D386A81D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F8D386AB1D78BE29002A13FC /* RxCocoa.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RxCocoa.framework;
-			remoteRef = F8D386AA1D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F8D386AD1D78BE29002A13FC /* RxCocoa.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RxCocoa.framework;
-			remoteRef = F8D386AC1D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F8D386AF1D78BE29002A13FC /* RxCocoa.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RxCocoa.framework;
-			remoteRef = F8D386AE1D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F8D386B11D78BE29002A13FC /* RxBlocking.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RxBlocking.framework;
-			remoteRef = F8D386B01D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F8D386B31D78BE29002A13FC /* RxBlocking.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RxBlocking.framework;
-			remoteRef = F8D386B21D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F8D386B51D78BE29002A13FC /* RxBlocking.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RxBlocking.framework;
-			remoteRef = F8D386B41D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F8D386B71D78BE29002A13FC /* RxBlocking.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RxBlocking.framework;
-			remoteRef = F8D386B61D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F8D386B91D78BE29002A13FC /* RxTests.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RxTests.framework;
-			remoteRef = F8D386B81D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F8D386BB1D78BE29002A13FC /* RxTests.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RxTests.framework;
-			remoteRef = F8D386BA1D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F8D386BD1D78BE29002A13FC /* RxTests.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RxTests.framework;
-			remoteRef = F8D386BC1D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F8D386BF1D78BE29002A13FC /* RxTests.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RxTests.framework;
-			remoteRef = F8D386BE1D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F8D386C11D78BE29002A13FC /* AllTests-iOS.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "AllTests-iOS.xctest";
-			remoteRef = F8D386C01D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F8D386C31D78BE29002A13FC /* AllTests-tvOS.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "AllTests-tvOS.xctest";
-			remoteRef = F8D386C21D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F8D386C51D78BE29002A13FC /* AllTests-OSX.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "AllTests-OSX.xctest";
-			remoteRef = F8D386C41D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F8D386C71D78BE29002A13FC /* PerformanceTests.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = PerformanceTests.app;
-			remoteRef = F8D386C61D78BE29002A13FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		F8D386641D70C273002A13FC /* Resources */ = {
@@ -469,14 +178,64 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		13602B3E058F17CADEB7EFF8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SpotifySearch/Pods-SpotifySearch-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		139ED592B44322A94A22838F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SpotifySearch/Pods-SpotifySearch-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BD6145683BD4C18368D4BBAA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		F8D386621D70C273002A13FC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				F8D3866C1D70C274002A13FC /* ViewController.swift in Sources */,
+				693B4D541D91E8BF00CF51BF /* SpotifySearchModel.swift in Sources */,
 				F8D3866A1D70C274002A13FC /* AppDelegate.swift in Sources */,
 				F8D3867E1D70CB50002A13FC /* ResultsTableController.swift in Sources */,
+				69C2A5B11D905E3F0000DFFE /* SpotifyEndpoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,8 +275,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -539,7 +300,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -561,8 +322,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -578,16 +341,19 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		F8D386791D70C274002A13FC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 33CBEBDC31B2C68EB58CD8A8 /* Pods-SpotifySearch.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -597,17 +363,23 @@
 				);
 				INFOPLIST_FILE = SpotifySearch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = acucak.SpotifySearch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "SpotifySearch/SpotifySearch-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		F8D3867A1D70C274002A13FC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CF4168076E16B084927BB581 /* Pods-SpotifySearch.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -617,10 +389,14 @@
 				);
 				INFOPLIST_FILE = SpotifySearch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = acucak.SpotifySearch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "SpotifySearch/SpotifySearch-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
