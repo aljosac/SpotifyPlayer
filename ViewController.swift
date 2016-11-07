@@ -12,6 +12,7 @@ import UIKit
     import RxCocoa
 #endif
 import Moya
+import Alamofire
 
 class ViewController: UITableViewController, UISearchBarDelegate{
     
@@ -21,6 +22,9 @@ class ViewController: UITableViewController, UISearchBarDelegate{
     
     var provider: RxMoyaProvider<Spotify>!
     
+    var latestSearch: Observable<String> {
+        return searchBar.rx.text.throttle(2, scheduler: MainScheduler.instance).distinctUntilChanged()
+    }
     
     fileprivate var searchBar: UISearchBar {
         return self.searchController.searchBar
@@ -48,18 +52,38 @@ class ViewController: UITableViewController, UISearchBarDelegate{
     }
     
     func setupRx(){
-        
+        resultsTableView.dataSource = nil
         provider = RxMoyaProvider<Spotify>()
         
-        _ = provider.request(Spotify.Track(name: "Kanye")).debug().mapJSON()
+        let searchModel = SpotifySearchModel(provider: provider, query: latestSearch)
         
-        searchBar.rx.text
-            .throttle(2, scheduler: MainScheduler.instance)
-            .distinctUntilChanged()
-            .subscribe { query in
-                print(query.debugDescription)
-            }.addDisposableTo(disposeBag)
+    
         
+        let tracks = SpotifyProvider.request(.Track(name: "Fade")).debug().mapObject(type: Test.self)
+        
+        tracks.subscribe { event in
+            switch event {
+            case let .next(search):
+                print(search.total)
+                print(search.href)
+            case let .error(error):
+                dump(tracks)
+            case .completed: break
+                
+            }
+        }.addDisposableTo(disposeBag)
+        /*
+        searchModel.search().bindTo(resultsTableView.rx.items(cellIdentifier: "SearchResultCell")) { (_,track,cell) in
+            cell.textLabel?.text = track.name
+        }.addDisposableTo(disposeBag)
+        
+        
+        result.drive(resultsTableView.rx.items(cellIdentifier: "SearchResultCell")) { (_, result, cell) in
+            cell.textLabel?.text = result.name
+            
+        }.addDisposableTo(disposeBag)
+        
+         */
         // hides keyboard
         resultsTableView.rx.contentOffset
             .asDriver()

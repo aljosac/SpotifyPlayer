@@ -23,9 +23,9 @@
 
 /* Begin PBXFileReference section */
 		33CBEBDC31B2C68EB58CD8A8 /* Pods-SpotifySearch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifySearch.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SpotifySearch/Pods-SpotifySearch.debug.xcconfig"; sourceTree = "<group>"; };
-		695526EE1DCB909D0023C4C5 /* SearchEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchEntity.swift; sourceTree = "<group>"; };
+		695526EE1DCB909D0023C4C5 /* SearchEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchEntity.swift; path = SpotifySearch/SearchEntity.swift; sourceTree = "<group>"; };
 		69B459EC1DB5559D0013D71A /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ../ViewController.swift; sourceTree = "<group>"; };
-		69B459EE1DB555B10013D71A /* SpotifyEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpotifyEndpoint.swift; path = ../SpotifyEndpoint.swift; sourceTree = "<group>"; };
+		69B459EE1DB555B10013D71A /* SpotifyEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyEndpoint.swift; sourceTree = "<group>"; };
 		69B459F01DB555E10013D71A /* SpotifySearchModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifySearchModel.swift; sourceTree = SOURCE_ROOT; };
 		69B459F21DB555EB0013D71A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../AppDelegate.swift; sourceTree = "<group>"; };
 		69B459F41DB555FE0013D71A /* ResultsTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResultsTableController.swift; path = ../ResultsTableController.swift; sourceTree = "<group>"; };
@@ -55,6 +55,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		69E177291DD0FCCC0059CF92 /* SpotifyAPI */ = {
+			isa = PBXGroup;
+			children = (
+				69B459EE1DB555B10013D71A /* SpotifyEndpoint.swift */,
+				695526EE1DCB909D0023C4C5 /* SearchEntity.swift */,
+				69B459F01DB555E10013D71A /* SpotifySearchModel.swift */,
+			);
+			name = SpotifyAPI;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		83A9DECE4FF1988FD3D126CC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -95,11 +106,9 @@
 		F8D386681D70C274002A13FC /* SpotifySearch */ = {
 			isa = PBXGroup;
 			children = (
+				69E177291DD0FCCC0059CF92 /* SpotifyAPI */,
 				69B459F41DB555FE0013D71A /* ResultsTableController.swift */,
 				69B459F21DB555EB0013D71A /* AppDelegate.swift */,
-				69B459F01DB555E10013D71A /* SpotifySearchModel.swift */,
-				695526EE1DCB909D0023C4C5 /* SearchEntity.swift */,
-				69B459EE1DB555B10013D71A /* SpotifyEndpoint.swift */,
 				69B459EC1DB5559D0013D71A /* ViewController.swift */,
 				F8D3866D1D70C274002A13FC /* Main.storyboard */,
 				F8D386701D70C274002A13FC /* Assets.xcassets */,
