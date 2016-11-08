@@ -12,24 +12,16 @@ import RxSwift
 
 struct SpotifySearchModel {
     let provider: RxMoyaProvider<Spotify>
-    let query: Observable<String>
-    func search() -> Observable<[Track]> {
-        return query.observeOn(MainScheduler.instance)
-            .flatMapLatest { name -> Observable<[Track]> in
-                 self.provider.request(Spotify.Track(name: name)).debug().mapArray(type: Track.self)
-            }
-    }
     
-    func search(name:String) -> Observable<Any> {
+    func search(query:String) -> Observable<[Track]> {
+        return self.provider.request(Spotify.Track(name: query)).debug().mapArray(type: Track.self, keyPath: "tracks.items")
         
-        return self.provider.request(Spotify.Track(name: name)).debug().mapJSON()
-    
     }
     
-    func getAlbum(id: String) -> Observable<Album?> {
+    func getAlbum(id: String) -> Observable<FullAlbum?> {
         return self.provider.request(Spotify.Album(id: id))
             .debug()
-            .mapObjectOptional(type: Album.self)
+            .mapObjectOptional(type: FullAlbum.self)
     }
     
     func searchArtist(query: String) -> Observable<FullArtist?> {

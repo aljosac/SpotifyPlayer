@@ -34,7 +34,7 @@ extension Spotify: TargetType {
         case .Track(_):
             return "/v1/search"
         case .Artist(let id):
-            return "/v1/artists/\(id)/albums"
+            return "/v1/artists/\(id)"
         case .Album(let id):
             return "/v1/albums/\(id)"
         }

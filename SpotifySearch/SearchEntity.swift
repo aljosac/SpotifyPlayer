@@ -10,23 +10,23 @@ import Mapper
 
 struct Track: Mappable {
     
-    let populatrity: Int
     let name: String
-    let uri: String
-    let artist: [Artist]?
-    let album: Album
+    let popularity: Int
+    let id:String
+    let artists:[SimpleArtist]
+    let album:SimpleAlbum
     
     init(map: Mapper) throws {
         try name = map.from("name")
-        try uri = map.from("uri")
-        try populatrity = map.from("populatrity")
+        try popularity = map.from("popularity")
+        try id = map.from("id")
+        try artists = map.from("artists")
         try album = map.from("album")
-        artist = map.optionalFrom("artists") ?? []
-        
     }
 }
 
-struct Artist: Mappable {
+// Done
+struct SimpleArtist: Mappable {
     
     let name:String
     let id:String
@@ -36,7 +36,6 @@ struct Artist: Mappable {
         try id = map.from("uri")
     }
 }
-
 
 struct FullArtist: Mappable {
     
@@ -48,7 +47,18 @@ struct FullArtist: Mappable {
     }
 }
 
-struct Album: Mappable {
+struct SimpleAlbum: Mappable {
+    let name:String
+    let type:String
+    let id:String
+    init(map: Mapper) throws {
+        try name = map.from("name")
+        try type = map.from("type")
+        try id = map.from("id")
+    }
+}
+
+struct FullAlbum: Mappable {
     let name:String
     
     init(map: Mapper) throws {
@@ -56,12 +66,14 @@ struct Album: Mappable {
     }
 }
 
-struct Test: Mappable {
+struct Result: Mappable {
     let total:Int
     let href:String
+    let tracks:[Track]
     init(map: Mapper) throws {
         try total = map.from("tracks.total")
         try href = map.from("tracks.href")
+        try tracks = map.from("tracks.items")
     }
     
 }

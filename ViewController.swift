@@ -16,15 +16,12 @@ import Alamofire
 
 class ViewController: UITableViewController, UISearchBarDelegate{
     
-    var searchController: UISearchController = UISearchController(searchResultsController: ResultsTableController())
+    var searchController: UISearchController = UISearchController(searchResultsController: UITableViewController())
     
     var disposeBag = DisposeBag()
     
     var provider: RxMoyaProvider<Spotify>!
     
-    var latestSearch: Observable<String> {
-        return searchBar.rx.text.throttle(2, scheduler: MainScheduler.instance).distinctUntilChanged()
-    }
     
     fileprivate var searchBar: UISearchBar {
         return self.searchController.searchBar
@@ -43,47 +40,49 @@ class ViewController: UITableViewController, UISearchBarDelegate{
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        navigationItem.titleView = searchController.searchBar
+        navigationItem.titleView = searchBar
         searchController.hidesNavigationBarDuringPresentation = false
         self.definesPresentationContext = true
+        
+        resultsTableView.register(UINib(nibName: "SpotifySearchCell", bundle:nil), forCellReuseIdentifier: "searchCell")
+        
+        resultsTableView.dataSource = nil
         
         setupRx()
         
     }
     
     func setupRx(){
-        resultsTableView.dataSource = nil
+        
         provider = RxMoyaProvider<Spotify>()
         
-        let searchModel = SpotifySearchModel(provider: provider, query: latestSearch)
+        let searchModel = SpotifySearchModel(provider: provider)
         
-    
+        let results = searchBar.rx.text.throttle(0.5, scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .flatMapLatest { query in
+                return searchModel.search(query: query)
+            }
         
-        let tracks = SpotifyProvider.request(.Track(name: "Fade")).debug().mapObject(type: Test.self)
         
-        tracks.subscribe { event in
+        var sortedResults:Observable<[Track]> = Observable.just([])
+        
+        results.subscribe { event in
             switch event {
-            case let .next(search):
-                print(search.total)
-                print(search.href)
+            case let .next(list):
+                sortedResults = Observable.just(list.sorted { $0.popularity > $1.popularity})
             case let .error(error):
-                dump(tracks)
-            case .completed: break
-                
+                print(error)
+            case .completed:
+                break
             }
         }.addDisposableTo(disposeBag)
-        /*
-        searchModel.search().bindTo(resultsTableView.rx.items(cellIdentifier: "SearchResultCell")) { (_,track,cell) in
-            cell.textLabel?.text = track.name
-        }.addDisposableTo(disposeBag)
+        sortedResults.bindTo(resultsTableView.rx.items(cellIdentifier: "searchCell", cellType: SpotifySearchCell.self)){
+            (_,track,cell) in
+                cell.mainLabel.text = track.name
+                cell.sublabel.text = track.artists[0].name + ": " + "\(track.popularity)"
+            }.addDisposableTo(disposeBag)
         
-        
-        result.drive(resultsTableView.rx.items(cellIdentifier: "SearchResultCell")) { (_, result, cell) in
-            cell.textLabel?.text = result.name
-            
-        }.addDisposableTo(disposeBag)
-        
-         */
         // hides keyboard
         resultsTableView.rx.contentOffset
             .asDriver()
