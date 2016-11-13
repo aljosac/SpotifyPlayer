@@ -10,13 +10,17 @@ import UIKit
 #if !RX_NO_MODULE
     import RxSwift
     import RxCocoa
-#endif
 import Moya
 import Alamofire
+
 
 class ViewController: UITableViewController, UISearchBarDelegate{
     
     var searchController: UISearchController = UISearchController(searchResultsController: UITableViewController())
+    
+    var mainTabBarController:MainTabBarController {
+        return (self.tabBarController as! MainTabBarController)
+    }
     
     var disposeBag = DisposeBag()
     
@@ -49,55 +53,70 @@ class ViewController: UITableViewController, UISearchBarDelegate{
         resultsTableView.dataSource = nil
         
         setupRx()
-        
     }
     
     func setupRx(){
         
         provider = RxMoyaProvider<Spotify>()
-        
         let searchModel = SpotifySearchModel(provider: provider)
         
-        let results = searchBar.rx.text.throttle(0.5, scheduler: MainScheduler.instance)
+        // Throttle typing and send http search request
+        let results = searchBar.rx.text.orEmpty.throttle(0.5, scheduler: MainScheduler.instance)
             .distinctUntilChanged()
             .flatMapLatest { query in
                 return searchModel.search(query: query)
             }
         
+        // sorts results of search request by most popular
+        let sortedResults = results.map { list in
+            return list.sorted(by: { $0.popularity > $1.popularity })
+        }
         
-        var sortedResults:Observable<[Track]> = Observable.just([])
-        
-        results.subscribe { event in
-            switch event {
-            case let .next(list):
-                sortedResults = Observable.just(list.sorted { $0.popularity > $1.popularity})
-            case let .error(error):
-                print(error)
-            case .completed:
-                break
-            }
-        }.addDisposableTo(disposeBag)
+        // populate table view with items from sorted results
         sortedResults.bindTo(resultsTableView.rx.items(cellIdentifier: "searchCell", cellType: SpotifySearchCell.self)){
             (_,track,cell) in
                 cell.mainLabel.text = track.name
-                cell.sublabel.text = track.artists[0].name + ": " + "\(track.popularity)"
+                cell.sublabel.text = track.artists[0].name + " - " + "\(track.album.name)"
+                cell.track = track
             }.addDisposableTo(disposeBag)
         
         // hides keyboard
         resultsTableView.rx.contentOffset
             .asDriver()
             .drive(onNext: { _ in
+                
+                
                 if self.searchBar.isFirstResponder {
                     _ = self.searchBar.resignFirstResponder()
                 }
             })
             .addDisposableTo(disposeBag)
         
-        resultsTableView.rx.itemSelected.subscribe{ index in
-            print(index.debugDescription)
-            
-            self.searchBar.resignFirstResponder()
+        resultsTableView.rx.itemSelected.subscribe{ event in
+            switch event {
+            case let .next(index):
+                // Get Cell information
+                let cell = self.resultsTableView.cellForRow(at: index) as? SpotifySearchCell
+                if let tabController = self.tabBarController as? MainTabBarController  {
+                    tabController.queueArray.append(cell?.track!)
+                } else {
+                    print("No tab bar :(")
+                }
+            case let .error(error):
+                print(error.localizedDescription)
+            case .completed:
+                break
+            }
             }.addDisposableTo(disposeBag)
+        
+        
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        if let header = view as? UITableViewHeaderFooterView {
+            header.textLabel?.textAlignment = .center
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -109,7 +128,7 @@ class ViewController: UITableViewController, UISearchBarDelegate{
         case 0:
             return "HISTORY"
         case 1:
-            return "TRENDING"
+            return "YOUR TOP ARTISTS"
         default:
             return "wat"
         }
@@ -129,6 +148,7 @@ class ViewController: UITableViewController, UISearchBarDelegate{
     }
     
 }
+
 
 extension ViewController: UISearchControllerDelegate, UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {

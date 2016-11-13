@@ -13,6 +13,7 @@ class SpotifySearchCell: UITableViewCell {
     @IBOutlet weak var mainLabel: UILabel!
     @IBOutlet weak var sublabel: UILabel!
     
+    var track:Track? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()
