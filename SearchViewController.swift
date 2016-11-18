@@ -10,22 +10,24 @@ import UIKit
 #if !RX_NO_MODULE
     import RxSwift
     import RxCocoa
+#endif
 import Moya
 import Alamofire
 
 
-class ViewController: UITableViewController, UISearchBarDelegate{
+class SearchViewController: UITableViewController, UISearchBarDelegate{
     
     var searchController: UISearchController = UISearchController(searchResultsController: UITableViewController())
     
     var mainTabBarController:MainTabBarController {
-        return (self.tabBarController as! MainTabBarController)
+        return (self.navigationController!.tabBarController as! MainTabBarController)
     }
     
     var disposeBag = DisposeBag()
     
     var provider: RxMoyaProvider<Spotify>!
     
+    var queueAdded:Variable<[Track]> = Variable.init([])
     
     fileprivate var searchBar: UISearchBar {
         return self.searchController.searchBar
@@ -96,12 +98,11 @@ class ViewController: UITableViewController, UISearchBarDelegate{
             switch event {
             case let .next(index):
                 // Get Cell information
-                let cell = self.resultsTableView.cellForRow(at: index) as? SpotifySearchCell
-                if let tabController = self.tabBarController as? MainTabBarController  {
-                    tabController.queueArray.append(cell?.track!)
-                } else {
-                    print("No tab bar :(")
-                }
+                //self.view.window?.rootViewController?.view.viewWithTag(1337)?.isHidden = true
+                let cell = self.resultsTableView.cellForRow(at: index) as! SpotifySearchCell
+                let idx = MainTabBarController.Views.queue.rawValue
+                ((self.mainTabBarController.viewControllers?[idx] as! UINavigationController).viewControllers[0] as! QueueTableViewController).queue.value.append(cell.track!)
+                self.searchBar.resignFirstResponder()
             case let .error(error):
                 print(error.localizedDescription)
             case .completed:
@@ -150,7 +151,7 @@ class ViewController: UITableViewController, UISearchBarDelegate{
 }
 
 
-extension ViewController: UISearchControllerDelegate, UISearchResultsUpdating {
+extension SearchViewController: UISearchControllerDelegate, UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         print("abcd")
     }

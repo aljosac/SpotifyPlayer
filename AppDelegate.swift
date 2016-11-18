@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -16,7 +17,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        let auth:SPTAuth = SPTAuth.defaultInstance()
+        auth.clientID = CLIENT_ID
+        auth.requestedScopes = [SPTAuthStreamingScope,SPTAuthPlaylistReadPrivateScope,SPTAuthUserLibraryReadScope,SPTAuthUserReadTopScope]
+        auth.redirectURL = URL(string: "partyqueue://callback")
+        auth.sessionUserDefaultsKey = "SpotifySession"
         return true
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        let auth:SPTAuth = SPTAuth.defaultInstance()
+        
+        let authCallback:SPTAuthCallback = { error,session in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+
+            auth.session = session
+            
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "SessionUpdated"), object: self)
+        }
+        
+        if auth.canHandle(url){
+            auth.handleAuthCallback(withTriggeredAuthURL: url, callback: authCallback)
+            return true
+        }
+        
+        return false
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
