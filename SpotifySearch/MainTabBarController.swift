@@ -11,41 +11,41 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class MainTabBarController: UITabBarController {
+class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
 
     enum Views: Int{
-        case queue = 1
-        case search = 0
+        case queue = 0
+        case search = 1
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.delegate = self
         // Do any additional setup after loading the view.
         
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        let y = self.view.bounds.height - self.tabBar.frame.height - 40
+        let y = self.view.bounds.height - (self.tabBar.frame.height * 2)
         let width = self.view.bounds.width
-        let view:UIView = UIView.init(frame: CGRect(x: CGFloat.init(0), y: y, width: width, height: 40))
+        let view:UIView = UIView.init(frame: CGRect(x: CGFloat.init(0), y: y, width: width, height: self.tabBar.frame.height))
         view.backgroundColor = UIColor.black
         view.tag = 1337
-        if let window = self.view.window {
-            if let rootView = window.rootViewController {
-                print("Has Root View")
-                rootView.view.addSubview(view)
-            }
-        } else {
-            print("No Window")
-        }
+        self.view.addSubview(view)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if let playerView = tabBarController.view.viewWithTag(1337) {
+            if !playerView.isHidden {
+                let h = CGFloat(viewController.view.frame.height - self.tabBar.frame.height)
+                viewController.view.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: self.view.bounds.width, height: h)
+            }
+        }
+    }
     /*
     // MARK: - Navigation
 

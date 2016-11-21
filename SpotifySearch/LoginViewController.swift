@@ -8,18 +8,37 @@
 
 import UIKit
 
-class LoginViewController: UIViewController, UIWebViewDelegate {
+class LoginViewController: UIViewController, WebViewControllerDelegate {
 
+    var authViewController: UIViewController?
+    
+    @IBAction func loginTapped(_ sender: UIButton) {
+        let auth:SPTAuth = SPTAuth.defaultInstance()
+    
+        if SPTAuth.spotifyApplicationIsInstalled() && SPTAuth.supportsApplicationAuthentication() {
+            let url = auth.spotifyAppAuthenticationURL()!
+            UIApplication.shared.open(url, options: [:],completionHandler: nil)
+            
+        } else {
+            let url:URL = auth.spotifyWebAuthenticationURL()
+            self.authViewController = self.getAuthViewController(withURL: url)
+            
+            self.definesPresentationContext = true
+            self.present(self.authViewController!, animated: true, completion: nil)
+        }
+    }
+    
+        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(self.sessionUpdated),
-                                               name: Notification.Name(rawValue: "sessionUpdated"), object: nil)
+                                               name: Notification.Name(rawValue: "SessionUpdated"), object: nil)
         // Do any additional setup after loading the view.
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         let auth:SPTAuth = SPTAuth.defaultInstance()
         
         if auth.session == nil {
@@ -29,6 +48,7 @@ class LoginViewController: UIViewController, UIWebViewDelegate {
             self.performSegue(withIdentifier: "showTabBar", sender: nil)
         }
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -36,20 +56,30 @@ class LoginViewController: UIViewController, UIWebViewDelegate {
     
     
     func sessionUpdated(notification:Notification){
-        
+        let auth:SPTAuth = SPTAuth.defaultInstance()
+        self.presentedViewController?.dismiss(animated: true) {
+            if auth.session != nil && auth.session.isValid() {
+                OperationQueue.main.addOperation {
+                    [weak self] in
+                    self?.performSegue(withIdentifier: "showTabBar", sender: nil)
+                }
+                
+            } else {
+                print("Session not found")
+            }
+        }
     }
 
-    func showTabBar(){
+    func getAuthViewController(withURL url: URL) -> UIViewController {
+        let webView = WebViewController(url: url)
+        webView.delegate = self
         
+        return webView
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    func webViewControllerDidFinish(_ controller: WebViewController) {
+        // User tapped the close button. Treat as auth error
     }
-    */
+    
 
 }

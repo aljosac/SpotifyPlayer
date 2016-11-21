@@ -31,11 +31,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let authCallback:SPTAuthCallback = { error,session in
             if let error = error {
+                print("Got Error")
                 print(error.localizedDescription)
                 return
             }
-
-            auth.session = session
+            print("Got session")
+            auth.session = session!
             
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "SessionUpdated"), object: self)
         }

@@ -28,7 +28,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RT9-eA-63h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2311" y="592"/>
+            <point key="canvasLocation" x="3217.3913043478265" y="591.84782608695662"/>
         </scene>
         <!--Queue Table View Controller-->
         <scene sceneID="wWv-l4-IFx">
@@ -43,18 +43,18 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jkt-NP-rgR" id="0ez-lt-8cg">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="i66-7Z-xqM">
-                                            <rect key="frame" x="15" y="5" width="33.333333333333336" height="20.333333333333332"/>
+                                            <rect key="frame" x="15" y="4" width="34" height="21"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5g3-na-Ctk">
-                                            <rect key="frame" x="14.999999999999996" y="25.333333333333332" width="43.666666666666664" height="14.333333333333334"/>
+                                            <rect key="frame" x="15" y="25" width="44" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
@@ -96,12 +96,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HHJ-fE-zzb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1528.8" y="592.35382308845578"/>
+            <point key="canvasLocation" x="2434.7826086956525" y="591.84782608695662"/>
         </scene>
-        <!--View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="C8f-O0-su6">
             <objects>
-                <viewController id="4py-Ho-vIm" sceneMemberID="viewController">
+                <viewController id="4py-Ho-vIm" customClass="LoginViewController" customModule="SpotifySearch" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="EDv-8Q-egY"/>
                         <viewControllerLayoutGuide type="bottom" id="4lL-Ol-UAW"/>
@@ -118,13 +118,13 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Powered by " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JNs-BY-Ifz">
-                                <rect key="frame" x="136" y="255" width="142" height="31"/>
+                                <rect key="frame" x="135.66666666666669" y="255" width="142.00000000000006" height="31"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PARTY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b1e-vu-6bm">
-                                <rect key="frame" x="20" y="105" width="374" height="142"/>
+                                <rect key="frame" x="20" y="105" width="372.66666666666669" height="142"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="142" id="uad-DB-P7f"/>
                                 </constraints>
@@ -133,7 +133,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vVI-DA-nxJ">
-                                <rect key="frame" x="137" y="452" width="141" height="50"/>
+                                <rect key="frame" x="136.66666666666669" y="452" width="141.00000000000006" height="50"/>
                                 <color key="backgroundColor" red="0.1137254902" green="0.72549019609999998" blue="0.3294117647" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="WVj-o9-lhO"/>
@@ -147,9 +147,12 @@
                                         <integer key="value" value="25"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="loginTapped:" destination="4py-Ho-vIm" eventType="touchUpInside" id="DU8-VX-nQW"/>
+                                </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Spotify_Logo_RGB_White" translatesAutoresizingMaskIntoConstraints="NO" id="2gJ-m0-uNc">
-                                <rect key="frame" x="94" y="331" width="226" height="69"/>
+                                <rect key="frame" x="93" y="331" width="226.66666666666669" height="69"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="2gJ-m0-uNc" secondAttribute="height" multiplier="226:69" id="Zi7-8J-D4D"/>
                                 </constraints>
@@ -178,13 +181,14 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
+                    <navigationItem key="navigationItem" id="q8F-vr-9Ir"/>
                     <connections>
                         <segue destination="c3b-ds-KK6" kind="show" identifier="showTabBar" id="5Va-hK-49O"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UB3-71-lll" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-347.82608695652175" y="590.21739130434787"/>
+            <point key="canvasLocation" x="559.4202898550725" y="590.21739130434787"/>
         </scene>
         <!--Main Tab Bar Controller-->
         <scene sceneID="j30-Pb-ZoM">
@@ -203,7 +207,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bqk-qx-gdU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="589.60000000000002" y="592.35382308845578"/>
+            <point key="canvasLocation" x="1495.6521739130435" y="591.84782608695662"/>
         </scene>
         <!--Queue-->
         <scene sceneID="2c6-Hg-ren">
@@ -217,7 +221,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="vxA-hr-Leu">
-                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="692" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
