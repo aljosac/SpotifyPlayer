@@ -13,10 +13,15 @@ import RxCocoa
 
 class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
 
-    enum Views: Int{
-        case queue = 0
-        case search = 1
+    var queueViewController:QueueTableViewController? {
+        return (self.viewControllers?[0] as? UINavigationController)?.topViewController as? QueueTableViewController
     }
+    
+    var searchViewController:SearchViewController? {
+        return (self.viewControllers?[1] as? UINavigationController)?.topViewController as? SearchViewController
+    }
+    
+    var playerController:PlayerViewController? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,24 +33,31 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         let y = self.view.bounds.height - (self.tabBar.frame.height * 2)
         let width = self.view.bounds.width
-        let view:UIView = UIView.init(frame: CGRect(x: CGFloat.init(0), y: y, width: width, height: self.tabBar.frame.height))
-        view.backgroundColor = UIColor.black
-        view.tag = 1337
-        self.view.addSubview(view)
+        let queue = queueViewController!.queue
+        playerController = PlayerViewController(songQueue: queue)
+        if let player = playerController {
+            player.view.frame = CGRect(x: CGFloat.init(0), y: y, width: width, height: self.tabBar.frame.height)
+            self.view.addSubview(player.view)
+        }
+        
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        if let playerView = tabBarController.view.viewWithTag(1337) {
+        
+        if let playerView = playerController?.view {
             if !playerView.isHidden {
                 let h = CGFloat(viewController.view.frame.height - self.tabBar.frame.height)
-                viewController.view.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: self.view.bounds.width, height: h)
+                viewController.view.frame = CGRect(x:CGFloat(0), y:CGFloat(0), width:self.view.bounds.width, height:h)
             }
         }
+        
     }
+    
     /*
     // MARK: - Navigation
 

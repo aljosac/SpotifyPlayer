@@ -29,6 +29,11 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     
     var queueAdded:Variable<[Track]> = Variable.init([])
     
+    var results:Observable<[Track]>? = nil
+    
+    var history:Set<String> = []
+    
+    
     fileprivate var searchBar: UISearchBar {
         return self.searchController.searchBar
     }
@@ -52,25 +57,27 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         
         resultsTableView.register(UINib(nibName: "SpotifySearchCell", bundle:nil), forCellReuseIdentifier: "searchCell")
         
-        resultsTableView.dataSource = nil
+        history = Set(UserDefaults.standard.array(forKey: "History") as? [String] ?? [])
+        
         
         setupRx()
     }
     
     func setupRx(){
-        
+        resultsTableView.dataSource = nil
+
         provider = RxMoyaProvider<Spotify>()
         let searchModel = SpotifySearchModel(provider: provider)
         
         // Throttle typing and send http search request
-        let results = searchBar.rx.text.orEmpty.throttle(0.5, scheduler: MainScheduler.instance)
+         results = searchBar.rx.text.orEmpty.throttle(0.5, scheduler: MainScheduler.instance)
             .distinctUntilChanged()
             .flatMapLatest { query in
                 return searchModel.search(query: query)
             }
         
         // sorts results of search request by most popular
-        let sortedResults = results.map { list in
+        let sortedResults = results!.map { list in
             return list.sorted(by: { $0.popularity > $1.popularity })
         }
         
@@ -86,11 +93,10 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         resultsTableView.rx.contentOffset
             .asDriver()
             .drive(onNext: { _ in
-                
-                
                 if self.searchBar.isFirstResponder {
                     _ = self.searchBar.resignFirstResponder()
                 }
+                self.addAndSaveHistory()
             })
             .addDisposableTo(disposeBag)
         
@@ -100,9 +106,9 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 // Get Cell information
                 //self.view.window?.rootViewController?.view.viewWithTag(1337)?.isHidden = true
                 let cell = self.resultsTableView.cellForRow(at: index) as! SpotifySearchCell
-                let idx = MainTabBarController.Views.queue.rawValue
-                ((self.mainTabBarController.viewControllers?[idx] as! UINavigationController).viewControllers[0] as! QueueTableViewController).queue.value.append(cell.track!)
+                self.mainTabBarController.queueViewController!.queue.value.append(cell.track!)
                 self.searchBar.resignFirstResponder()
+                self.addAndSaveHistory()
             case let .error(error):
                 print(error.localizedDescription)
             case .completed:
@@ -110,7 +116,18 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
             }
             }.addDisposableTo(disposeBag)
         
-        
+        self.searchBar.rx.searchButtonClicked.subscribe { event in
+            switch event {
+            case .next(_):
+                self.searchBar.resignFirstResponder()
+                self.addAndSaveHistory()
+            case let .error(error):
+                print(error.localizedDescription)
+            case .completed:
+                break
+                
+            }
+        }.addDisposableTo(disposeBag)
     }
     
     
@@ -136,18 +153,45 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        switch section {
+        case 0:
+            return min(10,self.history.count)
+        case 1:
+            return 5
+        default:
+            return 0
+        }
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "text") {
-            print("1111")
-            return cell
-        }
         let cell = UITableViewCell.init(style: UITableViewCellStyle.subtitle, reuseIdentifier: nil)
-        cell.textLabel?.text = "ONE"
+        switch indexPath.section {
+        case 0:
+            cell.textLabel?.text = Array(history)[indexPath.item]
+        case 1:
+            cell.textLabel?.text = "Spotify Artist"
+        default:
+            break
+        }
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        let txt = cell?.textLabel?.text
+        self.searchController.isActive = true
+        self.searchController.searchBar.text = txt!
+        self.setupRx()
+    }
+    
+    func addAndSaveHistory(){
+        if (self.searchBar.text != nil) && self.searchBar.text != "" {
+            let text = self.searchBar.text!
+            self.history.insert(text)
+            let array = Array(self.history)
+            UserDefaults.standard.setValue(array, forKey: "History")
+        }
+        self.tableView.reloadData()
+    }
 }
 
 
