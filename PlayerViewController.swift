@@ -39,7 +39,8 @@ class PlayerViewController: UIViewController {
         queue.asObservable().subscribe{ event in
             switch event {
             case .next(_):
-                print("Got Event")
+                break
+                //print("Got Event")
             case .error(_):
                 print("Got Error")
             case .completed:

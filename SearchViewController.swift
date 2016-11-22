@@ -33,7 +33,6 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     
     var history:Set<String> = []
     
-    
     fileprivate var searchBar: UISearchBar {
         return self.searchController.searchBar
     }
@@ -61,6 +60,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         
         
         setupRx()
+        setupBindings()
     }
     
     func setupRx(){
@@ -84,10 +84,16 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         // populate table view with items from sorted results
         sortedResults.bindTo(resultsTableView.rx.items(cellIdentifier: "searchCell", cellType: SpotifySearchCell.self)){
             (_,track,cell) in
-                cell.mainLabel.text = track.name
-                cell.sublabel.text = track.artists[0].name + " - " + "\(track.album.name)"
-                cell.track = track
+            cell.mainLabel.text = track.name
+            cell.sublabel.text = track.artists[0].name + " - " + "\(track.album.name)"
+            cell.track = track
             }.addDisposableTo(disposeBag)
+        
+    }
+    
+    func setupBindings(){
+        
+        
         
         // hides keyboard
         resultsTableView.rx.contentOffset
@@ -127,9 +133,8 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 break
                 
             }
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
     }
-    
     
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let header = view as? UITableViewHeaderFooterView {
