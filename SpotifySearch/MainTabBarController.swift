@@ -24,6 +24,7 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
     var playerController:PlayerViewController? = nil
     
     override func viewDidLoad() {
+        print("View loading tab bar")
         super.viewDidLoad()
         self.delegate = self
         // Do any additional setup after loading the view.
@@ -31,15 +32,10 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        let y = self.view.bounds.height - (self.tabBar.frame.height * 2)
-        let width = self.view.bounds.width
-        let queue = queueViewController!.queue
-        playerController = PlayerViewController(songQueue: queue)
-        if let player = playerController {
-            player.view.frame = CGRect(x: CGFloat.init(0), y: y, width: width, height: self.tabBar.frame.height)
-            self.view.addSubview(player.view)
-        }
         
+        let queue = queueViewController?.queue
+        playerController = PlayerViewController(songQueue: queue)
+        self.presentPopupBar(withContentViewController: playerController!, animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -58,14 +54,5 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
         
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

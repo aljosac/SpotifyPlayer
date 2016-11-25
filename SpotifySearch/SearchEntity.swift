@@ -15,13 +15,14 @@ struct Track: Mappable {
     let id:String
     let artists:[SimpleArtist]
     let album:SimpleAlbum
-    
+    let uri:String
     init(map: Mapper) throws {
         try name = map.from("name")
         try popularity = map.from("popularity")
         try id = map.from("id")
         try artists = map.from("artists")
         try album = map.from("album")
+        try uri = map.from("uri")
     }
 }
 

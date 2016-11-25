@@ -14,6 +14,7 @@ class SpotifySearchCell: UITableViewCell {
     @IBOutlet weak var sublabel: UILabel!
     
     var track:Track? = nil
+    var albumImage:UIImage? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()

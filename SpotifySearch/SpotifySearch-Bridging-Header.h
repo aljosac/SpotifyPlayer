@@ -4,3 +4,4 @@
 
 #import <SpotifyAudioPlayback/SpotifyAudioPlayback.h>
 #import <SpotifyAuthentication/SpotifyAuthentication.h>
+#import <LNPopupController/LNPopupController.h>

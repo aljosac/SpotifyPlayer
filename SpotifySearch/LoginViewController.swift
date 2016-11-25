@@ -20,6 +20,7 @@ class LoginViewController: UIViewController, WebViewControllerDelegate {
             UIApplication.shared.open(url, options: [:],completionHandler: nil)
             
         } else {
+            // Opens a web auth view to get a spotify session
             let url:URL = auth.spotifyWebAuthenticationURL()
             self.authViewController = self.getAuthViewController(withURL: url)
             
@@ -41,11 +42,20 @@ class LoginViewController: UIViewController, WebViewControllerDelegate {
         super.viewWillAppear(animated)
         let auth:SPTAuth = SPTAuth.defaultInstance()
         
+        // Check if there is a cashed session
+        if let data = UserDefaults.standard.value(forKey: "SpotifySession") as? Data {
+            let session = NSKeyedUnarchiver.unarchiveObject(with: data) as? SPTSession
+            auth.session = session!
+        }
+        
         if auth.session == nil {
             print("No session")
             return
         } else if auth.session.isValid() {
-            self.performSegue(withIdentifier: "showTabBar", sender: nil)
+            OperationQueue.main.addOperation {
+                [weak self] in
+                self?.performSegue(withIdentifier: "showTabBar", sender: nil)
+            }
         }
     }
     
@@ -59,6 +69,7 @@ class LoginViewController: UIViewController, WebViewControllerDelegate {
         let auth:SPTAuth = SPTAuth.defaultInstance()
         self.presentedViewController?.dismiss(animated: true) {
             if auth.session != nil && auth.session.isValid() {
+                
                 OperationQueue.main.addOperation {
                     [weak self] in
                     self?.performSegue(withIdentifier: "showTabBar", sender: nil)

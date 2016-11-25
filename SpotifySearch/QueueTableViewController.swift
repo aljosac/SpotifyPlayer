@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
-
+import Alamofire
 
 class QueueTableViewController: UITableViewController {
 
@@ -30,6 +30,7 @@ class QueueTableViewController: UITableViewController {
         self.tableView.delegate = nil
         self.tableView.dataSource = nil
         
+        
         queue.asObservable().bindTo(self.tableView.rx.items(cellIdentifier: "queueCell", cellType: SpotifySearchCell.self)) {
             (_,track,cell) in
                 print("IM BINDING!!!")
@@ -37,6 +38,7 @@ class QueueTableViewController: UITableViewController {
                 cell.sublabel.text = track.artists[0].name + " - " + "\(track.album.name)"
                 cell.track = track
         }.addDisposableTo(disposeBag)
+        
         
         
     }

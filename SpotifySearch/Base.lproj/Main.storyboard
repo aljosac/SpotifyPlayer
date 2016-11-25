@@ -29,7 +29,7 @@
             </objects>
             <point key="canvasLocation" x="3217.3913043478265" y="591.84782608695662"/>
         </scene>
-        <!--Queue Table View Controller-->
+        <!--Queue-->
         <scene sceneID="wWv-l4-IFx">
             <objects>
                 <tableViewController id="gTo-du-CEW" customClass="QueueTableViewController" customModule="SpotifySearch" customModuleProvider="target" sceneMemberID="viewController">
@@ -68,7 +68,7 @@
                             <outlet property="delegate" destination="gTo-du-CEW" id="IaV-KV-DEC"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="XVn-1f-FNa"/>
+                    <navigationItem key="navigationItem" title="Queue" id="XVn-1f-FNa"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cxB-xf-slF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -183,18 +183,35 @@
                     </view>
                     <navigationItem key="navigationItem" id="q8F-vr-9Ir"/>
                     <connections>
-                        <segue destination="c3b-ds-KK6" kind="show" identifier="showTabBar" id="5Va-hK-49O"/>
+                        <segue destination="WHh-dy-cBJ" kind="show" identifier="showTabBar" id="pds-D6-qGC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UB3-71-lll" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="559.4202898550725" y="590.21739130434787"/>
+            <point key="canvasLocation" x="-39" y="592"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="4Lh-1E-ts3">
+            <objects>
+                <navigationController navigationBarHidden="YES" id="WHh-dy-cBJ" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eHo-H4-6mX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="c3b-ds-KK6" kind="relationship" relationship="rootViewController" id="bem-hF-yc7"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IAz-HM-0v4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="754" y="592"/>
         </scene>
         <!--Main Tab Bar Controller-->
         <scene sceneID="j30-Pb-ZoM">
             <objects>
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="c3b-ds-KK6" customClass="MainTabBarController" customModule="SpotifySearch" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="1e6-nm-AyJ"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="nKB-1d-aYc">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -207,13 +224,13 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bqk-qx-gdU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1495.6521739130435" y="591.84782608695662"/>
+            <point key="canvasLocation" x="1528" y="592"/>
         </scene>
         <!--Queue-->
         <scene sceneID="2c6-Hg-ren">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="yWy-Ou-ect" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Queue" id="CzW-VS-bh8"/>
+                    <tabBarItem key="tabBarItem" title="Queue" selectedImage="musicTab" id="CzW-VS-bh8"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ckt-VL-afb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -235,6 +252,7 @@
     </scenes>
     <resources>
         <image name="Spotify_Logo_RGB_White" width="2362" height="708"/>
+        <image name="musicTab" width="32" height="32"/>
         <image name="party" width="1200" height="801"/>
     </resources>
 </document>
