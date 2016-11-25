@@ -25,15 +25,12 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
     @IBOutlet weak var album: UIImageView!
     @IBOutlet weak var blurAlbum: UIImageView!
     @IBOutlet weak var trackSlider: UISlider!
+    @IBOutlet weak var endSong: UILabel!
+    @IBOutlet weak var startSong: UILabel!
+    @IBOutlet weak var playButton: UIButton!
        
     @IBAction func playPause(_ sender: UIButton) {
         let state = SPTAudioStreamingController.sharedInstance().playbackState.isPlaying
-        if state {
-            sender.setImage(#imageLiteral(resourceName: "nowPlaying_pause"), for: UIControlState.normal)
-    
-        } else {
-            sender.setImage(#imageLiteral(resourceName: "nowPlaying_play"), for: UIControlState.normal)
-        }
         SPTAudioStreamingController.sharedInstance().setIsPlaying(!state, callback: nil)
     }
     @IBAction func nextSong(_ sender: UIButton) {
@@ -61,6 +58,7 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         // Do any additional setup after loading the view.
         self.track.text = "Nothing Playing"
         self.artist.text = "Really it's nothing"
+        self.setupSlider()
         self.newSession()
         queue.asObservable().subscribe{ event in
             switch event {
@@ -180,6 +178,15 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         }
         print("Audio Deactivated ")
     }
+    
+    func setupSlider() {
+        let newThumb = UIImage.circle(diameter: 10, color: .white, alpha:1)
+        self.trackSlider.setThumbImage(newThumb, for: .normal)
+        let thumbOne = UIImage.circle(diameter: 15, color: .white, alpha: 1)
+        let thumbTwo = UIImage.circle(diameter: 25, color: .white, alpha: 0.3)
+        let highlightThumb = UIImage.combine(images: thumbOne,thumbTwo)
+        self.trackSlider.setThumbImage(highlightThumb, for: .highlighted)
+    }
     // MARK: - Audio Streaming Functions
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didReceiveMessage message: String!) {
         let alert = UIAlertController(title: "Message from Spotify", message: message, preferredStyle: .alert)
@@ -189,6 +196,12 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
     
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didChangePlaybackStatus isPlaying: Bool) {
         print("is playing = \(isPlaying)")
+        if isPlaying {
+            self.playButton.setImage(#imageLiteral(resourceName: "nowPlaying_pause"), for: UIControlState.normal)
+            
+        } else {
+            self.playButton.setImage(#imageLiteral(resourceName: "nowPlaying_play"), for: UIControlState.normal)
+        }
         isPlaying ? self.activateAudioSession() : self.deactivateAudioSession()
         
     }
@@ -202,6 +215,9 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         let positionDouble = Double(position)
         let durationDouble = Double(SPTAudioStreamingController.sharedInstance().metadata.currentTrack!.duration)
         self.trackSlider.setValue(Float(positionDouble / durationDouble), animated: true)
+        
+        self.startSong.text = secondsToString(seconds: Int(position))
+        self.endSong.text = "-" + secondsToString(seconds: Int(durationDouble - position))
     }
     
     func audioStreamingDidLogout(_ audioStreaming: SPTAudioStreamingController) {
@@ -220,3 +236,4 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         print("Relinked \(isRelinked)")
     }
 }
+
