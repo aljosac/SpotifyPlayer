@@ -18,6 +18,7 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
     var queue:Variable<[Track]>
     var currentTrack:Track? = nil
     var disposeBag:DisposeBag = DisposeBag()
+    var playing:UIBarButtonItem? = nil
     let audioSession = AVAudioSession.sharedInstance()
     
     @IBOutlet weak var track: UILabel!
@@ -28,7 +29,9 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
     @IBOutlet weak var endSong: UILabel!
     @IBOutlet weak var startSong: UILabel!
     @IBOutlet weak var playButton: UIButton!
-       
+    
+    
+    
     @IBAction func playPause(_ sender: UIButton) {
         let state = SPTAudioStreamingController.sharedInstance().playbackState.isPlaying
         SPTAudioStreamingController.sharedInstance().setIsPlaying(!state, callback: nil)
@@ -60,6 +63,7 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         self.artist.text = "Really it's nothing"
         self.setupSlider()
         self.newSession()
+        
         queue.asObservable().subscribe{ event in
             switch event {
             case .next(_):
@@ -82,6 +86,8 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
                 break
             }
             }.addDisposableTo(disposeBag)
+        
+        
         
     }
 
@@ -124,6 +130,8 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         print("Session Created")
     }
     
+    
+    
     func closeSession(){
         do {
             try SPTAudioStreamingController.sharedInstance().stop()
@@ -155,7 +163,18 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
             }
         }
         
+        
+        self.popupItem.title = streamingController?.metadata.currentTrack?.name
+        
+        playing = UIBarButtonItem(image: #imageLiteral(resourceName: "pause"), style: .plain, target: self, action: #selector(playPause(_:)))
+        let arrow = UIBarButtonItem(image: #imageLiteral(resourceName: "arrow"), style: .plain, target: self, action: #selector(popup))
+        self.popupItem.rightBarButtonItems = [playing!]
+        self.popupItem.leftBarButtonItems = []
         print("UI Updated")
+    }
+    
+    func popup() {
+        self.openPopup(animated: true, completion: nil)
     }
     
     func activateAudioSession() {
@@ -198,9 +217,11 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         print("is playing = \(isPlaying)")
         if isPlaying {
             self.playButton.setImage(#imageLiteral(resourceName: "nowPlaying_pause"), for: UIControlState.normal)
+            self.playing?.image = #imageLiteral(resourceName: "Pause Filled-32")
             
         } else {
             self.playButton.setImage(#imageLiteral(resourceName: "nowPlaying_play"), for: UIControlState.normal)
+            self.playing?.image = #imageLiteral(resourceName: "Play Filled-32")
         }
         isPlaying ? self.activateAudioSession() : self.deactivateAudioSession()
         

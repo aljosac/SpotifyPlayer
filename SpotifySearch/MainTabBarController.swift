@@ -36,6 +36,7 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
         let queue = queueViewController?.queue
         playerController = PlayerViewController(songQueue: queue)
         self.presentPopupBar(withContentViewController: playerController!, animated: true, completion: nil)
+
     }
     
     override func didReceiveMemoryWarning() {
