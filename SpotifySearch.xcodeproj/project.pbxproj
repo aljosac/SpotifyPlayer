@@ -15,8 +15,6 @@
 		69281CA81DE3D041007F749F /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69281CA61DE3D041007F749F /* PlayerViewController.swift */; };
 		69281CA91DE3D041007F749F /* PlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69281CA71DE3D041007F749F /* PlayerViewController.xib */; };
 		692E87771DE6258000C462F5 /* LNPopupController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692E87761DE6257200C462F5 /* LNPopupController.framework */; };
-		692E877C1DE7F8B600C462F5 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692E877A1DE7F8B600C462F5 /* TestViewController.swift */; };
-		692E877D1DE7F8B600C462F5 /* TestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 692E877B1DE7F8B600C462F5 /* TestViewController.xib */; };
 		694450E31DE000A6007DEF55 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694450E21DE000A6007DEF55 /* LoginViewController.swift */; };
 		694450E51DE2430A007DEF55 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694450E41DE2430A007DEF55 /* WebViewController.swift */; };
 		695526EF1DCB909D0023C4C5 /* SearchEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695526EE1DCB909D0023C4C5 /* SearchEntity.swift */; };
@@ -52,8 +50,6 @@
 		69281CA61DE3D041007F749F /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerViewController.swift; path = ../PlayerViewController.swift; sourceTree = "<group>"; };
 		69281CA71DE3D041007F749F /* PlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PlayerViewController.xib; path = ../PlayerViewController.xib; sourceTree = "<group>"; };
 		692E87711DE6257200C462F5 /* LNPopupController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LNPopupController.xcodeproj; path = "../../Downloads/LNPopupController-master/LNPopupController/LNPopupController.xcodeproj"; sourceTree = "<group>"; };
-		692E877A1DE7F8B600C462F5 /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
-		692E877B1DE7F8B600C462F5 /* TestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestViewController.xib; sourceTree = "<group>"; };
 		694450E21DE000A6007DEF55 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		694450E41DE2430A007DEF55 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		695526EE1DCB909D0023C4C5 /* SearchEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchEntity.swift; path = SpotifySearch/SearchEntity.swift; sourceTree = "<group>"; };
@@ -96,8 +92,6 @@
 			children = (
 				69281CA61DE3D041007F749F /* PlayerViewController.swift */,
 				69281CA71DE3D041007F749F /* PlayerViewController.xib */,
-				692E877A1DE7F8B600C462F5 /* TestViewController.swift */,
-				692E877B1DE7F8B600C462F5 /* TestViewController.xib */,
 			);
 			name = Player;
 			sourceTree = "<group>";
@@ -291,7 +285,6 @@
 				69281CA91DE3D041007F749F /* PlayerViewController.xib in Resources */,
 				F8D386711D70C274002A13FC /* Assets.xcassets in Resources */,
 				691FDBE31DD2247F000122EF /* SpotifySearchCell.xib in Resources */,
-				692E877D1DE7F8B600C462F5 /* TestViewController.xib in Resources */,
 				F8D3866F1D70C274002A13FC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -356,7 +349,6 @@
 				69B459ED1DB5559D0013D71A /* SearchViewController.swift in Sources */,
 				69AD12EA1DDF7A0800FDA308 /* Constants.swift in Sources */,
 				69B459F11DB555E10013D71A /* SpotifySearchModel.swift in Sources */,
-				692E877C1DE7F8B600C462F5 /* TestViewController.swift in Sources */,
 				69281CA81DE3D041007F749F /* PlayerViewController.swift in Sources */,
 				69DCFA251DD67AE1007CF8A9 /* MainTabBarController.swift in Sources */,
 				6973F05B1DDB96AE0057946E /* QueueTableViewController.swift in Sources */,

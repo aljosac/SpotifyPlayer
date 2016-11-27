@@ -19,6 +19,8 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
     var currentTrack:Track? = nil
     var disposeBag:DisposeBag = DisposeBag()
     var playing:UIBarButtonItem? = nil
+    var isChangingProgress: Bool = false
+    var isPlaying:Bool = false
     let audioSession = AVAudioSession.sharedInstance()
     
     @IBOutlet weak var track: UILabel!
@@ -36,12 +38,36 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         let state = SPTAudioStreamingController.sharedInstance().playbackState.isPlaying
         SPTAudioStreamingController.sharedInstance().setIsPlaying(!state, callback: nil)
     }
+    
     @IBAction func nextSong(_ sender: UIButton) {
+        if queue.value.count > 0 {
+            SPTAudioStreamingController.sharedInstance().skipNext(nil)
+        }
+
+    }
+    
+    @IBAction func prevSong(_ sender: UIButton) {
+        print(SPTAudioStreamingController.sharedInstance().metadata.prevTrack?.name ?? "SHIT")
+        SPTAudioStreamingController.sharedInstance().skipPrevious { _ in
+            SPTAudioStreamingController.sharedInstance().setIsPlaying(true, callback: nil)
+        }
         
     }
-    @IBAction func prevSong(_ sender: UIButton) {
-        SPTAudioStreamingController.sharedInstance().skipPrevious(nil)
-        SPTAudioStreamingController.sharedInstance().setIsPlaying(true, callback: nil)
+    
+    @IBAction func songSeek(_ sender: UISlider) {
+        if SPTAudioStreamingController.sharedInstance().playbackState.isPlaying {
+            SPTAudioStreamingController.sharedInstance().setIsPlaying(false, callback: nil)
+        }
+        self.isChangingProgress = true
+        let dest = SPTAudioStreamingController.sharedInstance().metadata!.currentTrack!.duration * Double(sender.value)
+        _ = self.songUI(position: dest)
+        
+    }
+    @IBAction func touchSlider(_ sender: UISlider) {
+        let dest = SPTAudioStreamingController.sharedInstance().metadata!.currentTrack!.duration * Double(sender.value)
+        SPTAudioStreamingController.sharedInstance().seek(to: dest) { error in
+            SPTAudioStreamingController.sharedInstance().setIsPlaying(true, callback: nil)
+        }
     }
     // MARK: - Class Functions
     init(songQueue:Variable<[Track]>?) {
@@ -67,8 +93,9 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         queue.asObservable().subscribe{ event in
             switch event {
             case .next(_):
-                if self.queue.value.count > 0 {
+                if self.queue.value.count == 1 && !self.isPlaying {
                     
+                    print(self.isPlaying)
                     let track:Track = self.queue.value.removeFirst()
                     print("Removed First")
                     let controller = SPTAudioStreamingController.sharedInstance()
@@ -78,6 +105,7 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
                             print("*** failed to play: " + error.localizedDescription)
                             return
                         }
+                        self.isPlaying = true
                     }
                 }
             case .error(_):
@@ -167,7 +195,7 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         self.popupItem.title = streamingController?.metadata.currentTrack?.name
         
         playing = UIBarButtonItem(image: #imageLiteral(resourceName: "pause"), style: .plain, target: self, action: #selector(playPause(_:)))
-        let arrow = UIBarButtonItem(image: #imageLiteral(resourceName: "arrow"), style: .plain, target: self, action: #selector(popup))
+        let _ = UIBarButtonItem(image: #imageLiteral(resourceName: "arrow"), style: .plain, target: self, action: #selector(popup))
         self.popupItem.rightBarButtonItems = [playing!]
         self.popupItem.leftBarButtonItems = []
         print("UI Updated")
@@ -206,6 +234,19 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         let highlightThumb = UIImage.combine(images: thumbOne,thumbTwo)
         self.trackSlider.setThumbImage(highlightThumb, for: .highlighted)
     }
+    
+    // Updates UI based on current song position
+    func songUI(position:TimeInterval) -> Float {
+        let positionDouble = Double(position)
+        let durationDouble = Double(SPTAudioStreamingController.sharedInstance().metadata.currentTrack!.duration)
+        let value = Float(positionDouble / durationDouble)
+        
+        self.startSong.text = secondsToString(seconds: Int(position))
+        self.endSong.text = "-" + secondsToString(seconds: Int(durationDouble - position))
+        
+        self.popupItem.progress = value
+        return value
+    }
     // MARK: - Audio Streaming Functions
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didReceiveMessage message: String!) {
         let alert = UIAlertController(title: "Message from Spotify", message: message, preferredStyle: .alert)
@@ -233,12 +274,9 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
     }
     
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didChangePosition position: TimeInterval) {
-        let positionDouble = Double(position)
-        let durationDouble = Double(SPTAudioStreamingController.sharedInstance().metadata.currentTrack!.duration)
-        self.trackSlider.setValue(Float(positionDouble / durationDouble), animated: true)
+        let value = self.songUI(position: position)
+        self.trackSlider.setValue(value, animated: true)
         
-        self.startSong.text = secondsToString(seconds: Int(position))
-        self.endSong.text = "-" + secondsToString(seconds: Int(durationDouble - position))
     }
     
     func audioStreamingDidLogout(_ audioStreaming: SPTAudioStreamingController) {
@@ -253,8 +291,23 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         print("Source \(SPTAudioStreamingController.sharedInstance().metadata.currentTrack?.playbackSourceUri)")
         // If context is a single track and the uri of the actual track being played is different
         // than we can assume that relink has happended.
-        let isRelinked = SPTAudioStreamingController.sharedInstance().metadata.currentTrack!.playbackSourceUri.contains("spotify:track") && !(SPTAudioStreamingController.sharedInstance().metadata.currentTrack!.playbackSourceUri == trackUri)
+        let isRelinked = (SPTAudioStreamingController.sharedInstance().metadata.currentTrack?.playbackSourceUri.contains("spotify:track"))! && !(SPTAudioStreamingController.sharedInstance().metadata.currentTrack!.playbackSourceUri == trackUri)
         print("Relinked \(isRelinked)")
     }
+    
+    func audioStreamingDidSkip(toNextTrack audioStreaming: SPTAudioStreamingController!) {
+        if queue.value.count > 0 {
+            let uri = queue.value.removeFirst().uri
+            audioStreaming.playSpotifyURI(uri, startingWith: 0, startingWithPosition: 0) { error in
+                
+            }
+        }
+        
+    }
+    
+    func audioStreamingDidSkip(toPreviousTrack audioStreaming: SPTAudioStreamingController!) {
+        print(audioStreaming.metadata.prevTrack?.name ?? "no track")
+    }
+    
 }
 

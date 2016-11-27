@@ -16,6 +16,7 @@ class QueueTableViewController: UITableViewController {
     var disposeBag = DisposeBag()
     
     var queue:Variable<[Track]> = Variable([])
+    var history:Variable<[Track]> = Variable([])
     
     override func viewDidLoad() {
         super.viewDidLoad()
