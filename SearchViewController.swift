@@ -13,24 +13,19 @@ import UIKit
 #endif
 import Moya
 import Alamofire
-
+import RxDataSources
 
 class SearchViewController: UITableViewController, UISearchBarDelegate{
     
     var searchController: UISearchController = UISearchController(searchResultsController: UITableViewController())
-    
     var mainTabBarController:MainTabBarController {
         return (self.navigationController!.tabBarController as! MainTabBarController)
     }
     
     var disposeBag = DisposeBag()
-    
-    var provider: RxMoyaProvider<Spotify>!
-    
+    let provider = RxMoyaProvider<Spotify>(endpointClosure: requestClosure)
     var queueAdded:Variable<[Track]> = Variable.init([])
-    
     var results:Observable<[Track]>? = nil
-    
     var history:Set<String> = []
     
     fileprivate var searchBar: UISearchBar {
@@ -50,25 +45,48 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        // Set up view
         navigationItem.titleView = searchBar
         searchController.hidesNavigationBarDuringPresentation = false
         self.definesPresentationContext = true
         
+        // load result cell layout
         resultsTableView.register(UINib(nibName: "SpotifySearchCell", bundle:nil), forCellReuseIdentifier: "searchCell")
+       
+        // get search model and top artists
+        let searchModel = SpotifySearchModel(provider: provider)
         
         history = Set(UserDefaults.standard.array(forKey: "History") as? [String] ?? [])
+        let historyItems = Array(history).map {SectionItem.HistorySectionItem(title: $0)}
+        
+        let datasource = RxTableViewSectionedReloadDataSource<SearchHomeSectionModel>()
+        skinTableDataSource(datasource: datasource)
+        
+        let sections = Variable([SearchHomeSectionModel.HistorySection(items: historyItems)])
         
         
+        searchModel.topArtist().subscribe { event in
+            switch event {
+            case let .next(list):
+                let newls = list.map {SectionItem.TopArtistSectionItem(artist: $0)}
+                sections.value = [SearchHomeSectionModel.HistorySection(items: historyItems), SearchHomeSectionModel.TopArtistsSection(items: newls)]
+            case .error(_):
+                print("error top Artist")
+            case .completed:
+                break
+            }
+        }.addDisposableTo(disposeBag)
+        
+        tableView.dataSource = nil
+        tableView.delegate = nil
+        sections.asObservable().bindTo(tableView.rx.items(dataSource: datasource)).addDisposableTo(disposeBag)
         setupRx()
         setupBindings()
     }
     
     func setupRx(){
         resultsTableView.dataSource = nil
-
-        provider = RxMoyaProvider<Spotify>()
         let searchModel = SpotifySearchModel(provider: provider)
-        
         // Throttle typing and send http search request
          results = searchBar.rx.text.orEmpty.throttle(0.5, scheduler: MainScheduler.instance)
             .distinctUntilChanged()
@@ -92,8 +110,6 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     }
     
     func setupBindings(){
-        
-        
         
         // hides keyboard
         resultsTableView.rx.contentOffset
@@ -136,26 +152,32 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
             }.addDisposableTo(disposeBag)
     }
     
+    func skinTableDataSource(datasource:RxTableViewSectionedReloadDataSource<SearchHomeSectionModel>){
+        datasource.configureCell = { (dataSource, table, idxPath, _) in
+            switch datasource[idxPath] {
+            case let .HistorySectionItem(title):
+                let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: nil)
+                cell.textLabel?.text = title
+                return cell
+            case let .TopArtistSectionItem(artist):
+                let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: nil)
+                cell.textLabel?.text = artist.name
+                return cell
+            }
+        }
+        
+        datasource.titleForHeaderInSection = { datasource, idx in
+            let section = datasource[idx]
+            
+            return section.title
+        }
+    }
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let header = view as? UITableViewHeaderFooterView {
             header.textLabel?.textAlignment = .center
         }
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return "HISTORY"
-        case 1:
-            return "YOUR TOP ARTISTS"
-        default:
-            return "wat"
-        }
-    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
@@ -166,18 +188,6 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         default:
             return 0
         }
-    }
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell.init(style: UITableViewCellStyle.subtitle, reuseIdentifier: nil)
-        switch indexPath.section {
-        case 0:
-            cell.textLabel?.text = Array(history)[indexPath.item]
-        case 1:
-            cell.textLabel?.text = "Spotify Artist"
-        default:
-            break
-        }
-        return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

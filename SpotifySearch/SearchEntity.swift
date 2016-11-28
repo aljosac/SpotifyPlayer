@@ -34,7 +34,7 @@ struct SimpleArtist: Mappable {
     
     init(map: Mapper) throws {
         try name = map.from("name")
-        try id = map.from("uri")
+        try id = map.from("id")
     }
 }
 

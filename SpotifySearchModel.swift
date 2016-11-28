@@ -9,7 +9,7 @@
 import Foundation
 import Moya
 import RxSwift
-
+import RxDataSources
 struct SpotifySearchModel {
     let provider: RxMoyaProvider<Spotify>
     
@@ -18,15 +18,51 @@ struct SpotifySearchModel {
         
     }
     
-    func getAlbum(id: String) -> Observable<FullAlbum?> {
-        return self.provider.request(Spotify.Album(id: id))
-            .debug()
-            .mapObjectOptional(type: FullAlbum.self)
-    }
-    
-    func searchArtist(query: String) -> Observable<FullArtist?> {
-        return self.provider.request(Spotify.Artist(id: query))
-            .debug()
-            .mapObjectOptional(type: FullArtist.self)
+    func topArtist() -> Observable<[SimpleArtist]> {
+        return self.provider.request(Spotify.TopArtists).debug().mapArray(type: SimpleArtist.self, keyPath: "items")
     }
 }
+
+enum SearchHomeSectionModel {
+    case HistorySection(items:[SectionItem])
+    case TopArtistsSection(items:[SectionItem])
+}
+
+enum SectionItem {
+    case HistorySectionItem(title:String)
+    case TopArtistSectionItem(artist:SimpleArtist)
+}
+
+extension SearchHomeSectionModel: SectionModelType {
+    typealias Item = SectionItem
+    
+    var items: [SectionItem] {
+        switch self {
+        case .HistorySection(items: let items):
+            return items.map {$0}
+        case .TopArtistsSection(items: let items):
+            return items.map {$0}
+        }
+    }
+    
+    init(original: SearchHomeSectionModel, items: [Item]) {
+        switch original {
+        case .HistorySection(items: _):
+            self = .HistorySection(items: items)
+        case .TopArtistsSection(items: _):
+            self = .TopArtistsSection(items: items)
+        }
+    }
+}
+
+extension SearchHomeSectionModel {
+    var title:String {
+        switch self {
+        case .HistorySection(items: _):
+            return "HISTORY"
+        case .TopArtistsSection(items: _):
+            return "TOP ARTISTS"
+        }
+    }
+}
+
