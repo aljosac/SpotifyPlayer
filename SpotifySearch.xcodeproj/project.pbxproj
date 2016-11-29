@@ -18,6 +18,7 @@
 		694450E31DE000A6007DEF55 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694450E21DE000A6007DEF55 /* LoginViewController.swift */; };
 		694450E51DE2430A007DEF55 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694450E41DE2430A007DEF55 /* WebViewController.swift */; };
 		695526EF1DCB909D0023C4C5 /* SearchEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695526EE1DCB909D0023C4C5 /* SearchEntity.swift */; };
+		696D7B681DED1F560086BD4E /* TrackSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696D7B671DED1F560086BD4E /* TrackSection.swift */; };
 		6973F05B1DDB96AE0057946E /* QueueTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6973F05A1DDB96AE0057946E /* QueueTableViewController.swift */; };
 		69AD12EA1DDF7A0800FDA308 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AD12E91DDF7A0800FDA308 /* Constants.swift */; };
 		69B459ED1DB5559D0013D71A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B459EC1DB5559D0013D71A /* SearchViewController.swift */; };
@@ -53,6 +54,7 @@
 		694450E21DE000A6007DEF55 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		694450E41DE2430A007DEF55 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		695526EE1DCB909D0023C4C5 /* SearchEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchEntity.swift; path = SpotifySearch/SearchEntity.swift; sourceTree = "<group>"; };
+		696D7B671DED1F560086BD4E /* TrackSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackSection.swift; sourceTree = "<group>"; };
 		6973F05A1DDB96AE0057946E /* QueueTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueueTableViewController.swift; sourceTree = "<group>"; };
 		69AD12E91DDF7A0800FDA308 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		69B459EC1DB5559D0013D71A /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				6973F05A1DDB96AE0057946E /* QueueTableViewController.swift */,
+				696D7B671DED1F560086BD4E /* TrackSection.swift */,
 			);
 			name = MainQueue;
 			sourceTree = "<group>";
@@ -356,6 +359,7 @@
 				695526EF1DCB909D0023C4C5 /* SearchEntity.swift in Sources */,
 				69B459EF1DB555B10013D71A /* SpotifyEndpoint.swift in Sources */,
 				694450E31DE000A6007DEF55 /* LoginViewController.swift in Sources */,
+				696D7B681DED1F560086BD4E /* TrackSection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

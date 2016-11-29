@@ -26,6 +26,16 @@ struct Track: Mappable {
     }
 }
 
+extension Track: Hashable {
+    var hashValue: Int {
+        return id.hash
+    }
+    
+    static func == (lhs: Track, rhs: Track) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+
 // Done
 struct SimpleArtist: Mappable {
     

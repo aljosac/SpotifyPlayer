@@ -78,7 +78,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         }.addDisposableTo(disposeBag)
         
         tableView.dataSource = nil
-        tableView.delegate = nil
+        //tableView.delegate = nil
         sections.asObservable().bindTo(tableView.rx.items(dataSource: datasource)).addDisposableTo(disposeBag)
         setupRx()
         setupBindings()
@@ -153,6 +153,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     }
     
     func skinTableDataSource(datasource:RxTableViewSectionedReloadDataSource<SearchHomeSectionModel>){
+        
         datasource.configureCell = { (dataSource, table, idxPath, _) in
             switch datasource[idxPath] {
             case let .HistorySectionItem(title):
@@ -171,7 +172,10 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
             
             return section.title
         }
+        
+        
     }
+    
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let header = view as? UITableViewHeaderFooterView {
             header.textLabel?.textAlignment = .center
