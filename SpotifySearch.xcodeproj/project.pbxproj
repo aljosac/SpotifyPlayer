@@ -46,10 +46,10 @@
 		33CBEBDC31B2C68EB58CD8A8 /* Pods-SpotifySearch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifySearch.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SpotifySearch/Pods-SpotifySearch.debug.xcconfig"; sourceTree = "<group>"; };
 		691E54031DD65FD500B1A62F /* SpotifyAudioPlayback.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyAudioPlayback.framework; sourceTree = "<group>"; };
 		691E54041DD65FD500B1A62F /* SpotifyAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyAuthentication.framework; sourceTree = "<group>"; };
-		691FDBE01DD2247F000122EF /* SpotifySearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifySearchCell.swift; sourceTree = "<group>"; };
-		691FDBE11DD2247F000122EF /* SpotifySearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpotifySearchCell.xib; sourceTree = "<group>"; };
-		69281CA61DE3D041007F749F /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerViewController.swift; path = ../PlayerViewController.swift; sourceTree = "<group>"; };
-		69281CA71DE3D041007F749F /* PlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PlayerViewController.xib; path = ../PlayerViewController.xib; sourceTree = "<group>"; };
+		691FDBE01DD2247F000122EF /* SpotifySearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpotifySearchCell.swift; path = SpotifySearch/SpotifySearchCell.swift; sourceTree = "<group>"; };
+		691FDBE11DD2247F000122EF /* SpotifySearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SpotifySearchCell.xib; path = SpotifySearch/SpotifySearchCell.xib; sourceTree = "<group>"; };
+		69281CA61DE3D041007F749F /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
+		69281CA71DE3D041007F749F /* PlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerViewController.xib; sourceTree = "<group>"; };
 		692E87711DE6257200C462F5 /* LNPopupController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LNPopupController.xcodeproj; path = "../../Downloads/LNPopupController-master/LNPopupController/LNPopupController.xcodeproj"; sourceTree = "<group>"; };
 		694450E21DE000A6007DEF55 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		694450E41DE2430A007DEF55 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
@@ -57,10 +57,10 @@
 		696D7B671DED1F560086BD4E /* TrackSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackSection.swift; sourceTree = "<group>"; };
 		6973F05A1DDB96AE0057946E /* QueueTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueueTableViewController.swift; sourceTree = "<group>"; };
 		69AD12E91DDF7A0800FDA308 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		69B459EC1DB5559D0013D71A /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		69B459EE1DB555B10013D71A /* SpotifyEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyEndpoint.swift; sourceTree = "<group>"; };
-		69B459F01DB555E10013D71A /* SpotifySearchModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifySearchModel.swift; sourceTree = SOURCE_ROOT; };
-		69B459F21DB555EB0013D71A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../AppDelegate.swift; sourceTree = "<group>"; };
+		69B459EC1DB5559D0013D71A /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchViewController.swift; path = SpotifySearch/SearchViewController.swift; sourceTree = "<group>"; };
+		69B459EE1DB555B10013D71A /* SpotifyEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpotifyEndpoint.swift; path = /Users/aljosacucak/Desktop/SpotifySearch/SpotifySearch/SpotifyEndpoint.swift; sourceTree = "<absolute>"; };
+		69B459F01DB555E10013D71A /* SpotifySearchModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpotifySearchModel.swift; path = SpotifySearch/SpotifySearchModel.swift; sourceTree = SOURCE_ROOT; };
+		69B459F21DB555EB0013D71A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69DCFA241DD67AE1007CF8A9 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		99D28A58F76A19FCD7BE6563 /* Pods_SpotifySearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotifySearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF4168076E16B084927BB581 /* Pods-SpotifySearch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifySearch.release.xcconfig"; path = "Pods/Target Support Files/Pods-SpotifySearch/Pods-SpotifySearch.release.xcconfig"; sourceTree = "<group>"; };
@@ -118,6 +118,7 @@
 		6973F05D1DDB97620057946E /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
+				69B459F21DB555EB0013D71A /* AppDelegate.swift */,
 				69AD12E91DDF7A0800FDA308 /* Constants.swift */,
 				F8D386701D70C274002A13FC /* Assets.xcassets */,
 				F8D386721D70C274002A13FC /* LaunchScreen.storyboard */,
@@ -195,7 +196,6 @@
 				6973F05C1DDB97340057946E /* MainQueue */,
 				69AD12EB1DDF8BDC00FDA308 /* Search */,
 				69270EC91DDE598D007331E2 /* Player */,
-				69B459F21DB555EB0013D71A /* AppDelegate.swift */,
 				69DCFA241DD67AE1007CF8A9 /* MainTabBarController.swift */,
 				F8D3866D1D70C274002A13FC /* Main.storyboard */,
 				694450E21DE000A6007DEF55 /* LoginViewController.swift */,
