@@ -43,18 +43,21 @@ class QueueTableViewController: UITableViewController {
         self.tableView.dataSource = nil
         let dataSource = RxTableViewSectionedAnimatedDataSource<TrackSection>()
         
-        let sections: [TrackSection] = [TrackSection(header: "Up Next", tracks: [], updated: Date())]
+        let sections: [TrackSection] = [TrackSection(header: "Up Next", tracks: [], updated: Date()),
+                                        TrackSection(header: "History", tracks: [], updated: Date())]
         
-        let state = SectionedQueueTableViewState(sections: sections)
+        let dataSections:[Variable<[Track]>] = [queue,history]
+        let state = SectionedQueueTableViewState(sections: sections,data:dataSections)
     
         let addCommand = queue.asObservable().map(TableViewEditingCommand.addTrack)
+        let historyCommand = history.asObservable().map(TableViewEditingCommand.addHistory)
         let deleteCommand = tableView.rx.itemDeleted.asObservable().map(TableViewEditingCommand.DeleteItem)
         let movedCommand = tableView.rx.itemMoved.map(TableViewEditingCommand.MoveItem)
     
         
         skinTableViewDataSource(dataSource: dataSource)
         
-        Observable.of(addCommand, deleteCommand, movedCommand)
+        Observable.of(addCommand, historyCommand, deleteCommand, movedCommand)
             .merge()
             .scan(state) { (state: SectionedQueueTableViewState, command: TableViewEditingCommand) -> SectionedQueueTableViewState in
                 return state.execute(command: command)
@@ -114,9 +117,11 @@ enum TableViewEditingCommand {
 
 struct SectionedQueueTableViewState {
     fileprivate var sections: [TrackSection]
+    fileprivate var dataSections: [Variable<[Track]>]
     
-    init(sections:[TrackSection]) {
+    init(sections:[TrackSection],data:[Variable<[Track]>]) {
         self.sections = sections
+        self.dataSections = data
     }
     
     func execute(command:TableViewEditingCommand) -> SectionedQueueTableViewState {
@@ -125,13 +130,14 @@ struct SectionedQueueTableViewState {
             var sections = self.sections
             let items = appendEvent.list
             sections[appendEvent.section] = TrackSection(original: sections[appendEvent.section], items: items)
-            return SectionedQueueTableViewState(sections: sections)
+            return SectionedQueueTableViewState(sections: sections,data:dataSections)
         case .DeleteItem(let indexPath):
             var sections = self.sections
             var items = sections[indexPath.section].items
             items.remove(at: indexPath.row)
+            dataSections[indexPath.section].value.remove(at: indexPath.row)
             sections[indexPath.section] = TrackSection(original: sections[indexPath.section], items: items)
-            return SectionedQueueTableViewState(sections: sections)
+            return SectionedQueueTableViewState(sections: sections,data:dataSections)
         case .MoveItem(let moveEvent):
             var sections = self.sections
             var sourceItems = sections[moveEvent.sourceIndex.section].items
@@ -142,9 +148,11 @@ struct SectionedQueueTableViewState {
                                         at: moveEvent.destinationIndex.row)
                 let destinationSection = TrackSection(original: sections[moveEvent.destinationIndex.section], items: destinationItems)
                 
+                dataSections[moveEvent.sourceIndex.section].value = destinationItems.map { $0.track }
+                
                 sections[moveEvent.sourceIndex.section] = destinationSection
                 
-                return SectionedQueueTableViewState(sections: sections)
+                return SectionedQueueTableViewState(sections: sections,data:dataSections)
             } else {
                 let item = sourceItems.remove(at: moveEvent.sourceIndex.row)
                 destinationItems.insert(item, at: moveEvent.destinationIndex.row)
@@ -153,7 +161,9 @@ struct SectionedQueueTableViewState {
                 sections[moveEvent.sourceIndex.section] = sourceSection
                 sections[moveEvent.destinationIndex.section] = destinationSection
                 
-                return SectionedQueueTableViewState(sections: sections)
+                dataSections[moveEvent.sourceIndex.section].value = sourceItems.map{$0.track}
+                dataSections[moveEvent.destinationIndex.section].value = destinationItems.map{$0.track}
+                return SectionedQueueTableViewState(sections: sections,data:dataSections)
             }
         }
     }
@@ -165,6 +175,12 @@ extension TableViewEditingCommand {
         trackItem = queue.map { TrackItem(track: $0,date: Date()) }
         return TableViewEditingCommand.AppendItem(list: trackItem, section: 0)
         
+    }
+    
+    static func addHistory(history:[Track]) -> TableViewEditingCommand {
+        var trackItem:[TrackItem] = []
+        trackItem = history.map { TrackItem(track: $0,date: Date()) }
+        return TableViewEditingCommand.AppendItem(list: trackItem, section: 1)
     }
 }
 

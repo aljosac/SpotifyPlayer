@@ -34,7 +34,8 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         
         let queue = queueViewController?.queue
-        playerController = PlayerViewController(songQueue: queue)
+        let history = queueViewController?.history
+        playerController = PlayerViewController(songQueue: queue,songHistory:history)
         self.presentPopupBar(withContentViewController: playerController!, animated: true, completion: nil)
 
     }

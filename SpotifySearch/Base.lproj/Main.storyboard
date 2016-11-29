@@ -86,7 +86,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Queue" id="XVn-1f-FNa">
-                        <barButtonItem key="rightBarButtonItem" title="i" style="plain" id="MUt-0S-mAg">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="MUt-0S-mAg">
                             <connections>
                                 <action selector="toggleEdit:" destination="gTo-du-CEW" id="svB-Y1-28Y"/>
                             </connections>
@@ -95,7 +95,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cxB-xf-slF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2335" y="1352"/>
+            <point key="canvasLocation" x="2434" y="1417"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="18s-0Y-ACV">
@@ -136,20 +136,20 @@
                                 <rect key="frame" x="-467" y="-5" width="1262" height="741"/>
                                 <color key="backgroundColor" red="0.098039215690000001" green="0.078431372550000003" blue="0.078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="1262" id="JOz-1a-B5v"/>
+                                    <constraint firstAttribute="width" constant="1262" id="scw-dy-05V"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Powered by " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JNs-BY-Ifz">
                                 <rect key="frame" x="136" y="283" width="143" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="XyS-dl-iPI"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PARTY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b1e-vu-6bm">
                                 <rect key="frame" x="20" y="105" width="376" height="142"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="142" id="uad-DB-P7f"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="70"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -158,7 +158,7 @@
                                 <rect key="frame" x="136" y="452" width="143" height="50"/>
                                 <color key="backgroundColor" red="0.1137254902" green="0.72549019609999998" blue="0.3294117647" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="WVj-o9-lhO"/>
+                                    <constraint firstAttribute="height" constant="50" id="YpJ-lF-TrA"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Login">
@@ -176,27 +176,27 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Spotify_Logo_RGB_White" translatesAutoresizingMaskIntoConstraints="NO" id="2gJ-m0-uNc">
                                 <rect key="frame" x="123" y="340" width="169" height="51"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="169" id="AAN-De-ffm"/>
+                                    <constraint firstAttribute="width" constant="169" id="wvT-ry-RVg"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.098039215690000001" green="0.078431372550000003" blue="0.078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="vVI-DA-nxJ" firstAttribute="top" secondItem="2gJ-m0-uNc" secondAttribute="bottom" constant="61" id="5aW-t6-hno"/>
-                            <constraint firstItem="JNs-BY-Ifz" firstAttribute="trailing" secondItem="vVI-DA-nxJ" secondAttribute="trailing" id="9qS-ES-owP"/>
-                            <constraint firstItem="vVI-DA-nxJ" firstAttribute="centerX" secondItem="r78-tx-MhI" secondAttribute="centerX" id="AWr-mD-NGy"/>
-                            <constraint firstItem="qz5-1d-NtB" firstAttribute="leading" secondItem="r78-tx-MhI" secondAttribute="leading" constant="-467" id="Dfg-qO-c6x"/>
-                            <constraint firstItem="2gJ-m0-uNc" firstAttribute="centerX" secondItem="JNs-BY-Ifz" secondAttribute="centerX" id="Dxk-4M-PYW"/>
-                            <constraint firstItem="b1e-vu-6bm" firstAttribute="leading" secondItem="r78-tx-MhI" secondAttribute="leadingMargin" id="IHf-kU-iID"/>
-                            <constraint firstItem="b1e-vu-6bm" firstAttribute="top" secondItem="EDv-8Q-egY" secondAttribute="bottom" constant="85" id="UbT-Jc-h9f"/>
-                            <constraint firstItem="2gJ-m0-uNc" firstAttribute="top" secondItem="JNs-BY-Ifz" secondAttribute="bottom" constant="26" id="XTB-bE-ERy"/>
-                            <constraint firstItem="2gJ-m0-uNc" firstAttribute="centerY" secondItem="qz5-1d-NtB" secondAttribute="centerY" id="ZPc-03-noo"/>
-                            <constraint firstItem="qz5-1d-NtB" firstAttribute="top" secondItem="r78-tx-MhI" secondAttribute="topMargin" constant="-5" id="cZO-wD-k8u"/>
-                            <constraint firstItem="JNs-BY-Ifz" firstAttribute="centerX" secondItem="b1e-vu-6bm" secondAttribute="centerX" id="fcb-58-lpP"/>
-                            <constraint firstItem="qz5-1d-NtB" firstAttribute="bottom" secondItem="4lL-Ol-UAW" secondAttribute="top" id="iCx-OL-XN9"/>
-                            <constraint firstItem="JNs-BY-Ifz" firstAttribute="top" secondItem="b1e-vu-6bm" secondAttribute="bottom" constant="36" id="ilt-CD-Daz"/>
-                            <constraint firstItem="JNs-BY-Ifz" firstAttribute="leading" secondItem="vVI-DA-nxJ" secondAttribute="leading" id="udD-Bn-Cmu"/>
-                            <constraint firstItem="4lL-Ol-UAW" firstAttribute="top" secondItem="vVI-DA-nxJ" secondAttribute="bottom" constant="234" id="wUh-Yl-AY8"/>
+                            <constraint firstItem="JNs-BY-Ifz" firstAttribute="leading" secondItem="vVI-DA-nxJ" secondAttribute="leading" id="17C-oQ-Qog"/>
+                            <constraint firstItem="b1e-vu-6bm" firstAttribute="leading" secondItem="r78-tx-MhI" secondAttribute="leadingMargin" id="1gE-ZF-Rku"/>
+                            <constraint firstItem="JNs-BY-Ifz" firstAttribute="centerX" secondItem="2gJ-m0-uNc" secondAttribute="centerX" id="1yQ-W7-ztG"/>
+                            <constraint firstItem="JNs-BY-Ifz" firstAttribute="trailing" secondItem="vVI-DA-nxJ" secondAttribute="trailing" id="2Is-yj-vDg"/>
+                            <constraint firstItem="JNs-BY-Ifz" firstAttribute="centerX" secondItem="r78-tx-MhI" secondAttribute="centerX" id="8Ew-mZ-M9C"/>
+                            <constraint firstItem="2gJ-m0-uNc" firstAttribute="top" secondItem="JNs-BY-Ifz" secondAttribute="bottom" constant="26" id="BIF-Qa-3KM"/>
+                            <constraint firstItem="b1e-vu-6bm" firstAttribute="centerX" secondItem="JNs-BY-Ifz" secondAttribute="centerX" id="D2h-wc-IVu"/>
+                            <constraint firstItem="qz5-1d-NtB" firstAttribute="bottom" secondItem="4lL-Ol-UAW" secondAttribute="top" id="DDs-cx-xWX"/>
+                            <constraint firstItem="b1e-vu-6bm" firstAttribute="top" secondItem="EDv-8Q-egY" secondAttribute="bottom" constant="85" id="Jsi-jr-XaI"/>
+                            <constraint firstItem="vVI-DA-nxJ" firstAttribute="top" secondItem="2gJ-m0-uNc" secondAttribute="bottom" constant="61" id="Udl-KE-wh7"/>
+                            <constraint firstItem="qz5-1d-NtB" firstAttribute="leading" secondItem="r78-tx-MhI" secondAttribute="leading" constant="-467" id="bQe-S2-enH"/>
+                            <constraint firstItem="JNs-BY-Ifz" firstAttribute="top" secondItem="b1e-vu-6bm" secondAttribute="bottom" constant="36" id="bjN-KS-V9d"/>
+                            <constraint firstItem="4lL-Ol-UAW" firstAttribute="top" secondItem="vVI-DA-nxJ" secondAttribute="bottom" constant="234" id="bsJ-gM-uao"/>
+                            <constraint firstItem="qz5-1d-NtB" firstAttribute="top" secondItem="r78-tx-MhI" secondAttribute="topMargin" constant="-5" id="nVH-UN-Cyo"/>
+                            <constraint firstItem="qz5-1d-NtB" firstAttribute="centerY" secondItem="2gJ-m0-uNc" secondAttribute="centerY" id="pZw-PV-QhJ"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">

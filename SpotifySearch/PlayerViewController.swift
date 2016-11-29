@@ -16,6 +16,7 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
 
     // MARK: - Variables
     var queue:Variable<[Track]>
+    var history:Variable<[Track]>
     var currentTrack:Track? = nil
     var disposeBag:DisposeBag = DisposeBag()
     var playing:UIBarButtonItem? = nil
@@ -70,14 +71,16 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         }
     }
     // MARK: - Class Functions
-    init(songQueue:Variable<[Track]>?) {
+    init(songQueue:Variable<[Track]>?,songHistory:Variable<[Track]>?) {
         print("Player initalized")
         queue = songQueue!
+        history = songHistory!
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
         queue = Variable.init([])
+        history = Variable.init([])
         super.init(coder: aDecoder)
         
     }
@@ -97,6 +100,7 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
                     
                     print(self.isPlaying)
                     let track:Track = self.queue.value.removeFirst()
+                    self.history.value.append(track)
                     print("Removed First")
                     let controller = SPTAudioStreamingController.sharedInstance()
                     self.updateUI()
@@ -297,7 +301,9 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
     
     func audioStreamingDidSkip(toNextTrack audioStreaming: SPTAudioStreamingController!) {
         if queue.value.count > 0 {
-            let uri = queue.value.removeFirst().uri
+            let track = queue.value.removeFirst()
+            self.history.value.append(track)
+            let uri = track.uri
             audioStreaming.playSpotifyURI(uri, startingWith: 0, startingWithPosition: 0) { error in
                 
             }
