@@ -23,10 +23,18 @@ struct TrackSection {
     }
 }
 
+enum QueueLocation {
+    case Queue
+    case History
+}
+
 struct TrackItem {
     let track:Track
+    let type:QueueLocation
     let date:Date
 }
+
+
 
 extension TrackSection: AnimatableSectionModelType {
     typealias Item = TrackItem

@@ -24,6 +24,7 @@ class QueueTableViewController: UITableViewController {
             sender.title = "Done"
         }
     }
+        
     
     @IBOutlet weak var showHideHistory: UIBarButtonItem!
     
@@ -32,6 +33,7 @@ class QueueTableViewController: UITableViewController {
     var queue:Variable<[Track]> = Variable([])
     var history:Variable<[Track]> = Variable([])
     var nextElement:Variable<Track>?
+    var historyShowing:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +46,7 @@ class QueueTableViewController: UITableViewController {
         self.tableView.register(UINib(nibName: "SpotifySearchCell", bundle: nil ), forCellReuseIdentifier: "queueCell")
         
         self.tableView.dataSource = nil
+        self.tableView.delegate = self
         let dataSource = RxTableViewSectionedAnimatedDataSource<TrackSection>()
         
         let sections: [TrackSection] = [TrackSection(header: "Up Next", tracks: [], updated: Date())]
@@ -58,6 +61,7 @@ class QueueTableViewController: UITableViewController {
         let toggleHistoryCommand = showHideHistory.rx.tap.asObservable().map {
             return TableViewEditingCommand.ToggleHistory
         }
+        
         
         skinTableViewDataSource(dataSource: dataSource)
         
@@ -76,7 +80,6 @@ class QueueTableViewController: UITableViewController {
         
     }
 
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         //tableView.setEditing(true, animated: true)
@@ -86,6 +89,16 @@ class QueueTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(historyShowing)
+        
+        let cell = (tableView.cellForRow(at: indexPath) as! SpotifySearchCell)
+        if cell.type == .History {
+            queue.value.append(cell.track!)
+        }
+    }
+    
+    
 }
 
 func skinTableViewDataSource(dataSource: RxTableViewSectionedAnimatedDataSource<TrackSection>){
@@ -98,6 +111,7 @@ func skinTableViewDataSource(dataSource: RxTableViewSectionedAnimatedDataSource<
         cell.mainLabel?.text = item.track.name
         cell.sublabel.text = item.track.artists[0].name
         cell.track = item.track
+        cell.type = item.type
         return cell
     }
     
@@ -111,6 +125,8 @@ func skinTableViewDataSource(dataSource: RxTableViewSectionedAnimatedDataSource<
     dataSource.canMoveRowAtIndexPath = { _ in
         return true
     }
+    
+    
 }
 
 enum TableViewEditingCommand {
@@ -136,6 +152,11 @@ struct SectionedQueueTableViewState {
     func execute(command:TableViewEditingCommand) -> SectionedQueueTableViewState {
         switch command {
         case .AppendItem(let appendEvent):
+            if !toggle {
+                let list:[TrackItem] = dataSections[1].value.map{TrackItem(track: $0, type: .History,date: Date() )}
+                let section = [TrackSection(header: "History", tracks: list, updated: Date())]
+                return SectionedQueueTableViewState(sections: section, data: dataSections, current:dataSections[0],showHistory:toggle)
+            }
             var sections = self.sections
             let items = appendEvent.list
                 sections[appendEvent.section] = TrackSection(original: sections[appendEvent.section], items: items)
@@ -178,11 +199,11 @@ struct SectionedQueueTableViewState {
         case .ToggleHistory:
             
             if toggle {
-                let list:[TrackItem] = dataSections[1].value.map{TrackItem(track: $0, date: Date())}
+                let list:[TrackItem] = dataSections[1].value.map{TrackItem(track: $0, type: .History,date: Date() )}
                 let section = [TrackSection(header: "History", tracks: list, updated: Date())]
                 return SectionedQueueTableViewState(sections: section, data: dataSections, current:dataSections[0],showHistory:!toggle)
             }
-            let list:[TrackItem] = dataSections[0].value.map{TrackItem(track: $0, date: Date())}
+            let list:[TrackItem] = dataSections[0].value.map{TrackItem(track: $0, type: .Queue, date: Date())}
             let section = [TrackSection(header: "Up Next", tracks: list, updated: Date())]
             return SectionedQueueTableViewState(sections: section, data: dataSections, current:dataSections[1],showHistory:!toggle)
         }
@@ -192,14 +213,14 @@ struct SectionedQueueTableViewState {
 extension TableViewEditingCommand {
     static func addTrack(queue:[Track]) -> TableViewEditingCommand {
         var trackItem:[TrackItem] = []
-        trackItem = queue.map { TrackItem(track: $0,date: Date()) }
+        trackItem = queue.map { TrackItem(track: $0, type: .Queue, date: Date()) }
         return TableViewEditingCommand.AppendItem(list: trackItem, section: 0)
         
     }
     
     static func addHistory(history:[Track]) -> TableViewEditingCommand {
         var trackItem:[TrackItem] = []
-        trackItem = history.map { TrackItem(track: $0,date: Date()) }
+        trackItem = history.map { TrackItem(track: $0, type: .History, date: Date()) }
         return TableViewEditingCommand.AppendItem(list: trackItem, section: 1)
     }
 }

@@ -106,11 +106,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Queue" id="XVn-1f-FNa">
-                        <barButtonItem key="leftBarButtonItem" systemItem="reply" id="6Wx-fN-WI5">
-                            <connections>
-                                <action selector="toggleHistory:" destination="gTo-du-CEW" id="NoY-pF-l5V"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" systemItem="reply" id="6Wx-fN-WI5"/>
                         <barButtonItem key="rightBarButtonItem" title="Edit" id="MUt-0S-mAg">
                             <connections>
                                 <action selector="toggleEdit:" destination="gTo-du-CEW" id="svB-Y1-28Y"/>

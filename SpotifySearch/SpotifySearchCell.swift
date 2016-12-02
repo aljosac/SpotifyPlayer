@@ -15,7 +15,7 @@ class SpotifySearchCell: UITableViewCell {
     
     var track:Track? = nil
     var albumImage:UIImage? = nil
-    
+    var type:QueueLocation? = nil
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
