@@ -95,9 +95,19 @@ class QueueTableViewController: UITableViewController {
         let cell = (tableView.cellForRow(at: indexPath) as! SpotifySearchCell)
         if cell.type == .History {
             queue.value.append(cell.track!)
+        } else {
+            
         }
+        cell.setSelected(false, animated: false)
     }
     
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        let cell = (tableView.cellForRow(at: indexPath) as! SpotifySearchCell)
+        if cell.type == .Queue {
+            return nil
+        }
+        return indexPath
+    }
     
 }
 
