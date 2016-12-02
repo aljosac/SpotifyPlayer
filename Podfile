@@ -12,11 +12,4 @@ target 'SpotifySearch' do
   pod 'RxSwift', '~> 3.0'
   pod 'RxCocoa', '~> 3.0'
   pod 'RxDataSources', '~> 1.0'
-
 end
-
-target 'scratch-pad' do
-
-    use_frameworks!
-
-    pod 'Moya'

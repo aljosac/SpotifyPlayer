@@ -51,12 +51,25 @@ struct SimpleArtist: Mappable {
 struct FullArtist: Mappable {
     
     let name:String
-    
+    let images:[Image]
     init(map: Mapper) throws {
         try name = map.from("name")
+        try images = map.from("images")
         
     }
 }
+
+struct Image: Mappable {
+    let height:Int
+    let width:Int
+    let url:String
+    init(map: Mapper) throws {
+        try height = map.from("height")
+        try width = map.from("width")
+        try url = map.from("url")
+    }
+}
+
 
 struct SimpleAlbum: Mappable {
     let name:String

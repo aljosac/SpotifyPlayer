@@ -25,11 +25,14 @@ class QueueTableViewController: UITableViewController {
         }
     }
     
+    @IBOutlet weak var showHideHistory: UIBarButtonItem!
+    
     var disposeBag = DisposeBag()
     
     var queue:Variable<[Track]> = Variable([])
     var history:Variable<[Track]> = Variable([])
     var nextElement:Variable<Track>?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,21 +46,22 @@ class QueueTableViewController: UITableViewController {
         self.tableView.dataSource = nil
         let dataSource = RxTableViewSectionedAnimatedDataSource<TrackSection>()
         
-        let sections: [TrackSection] = [TrackSection(header: "Up Next", tracks: [], updated: Date()),
-                                        TrackSection(header: "History", tracks: [], updated: Date())]
+        let sections: [TrackSection] = [TrackSection(header: "Up Next", tracks: [], updated: Date())]
         
         let dataSections:[Variable<[Track]>] = [queue,history]
-        let state = SectionedQueueTableViewState(sections: sections,data:dataSections)
+        let state = SectionedQueueTableViewState(sections: sections,data:dataSections,current: dataSections[0],showHistory:true)
     
         let addCommand = queue.asObservable().map(TableViewEditingCommand.addTrack)
-        let historyCommand = history.asObservable().map(TableViewEditingCommand.addHistory)
+        //let historyCommand = history.asObservable().map(TableViewEditingCommand.addHistory)
         let deleteCommand = tableView.rx.itemDeleted.asObservable().map(TableViewEditingCommand.DeleteItem)
         let movedCommand = tableView.rx.itemMoved.map(TableViewEditingCommand.MoveItem)
-    
+        let toggleHistoryCommand = showHideHistory.rx.tap.asObservable().map {
+            return TableViewEditingCommand.ToggleHistory
+        }
         
         skinTableViewDataSource(dataSource: dataSource)
         
-        Observable.of(addCommand, historyCommand, deleteCommand, movedCommand)
+        Observable.of(addCommand, deleteCommand, movedCommand, toggleHistoryCommand)
             .merge()
             .scan(state) { (state: SectionedQueueTableViewState, command: TableViewEditingCommand) -> SectionedQueueTableViewState in
                 return state.execute(command: command)
@@ -113,15 +117,20 @@ enum TableViewEditingCommand {
     case AppendItem(list: [TrackItem], section: Int)
     case MoveItem(sourceIndex: IndexPath, destinationIndex: IndexPath)
     case DeleteItem(IndexPath)
+    case ToggleHistory
 }
 
 struct SectionedQueueTableViewState {
     fileprivate var sections: [TrackSection]
     fileprivate var dataSections: [Variable<[Track]>]
+    fileprivate var currentData: Variable<[Track]>
+    fileprivate var toggle:Bool
     
-    init(sections:[TrackSection],data:[Variable<[Track]>]) {
+    init(sections:[TrackSection],data:[Variable<[Track]>],current:Variable<[Track]>,showHistory:Bool) {
         self.sections = sections
         self.dataSections = data
+        self.currentData = current
+        self.toggle = showHistory
     }
     
     func execute(command:TableViewEditingCommand) -> SectionedQueueTableViewState {
@@ -129,15 +138,16 @@ struct SectionedQueueTableViewState {
         case .AppendItem(let appendEvent):
             var sections = self.sections
             let items = appendEvent.list
-            sections[appendEvent.section] = TrackSection(original: sections[appendEvent.section], items: items)
-            return SectionedQueueTableViewState(sections: sections,data:dataSections)
+                sections[appendEvent.section] = TrackSection(original: sections[appendEvent.section], items: items)
+
+            return SectionedQueueTableViewState(sections: sections,data:dataSections, current:currentData,showHistory:toggle)
         case .DeleteItem(let indexPath):
             var sections = self.sections
             var items = sections[indexPath.section].items
             items.remove(at: indexPath.row)
             dataSections[indexPath.section].value.remove(at: indexPath.row)
             sections[indexPath.section] = TrackSection(original: sections[indexPath.section], items: items)
-            return SectionedQueueTableViewState(sections: sections,data:dataSections)
+            return SectionedQueueTableViewState(sections: sections,data:dataSections, current:currentData,showHistory:toggle)
         case .MoveItem(let moveEvent):
             var sections = self.sections
             var sourceItems = sections[moveEvent.sourceIndex.section].items
@@ -152,7 +162,7 @@ struct SectionedQueueTableViewState {
                 
                 sections[moveEvent.sourceIndex.section] = destinationSection
                 
-                return SectionedQueueTableViewState(sections: sections,data:dataSections)
+                return SectionedQueueTableViewState(sections: sections,data:dataSections, current:currentData,showHistory:toggle)
             } else {
                 let item = sourceItems.remove(at: moveEvent.sourceIndex.row)
                 destinationItems.insert(item, at: moveEvent.destinationIndex.row)
@@ -163,8 +173,18 @@ struct SectionedQueueTableViewState {
                 
                 dataSections[moveEvent.sourceIndex.section].value = sourceItems.map{$0.track}
                 dataSections[moveEvent.destinationIndex.section].value = destinationItems.map{$0.track}
-                return SectionedQueueTableViewState(sections: sections,data:dataSections)
+                return SectionedQueueTableViewState(sections: sections,data:dataSections, current:currentData,showHistory:toggle)
             }
+        case .ToggleHistory:
+            
+            if toggle {
+                let list:[TrackItem] = dataSections[1].value.map{TrackItem(track: $0, date: Date())}
+                let section = [TrackSection(header: "History", tracks: list, updated: Date())]
+                return SectionedQueueTableViewState(sections: section, data: dataSections, current:dataSections[0],showHistory:!toggle)
+            }
+            let list:[TrackItem] = dataSections[0].value.map{TrackItem(track: $0, date: Date())}
+            let section = [TrackSection(header: "Up Next", tracks: list, updated: Date())]
+            return SectionedQueueTableViewState(sections: section, data: dataSections, current:dataSections[1],showHistory:!toggle)
         }
     }
 }
