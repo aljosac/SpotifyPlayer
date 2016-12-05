@@ -11,11 +11,14 @@ import UIKit
 class LoginViewController: UIViewController, WebViewControllerDelegate {
 
     var authViewController: UIViewController?
+    var usedApp:Bool = false
+    
     
     @IBAction func loginTapped(_ sender: UIButton) {
         let auth:SPTAuth = SPTAuth.defaultInstance()
     
         if SPTAuth.spotifyApplicationIsInstalled() && SPTAuth.supportsApplicationAuthentication() {
+            usedApp = true
             let url = auth.spotifyAppAuthenticationURL()!
             UIApplication.shared.open(url, options: [:],completionHandler: nil)
             
@@ -67,18 +70,27 @@ class LoginViewController: UIViewController, WebViewControllerDelegate {
     
     func sessionUpdated(notification:Notification){
         let auth:SPTAuth = SPTAuth.defaultInstance()
-        self.presentedViewController?.dismiss(animated: true) {
-            if auth.session != nil && auth.session.isValid() {
-                
-                OperationQueue.main.addOperation {
-                    [weak self] in
-                    self?.performSegue(withIdentifier: "showTabBar", sender: nil)
+        if usedApp {
+            OperationQueue.main.addOperation {
+                [weak self] in
+                self?.performSegue(withIdentifier: "showTabBar", sender: nil)
+            }
+        } else {
+            self.presentedViewController?.dismiss(animated: true) {
+                if auth.session != nil && auth.session.isValid() {
+                    
+                    OperationQueue.main.addOperation {
+                        [weak self] in
+                        self?.performSegue(withIdentifier: "showTabBar", sender: nil)
+                    }
+                    
+                } else {
+                    print("Session not found")
                 }
-                
-            } else {
-                print("Session not found")
             }
         }
+        
+        
     }
 
     func getAuthViewController(withURL url: URL) -> UIViewController {

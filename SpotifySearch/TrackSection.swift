@@ -11,9 +11,7 @@ import RxDataSources
 
 struct TrackSection {
     var header: String
-    
     var tracks:[TrackItem]
-    
     var updated: Date
     
     init(header:String,tracks:[TrackItem],updated:Date) {

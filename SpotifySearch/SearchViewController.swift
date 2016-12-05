@@ -65,7 +65,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         let sections = Variable([SearchHomeSectionModel.HistorySection(items: historyItems)])
         
         
-        searchModel.topArtist().subscribe { event in
+        searchModel.topArtists().subscribe { event in
             switch event {
             case let .next(list):
                 let newls = list.map {SectionItem.TopArtistSectionItem(artist: $0)}

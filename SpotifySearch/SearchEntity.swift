@@ -8,6 +8,7 @@
 
 import Mapper
 
+
 struct Track: Mappable {
     
     let name: String
@@ -36,7 +37,7 @@ extension Track: Hashable {
     }
 }
 
-// Done
+
 struct SimpleArtist: Mappable {
     
     let name:String
@@ -59,18 +60,6 @@ struct FullArtist: Mappable {
     }
 }
 
-struct Image: Mappable {
-    let height:Int
-    let width:Int
-    let url:String
-    init(map: Mapper) throws {
-        try height = map.from("height")
-        try width = map.from("width")
-        try url = map.from("url")
-    }
-}
-
-
 struct SimpleAlbum: Mappable {
     let name:String
     let type:String
@@ -90,14 +79,14 @@ struct FullAlbum: Mappable {
     }
 }
 
-struct Result: Mappable {
-    let total:Int
-    let href:String
-    let tracks:[Track]
+struct Image: Mappable {
+    let height:Int
+    let width:Int
+    let url:String
     init(map: Mapper) throws {
-        try total = map.from("tracks.total")
-        try href = map.from("tracks.href")
-        try tracks = map.from("tracks.items")
+        try height = map.from("height")
+        try width = map.from("width")
+        try url = map.from("url")
     }
-    
 }
+

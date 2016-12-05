@@ -18,9 +18,19 @@ struct SpotifySearchModel {
         
     }
     
-    func topArtist() -> Observable<[SimpleArtist]> {
+    func topArtists() -> Observable<[SimpleArtist]> {
         return self.provider.request(Spotify.TopArtists).debug().mapArray(type: SimpleArtist.self, keyPath: "items")
     }
+    
+    
+    func getTopArtistTracks(id:String) -> Observable<[Track]> {
+        return self.provider.request(Spotify.TopArtistTracks(id: id)).debug().mapArray(type: Track.self, keyPath:"tracks")
+    }
+    
+    func getArtistAlbums(id:String) -> Observable<[SimpleAlbum]>{
+        return self.provider.request(Spotify.ArtistAlbums(id: id)).debug().mapArray(type: SimpleAlbum.self, keyPath:"items")
+    }
+    
 }
 
 enum SearchHomeSectionModel {

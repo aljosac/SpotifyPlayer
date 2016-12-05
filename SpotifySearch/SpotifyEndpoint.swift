@@ -24,6 +24,8 @@ public enum Spotify {
     case Album(id: String)
     case Artist(id: String)
     case TopArtists
+    case TopArtistTracks(id:String)
+    case ArtistAlbums(id:String)
 }
 
 extension Spotify: TargetType {
@@ -40,6 +42,10 @@ extension Spotify: TargetType {
             return "/v1/albums/\(id)"
         case .TopArtists:
             return "/v1/me/top/artists"
+        case .TopArtistTracks(let id):
+            return "/v1/artist/\(id)/top-tracks"
+        case .ArtistAlbums(let id):
+            return "/v1/artists/\(id)/albums"
         }
     }
     
@@ -51,6 +57,8 @@ extension Spotify: TargetType {
         switch self {
         case .Track(let name):
             return ["query":name+"*","type":"track"]
+        case .ArtistAlbums(_):
+            return ["album_type":"album,single"]
         default:
             return nil
         }
@@ -66,6 +74,8 @@ extension Spotify: TargetType {
             return "[{\"name\": \"Repo Name\"}]".data(using: String.Encoding.utf8)!
         case .TopArtists:
             return "[{\"name\": \"Repo Name\"}]".data(using: String.Encoding.utf8)!
+        default:
+            return "".data(using: String.Encoding.utf8)!
         }
     }
     
