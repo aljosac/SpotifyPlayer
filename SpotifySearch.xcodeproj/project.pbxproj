@@ -14,8 +14,8 @@
 		691E54051DD65FD500B1A62F /* SpotifyAudioPlayback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 691E54031DD65FD500B1A62F /* SpotifyAudioPlayback.framework */; };
 		691E54061DD65FD500B1A62F /* SpotifyAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 691E54041DD65FD500B1A62F /* SpotifyAuthentication.framework */; };
 		691FDBE21DD2247F000122EF /* TrackTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691FDBE01DD2247F000122EF /* TrackTableViewCell.swift */; };
-		691FDBE31DD2247F000122EF /* SpotifySearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 691FDBE11DD2247F000122EF /* SpotifySearchCell.xib */; };
-		69210A9E1DFB0D7100F8C436 /* ArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69210A9C1DFB0D7100F8C436 /* ArtistViewController.swift */; };
+		691FDBE31DD2247F000122EF /* TrackTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 691FDBE11DD2247F000122EF /* TrackTableViewCell.xib */; };
+		69210A9E1DFB0D7100F8C436 /* ArtistPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69210A9C1DFB0D7100F8C436 /* ArtistPageViewController.swift */; };
 		69210AA11DFB1CF800F8C436 /* ArtistBarBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69210AA01DFB1CF800F8C436 /* ArtistBarBehavior.swift */; };
 		69210AA31DFB228600F8C436 /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69210AA21DFB228600F8C436 /* ResultTableViewCell.swift */; };
 		69281CA81DE3D041007F749F /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69281CA61DE3D041007F749F /* PlayerViewController.swift */; };
@@ -24,7 +24,7 @@
 		694450E31DE000A6007DEF55 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694450E21DE000A6007DEF55 /* LoginViewController.swift */; };
 		694450E51DE2430A007DEF55 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694450E41DE2430A007DEF55 /* WebViewController.swift */; };
 		694D60F11DF924180032B8A3 /* ArtistSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D60F01DF924180032B8A3 /* ArtistSection.swift */; };
-		694D60F31DF92FAC0032B8A3 /* SearchModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D60F21DF92FAC0032B8A3 /* SearchModels.swift */; };
+		694D60F31DF92FAC0032B8A3 /* SearchPageModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D60F21DF92FAC0032B8A3 /* SearchPageModels.swift */; };
 		694D60F51DF967A90032B8A3 /* ResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D60F41DF967A90032B8A3 /* ResultsTableViewController.swift */; };
 		695526EF1DCB909D0023C4C5 /* SearchEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695526EE1DCB909D0023C4C5 /* SearchEntity.swift */; };
 		6959AE5C1DEE1508003D2B35 /* LevenshteinDistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6959AE5B1DEE1508003D2B35 /* LevenshteinDistance.swift */; };
@@ -90,8 +90,8 @@
 		691E54031DD65FD500B1A62F /* SpotifyAudioPlayback.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyAudioPlayback.framework; sourceTree = "<group>"; };
 		691E54041DD65FD500B1A62F /* SpotifyAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyAuthentication.framework; sourceTree = "<group>"; };
 		691FDBE01DD2247F000122EF /* TrackTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackTableViewCell.swift; sourceTree = "<group>"; };
-		691FDBE11DD2247F000122EF /* SpotifySearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpotifySearchCell.xib; sourceTree = "<group>"; };
-		69210A9C1DFB0D7100F8C436 /* ArtistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistViewController.swift; sourceTree = "<group>"; };
+		691FDBE11DD2247F000122EF /* TrackTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackTableViewCell.xib; sourceTree = "<group>"; };
+		69210A9C1DFB0D7100F8C436 /* ArtistPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistPageViewController.swift; sourceTree = "<group>"; };
 		69210AA01DFB1CF800F8C436 /* ArtistBarBehavior.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistBarBehavior.swift; sourceTree = "<group>"; };
 		69210AA21DFB228600F8C436 /* ResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
 		69281CA61DE3D041007F749F /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
@@ -100,7 +100,7 @@
 		694450E21DE000A6007DEF55 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		694450E41DE2430A007DEF55 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		694D60F01DF924180032B8A3 /* ArtistSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArtistSection.swift; path = ../ArtistSection.swift; sourceTree = "<group>"; };
-		694D60F21DF92FAC0032B8A3 /* SearchModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchModels.swift; sourceTree = "<group>"; };
+		694D60F21DF92FAC0032B8A3 /* SearchPageModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchPageModels.swift; sourceTree = "<group>"; };
 		694D60F41DF967A90032B8A3 /* ResultsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultsTableViewController.swift; sourceTree = "<group>"; };
 		695526EE1DCB909D0023C4C5 /* SearchEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchEntity.swift; path = SpotifySearch/SearchEntity.swift; sourceTree = "<group>"; };
 		6959AE5B1DEE1508003D2B35 /* LevenshteinDistance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevenshteinDistance.swift; sourceTree = "<group>"; };
@@ -161,7 +161,7 @@
 				69210AA21DFB228600F8C436 /* ResultTableViewCell.swift */,
 				6916E0711DF9CCE6002A7D66 /* ArtistTableViewCell.xib */,
 				691FDBE01DD2247F000122EF /* TrackTableViewCell.swift */,
-				691FDBE11DD2247F000122EF /* SpotifySearchCell.xib */,
+				691FDBE11DD2247F000122EF /* TrackTableViewCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -239,7 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				690B44E91DF0AB3000FB4118 /* ArtistStyleBar.swift */,
-				69210A9C1DFB0D7100F8C436 /* ArtistViewController.swift */,
+				69210A9C1DFB0D7100F8C436 /* ArtistPageViewController.swift */,
 				69210AA01DFB1CF800F8C436 /* ArtistBarBehavior.swift */,
 			);
 			name = ResultPages;
@@ -250,7 +250,7 @@
 			children = (
 				69B459EC1DB5559D0013D71A /* SearchViewController.swift */,
 				694D60F41DF967A90032B8A3 /* ResultsTableViewController.swift */,
-				694D60F21DF92FAC0032B8A3 /* SearchModels.swift */,
+				694D60F21DF92FAC0032B8A3 /* SearchPageModels.swift */,
 			);
 			name = Search;
 			path = ..;
@@ -411,7 +411,7 @@
 				F8D386741D70C274002A13FC /* LaunchScreen.storyboard in Resources */,
 				69281CA91DE3D041007F749F /* PlayerViewController.xib in Resources */,
 				F8D386711D70C274002A13FC /* Assets.xcassets in Resources */,
-				691FDBE31DD2247F000122EF /* SpotifySearchCell.xib in Resources */,
+				691FDBE31DD2247F000122EF /* TrackTableViewCell.xib in Resources */,
 				F8D3866F1D70C274002A13FC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -473,7 +473,7 @@
 			files = (
 				691FDBE21DD2247F000122EF /* TrackTableViewCell.swift in Sources */,
 				694D60F11DF924180032B8A3 /* ArtistSection.swift in Sources */,
-				69210A9E1DFB0D7100F8C436 /* ArtistViewController.swift in Sources */,
+				69210A9E1DFB0D7100F8C436 /* ArtistPageViewController.swift in Sources */,
 				698BFB8A1DF0BF2C00DD4217 /* BLKFlexibleHeightBarBehaviorDefiner.m in Sources */,
 				698BFB8E1DF0BF2C00DD4217 /* UIView+BLKFlexibleHeightBarSubview.m in Sources */,
 				69B459F31DB555EB0013D71A /* AppDelegate.swift in Sources */,
@@ -497,7 +497,7 @@
 				69B459EF1DB555B10013D71A /* SpotifyEndpoint.swift in Sources */,
 				694450E31DE000A6007DEF55 /* LoginViewController.swift in Sources */,
 				696D7B681DED1F560086BD4E /* TrackSection.swift in Sources */,
-				694D60F31DF92FAC0032B8A3 /* SearchModels.swift in Sources */,
+				694D60F31DF92FAC0032B8A3 /* SearchPageModels.swift in Sources */,
 				69210AA11DFB1CF800F8C436 /* ArtistBarBehavior.swift in Sources */,
 				694D60F51DF967A90032B8A3 /* ResultsTableViewController.swift in Sources */,
 			);

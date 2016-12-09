@@ -13,6 +13,8 @@ class ArtistTableViewCell: ResultTableViewCell {
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var artistImage: UIImageView!
     
+    var artist:FullArtist? = nil
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -44,21 +44,19 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        
+
         // Set up view
         searchController.hidesNavigationBarDuringPresentation = false
         self.navigationItem.titleView = searchController.searchBar
         self.definesPresentationContext = true
         // load result cell layout
-        resultsTableView.register(UINib(nibName: "SpotifySearchCell", bundle:nil), forCellReuseIdentifier: "searchCell")
+        resultsTableView.register(UINib(nibName: "TrackTableViewCell", bundle:nil), forCellReuseIdentifier: "searchCell")
         resultsTableView.register(UINib(nibName: "ArtistTableViewCell", bundle:nil), forCellReuseIdentifier: "artistCell")
         //resultsTableView.contentInset = UIEdgeInsets(top: -50, left: 0, bottom: 0, right: 0)
         
         setupHome()
         setupSearch()
-        setupBindings()
+        setupSearchBindings()
     }
     
     
@@ -98,6 +96,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
             .bindTo(self.tableView.rx.items(dataSource: datasource))
             .addDisposableTo(disposeBag)
     }
+    
     func setupSearch(){
         
         
@@ -144,7 +143,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         print(tableView.delegate.debugDescription)
     }
     
-    func setupBindings(){
+    func setupSearchBindings(){
         // hides keyboard
         resultsTableView.rx.contentOffset
             .asDriver()
@@ -160,11 +159,21 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
             switch event {
             case let .next(index):
                 
-                let cell = self.resultsTableView.cellForRow(at: index) as! TrackTableViewCell
-                self.mainTabBarController.presentPlayer()
-                self.mainTabBarController.queueViewController!.queue.value.append(cell.track!)
-                self.searchBar.resignFirstResponder()
-                self.addAndSaveHistory()
+                let cell = self.resultsTableView.cellForRow(at: index) as! ResultTableViewCell
+                switch cell.cellType! {
+                case .TrackCell:
+                    let trackCell = cell as! TrackTableViewCell
+                    self.mainTabBarController.presentPlayer()
+                    self.mainTabBarController.queueViewController!.queue.value.append(trackCell.track!)
+                    self.searchBar.resignFirstResponder()
+                    self.addAndSaveHistory()
+                case .ArtistCell:
+                    let artistCell = cell as! ArtistTableViewCell
+                    let artistPage = ArtistPageViewController()
+                    artistPage.artist = artistCell.artist
+                    self.navigationController?.pushViewController(artistPage, animated: true)
+                }
+                
             case let .error(error):
                 print(error.localizedDescription)
             case .completed:
@@ -219,6 +228,8 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 let cell = table.dequeueReusableCell(withIdentifier: "artistCell", for: idxPath) as!
                     ArtistTableViewCell
                 cell.name.text = artist.name
+                cell.artist = artist
+                
                 if artist.images.count > 0 {
                     Alamofire.request(artist.images[0].url).responseData { response in
                         if let data = response.data {

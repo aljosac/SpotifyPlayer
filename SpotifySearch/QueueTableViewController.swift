@@ -37,7 +37,7 @@ class QueueTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.register(UINib(nibName: "SpotifySearchCell", bundle: nil ), forCellReuseIdentifier: "queueCell")
+        self.tableView.register(UINib(nibName: "TrackSearchCell", bundle: nil ), forCellReuseIdentifier: "queueCell")
         
         
         // Remove automatically created dataSource

@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:scratch-pad.playground">
-   </FileRef>
-   <FileRef
       location = "group:SpotifySearch.xcodeproj">
    </FileRef>
    <FileRef

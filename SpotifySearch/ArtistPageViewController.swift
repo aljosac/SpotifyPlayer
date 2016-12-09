@@ -8,18 +8,31 @@
 
 import UIKit
 
-class ArtistViewController: UITableViewController {
+class ArtistPageViewController: UITableViewController {
 
     var artistBar:ArtistStyleBar? = nil
     var artist:FullArtist? = nil
+    var delegateSplitter:BLKDelegateSplitter? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let artistRect:CGRect = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 100)
+        // Do any additional setup after loading the view.
+        let artistRect:CGRect = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 200)
         self.artistBar = ArtistStyleBar(frame: artistRect, artist: artist!)
         
-        // Do any additional setup after loading the view.
+        let behavior:ArtistBarBehavior = ArtistBarBehavior()
+        behavior.addSnappingPositionProgress(0.0, forProgressRangeStart: 0.0, end: 0.5)
+        behavior.addSnappingPositionProgress(1.0, forProgressRangeStart: 0.5, end: 1.0)
+        behavior.isElasticMaximumHeightAtTop = true
+        self.artistBar?.behaviorDefiner = behavior
+        
+        self.view.addSubview(self.artistBar!)
+        
+        self.tableView.register(UINib(nibName: "TrackTableViewCell", bundle:nil),
+                                forCellReuseIdentifier: "trackCell")
+        
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
