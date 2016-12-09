@@ -159,7 +159,8 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         resultsTableView.rx.itemSelected.subscribe{ event in
             switch event {
             case let .next(index):
-                let cell = self.resultsTableView.cellForRow(at: index) as! SpotifySearchCell
+                
+                let cell = self.resultsTableView.cellForRow(at: index) as! TrackTableViewCell
                 self.mainTabBarController.presentPlayer()
                 self.mainTabBarController.queueViewController!.queue.value.append(cell.track!)
                 self.searchBar.resignFirstResponder()
@@ -228,7 +229,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 }
                 return cell
             case let .TrackItem(track):
-                let cell = table.dequeueReusableCell(withIdentifier: "searchCell", for: idxPath) as! SpotifySearchCell
+                let cell = table.dequeueReusableCell(withIdentifier: "searchCell", for: idxPath) as! TrackTableViewCell
                 cell.mainLabel.text = track.name
                 cell.sublabel.text = track.artists[0].name
                 cell.track = track

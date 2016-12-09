@@ -1,21 +1,17 @@
 //
-//  SpotifySearchCell.swift
+//  ResultTableViewCell.swift
 //  SpotifySearch
 //
-//  Created by Aljosa Cucak on 11/8/16.
+//  Created by Aljosa Cucak on 12/9/16.
 //  Copyright © 2016 cse-cucak003. All rights reserved.
 //
 
 import UIKit
 
-class SpotifySearchCell: UITableViewCell {
+class ResultTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var mainLabel: UILabel!
-    @IBOutlet weak var sublabel: UILabel!
+    var cellType:ResultCellType? = nil
     
-    var track:Track? = nil
-    var albumImage:UIImage? = nil
-    var type:QueueLocation? = nil
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -26,5 +22,10 @@ class SpotifySearchCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+
+}
+
+enum ResultCellType {
+    case TrackCell
+    case ArtistCell
 }

@@ -50,17 +50,6 @@ class ResultsTableViewController: UITableViewController {
             header.textLabel?.textAlignment = .center
         }
     }
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return 3
-        case 1:
-            return 3
-        default:
-            return 0
-        }
-    }
-    
     
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

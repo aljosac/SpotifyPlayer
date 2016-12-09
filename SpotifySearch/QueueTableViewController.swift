@@ -78,7 +78,7 @@ class QueueTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let cell = (tableView.cellForRow(at: indexPath) as! SpotifySearchCell)
+        let cell = (tableView.cellForRow(at: indexPath) as! TrackTableViewCell)
         if cell.type == .History {
             queue.value.append(cell.track!)
         } else {
@@ -88,7 +88,7 @@ class QueueTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        let cell = (tableView.cellForRow(at: indexPath) as! SpotifySearchCell)
+        let cell = (tableView.cellForRow(at: indexPath) as! TrackTableViewCell)
         // Disable selection of Queue Items
         if cell.type == .Queue {
             return nil
@@ -105,7 +105,7 @@ func skinTableViewDataSource(dataSource: RxTableViewSectionedAnimatedDataSource<
                                                                deleteAnimation: .left)
     
     dataSource.configureCell = { (dataSource, table, idxPath, item) in
-        let cell = table.dequeueReusableCell(withIdentifier: "queueCell", for: idxPath) as! SpotifySearchCell
+        let cell = table.dequeueReusableCell(withIdentifier: "queueCell", for: idxPath) as! TrackTableViewCell
         cell.mainLabel?.text = item.track.name
         cell.sublabel.text = item.track.artists[0].name
         cell.track = item.track
