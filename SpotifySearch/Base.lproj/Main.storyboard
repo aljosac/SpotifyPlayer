@@ -12,7 +12,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Queue-->
+        <!--Search-->
         <scene sceneID="bkZ-8a-lkD">
             <objects>
                 <tableViewController storyboardIdentifier="search" id="aw3-ye-Ftu" customClass="SearchViewController" customModule="SpotifySearch" customModuleProvider="target" sceneMemberID="viewController">
@@ -68,29 +68,11 @@
                             <outlet property="delegate" destination="aw3-ye-Ftu" id="4pl-VT-5uS"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Queue" id="eMr-64-pOm"/>
+                    <navigationItem key="navigationItem" title="Search" id="eMr-64-pOm"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RT9-eA-63h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3217.3913043478265" y="591.84782608695662"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="Q2c-K7-GmX">
-            <objects>
-                <viewController id="NMT-M8-zpM" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="LxN-23-2fF"/>
-                        <viewControllerLayoutGuide type="bottom" id="XSP-ic-6Pv"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="eC6-jt-T23">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="k1N-Id-Qcm" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3788" y="592"/>
         </scene>
         <!--Queue-->
         <scene sceneID="wWv-l4-IFx">

@@ -32,30 +32,25 @@ class QueueTableViewController: UITableViewController {
     
     var queue:Variable<[Track]> = Variable([])
     var history:Variable<[Track]> = Variable([])
-    var nextElement:Variable<Track>?
     var historyShowing:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         self.tableView.register(UINib(nibName: "SpotifySearchCell", bundle: nil ), forCellReuseIdentifier: "queueCell")
         
+        
+        // Remove automatically created dataSource
         self.tableView.dataSource = nil
-        self.tableView.delegate = self
+
+        // Setup inital dataSource
         let dataSource = RxTableViewSectionedAnimatedDataSource<TrackSection>()
-        
         let sections: [TrackSection] = [TrackSection(header: "Up Next", tracks: [], updated: Date())]
-        
         let dataSections:[Variable<[Track]>] = [queue,history]
         let state = SectionedQueueTableViewState(sections: sections,data:dataSections,current: dataSections[0],showHistory:true)
     
+        // Setup tableView Commands
         let addCommand = queue.asObservable().map(TableViewEditingCommand.addTrack)
-        //let historyCommand = history.asObservable().map(TableViewEditingCommand.addHistory)
         let deleteCommand = tableView.rx.itemDeleted.asObservable().map(TableViewEditingCommand.DeleteItem)
         let movedCommand = tableView.rx.itemMoved.map(TableViewEditingCommand.MoveItem)
         let toggleHistoryCommand = showHideHistory.rx.tap.asObservable().map {
@@ -80,17 +75,8 @@ class QueueTableViewController: UITableViewController {
         
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        //tableView.setEditing(true, animated: true)
-    }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(historyShowing)
         
         let cell = (tableView.cellForRow(at: indexPath) as! SpotifySearchCell)
         if cell.type == .History {
@@ -98,11 +84,12 @@ class QueueTableViewController: UITableViewController {
         } else {
             
         }
-        cell.setSelected(false, animated: false)
+        cell.setSelected(false, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         let cell = (tableView.cellForRow(at: indexPath) as! SpotifySearchCell)
+        // Disable selection of Queue Items
         if cell.type == .Queue {
             return nil
         }
@@ -111,6 +98,7 @@ class QueueTableViewController: UITableViewController {
     
 }
 
+// Setup the given dataSource
 func skinTableViewDataSource(dataSource: RxTableViewSectionedAnimatedDataSource<TrackSection>){
     dataSource.animationConfiguration = AnimationConfiguration(insertAnimation: .top,
                                                                reloadAnimation: .fade,
@@ -138,6 +126,8 @@ func skinTableViewDataSource(dataSource: RxTableViewSectionedAnimatedDataSource<
     
     
 }
+
+// MARK: SectionedQueueState
 
 enum TableViewEditingCommand {
     case AppendItem(list: [TrackItem], section: Int)

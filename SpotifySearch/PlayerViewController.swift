@@ -24,6 +24,7 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
     var isPlaying:Bool = false
     let audioSession = AVAudioSession.sharedInstance()
     
+    // MARK: - Outlets
     @IBOutlet weak var track: UILabel!
     @IBOutlet weak var artist: UILabel!
     @IBOutlet weak var album: UIImageView!
@@ -34,7 +35,7 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
     @IBOutlet weak var playButton: UIButton!
     
     
-    
+    // MARK: - Actions
     @IBAction func playPause(_ sender: UIButton) {
         let state = SPTAudioStreamingController.sharedInstance().playbackState.isPlaying
         SPTAudioStreamingController.sharedInstance().setIsPlaying(!state, callback: nil)
@@ -93,34 +94,6 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         self.setupSlider()
         self.newSession()
         
-        queue.asObservable().subscribe{ event in
-            switch event {
-            case .next(_):
-                if self.queue.value.count == 1 && !self.isPlaying {
-                    
-                    print(self.isPlaying)
-                    let track:Track = self.queue.value.removeFirst()
-                    self.history.value.append(track)
-                    print("Removed First")
-                    let controller = SPTAudioStreamingController.sharedInstance()
-                    self.updateUI()
-                    controller?.playSpotifyURI(track.uri, startingWith: 0, startingWithPosition: 0){ response in
-                        if let error = response {
-                            print("*** failed to play: " + error.localizedDescription)
-                            return
-                        }
-                        self.isPlaying = true
-                    }
-                }
-            case .error(_):
-                print("Got Error")
-            case .completed:
-                break
-            }
-            }.addDisposableTo(disposeBag)
-        
-        
-        
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -129,7 +102,8 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-            }
+        
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         print("View Appeared")
@@ -280,7 +254,10 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didChangePosition position: TimeInterval) {
         let value = self.songUI(position: position)
         self.trackSlider.setValue(value, animated: true)
-        
+        if value > 0.99 {
+            print("SkipNext")
+            audioStreaming.skipNext(nil)
+        }
     }
     
     func audioStreamingDidLogout(_ audioStreaming: SPTAudioStreamingController) {
@@ -313,6 +290,37 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
     
     func audioStreamingDidSkip(toPreviousTrack audioStreaming: SPTAudioStreamingController!) {
         print(audioStreaming.metadata.prevTrack?.name ?? "no track")
+    }
+    
+    func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
+        queue.asObservable().subscribe{ event in
+            switch event {
+            case .next(_):
+                if self.queue.value.count == 1 && !self.isPlaying {
+                    
+                    print(self.isPlaying)
+                    let track:Track = self.queue.value.removeFirst()
+                    self.history.value.append(track)
+                    print("Removed First")
+                    let controller = SPTAudioStreamingController.sharedInstance()
+                    self.updateUI()
+                    controller?.playSpotifyURI(track.uri, startingWith: 0, startingWithPosition: 0){ response in
+                        
+                        if let error = response {
+                            
+                            print("*** failed to play: " + error.localizedDescription)
+                            return
+                        }
+                        self.isPlaying = true
+                    }
+                }
+            case .error(_):
+                print("Got Error")
+            case .completed:
+                break
+            }
+            }.addDisposableTo(disposeBag)
+        
     }
     
 }

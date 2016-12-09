@@ -8,7 +8,7 @@
 
 import Foundation
 
-// Levenshtein distance of partial strings
+// Levenshtein distance of partial strings - 0 is a perfect match
 func levenshtein(stringOne:String,stringTwo:String) -> Int? {
     let size = min(stringOne.characters.count, stringTwo.characters.count)
     var d:[[Int]] = []

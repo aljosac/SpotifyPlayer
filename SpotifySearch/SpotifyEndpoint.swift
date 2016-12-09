@@ -20,7 +20,7 @@ private extension String {
 let SpotifyProvider = RxMoyaProvider<Spotify>()
 
 public enum Spotify {
-    case Track(name: String)
+    case Search(name: String)
     case Album(id: String)
     case Artist(id: String)
     case TopArtists
@@ -34,7 +34,7 @@ extension Spotify: TargetType {
     public var path: String {
         switch self {
             
-        case .Track(_):
+        case .Search(_):
             return "/v1/search"
         case .Artist(let id):
             return "/v1/artists/\(id)"
@@ -55,8 +55,8 @@ extension Spotify: TargetType {
     
     public var parameters:[String:Any]?{
         switch self {
-        case .Track(let name):
-            return ["query":name+"*","type":"track"]
+        case .Search(let name):
+            return ["query":name+"*","type":"track,artist"]
         case .ArtistAlbums(_):
             return ["album_type":"album,single"]
         default:
@@ -66,7 +66,7 @@ extension Spotify: TargetType {
     
     public var sampleData: Data {
         switch self {
-        case .Track(_):
+        case .Search(_):
             return "{\"login\": \"\", \"id\": 100}".data(using: String.Encoding.utf8)!
         case .Album(_):
             return "[{\"name\": \"Repo Name\"}]".data(using: String.Encoding.utf8)!

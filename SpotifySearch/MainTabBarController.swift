@@ -21,12 +21,15 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
         return (self.viewControllers?[1] as? UINavigationController)?.topViewController as? SearchViewController
     }
     
+    var state = AppState.sharedInstance
+    
     var playerController:PlayerViewController? = nil
     
     override func viewDidLoad() {
         print("View loading tab bar")
         super.viewDidLoad()
         self.delegate = self
+        print(state.playerShowing)
         // Do any additional setup after loading the view.
         
     }
@@ -36,8 +39,16 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
         let queue = queueViewController?.queue
         let history = queueViewController?.history
         playerController = PlayerViewController(songQueue: queue,songHistory:history)
-        self.presentPopupBar(withContentViewController: playerController!, animated: true, completion: nil)
-
+        //presentPlayer()
+        print(state.playerShowing)
+    }
+    
+    func presentPlayer() {
+        if !AppState.sharedInstance.playerShowing {
+            self.presentPopupBar(withContentViewController: playerController!, animated: true, completion: nil)
+            state.playerShowing = true
+        }
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -47,12 +58,13 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         
-        if let playerView = playerController?.view {
-            if !playerView.isHidden {
-                let h = CGFloat(viewController.view.frame.height - self.tabBar.frame.height)
-                viewController.view.frame = CGRect(x:CGFloat(0), y:CGFloat(0), width:self.view.bounds.width, height:h)
-            }
+        
+        if AppState.sharedInstance.playerShowing {
+            print("Changing size")
+            let h = CGFloat(viewController.view.frame.height - self.tabBar.frame.height)
+            viewController.view.frame = CGRect(x:CGFloat(0), y:CGFloat(0), width:self.view.bounds.width, height:h)
         }
+        
         
     }
     

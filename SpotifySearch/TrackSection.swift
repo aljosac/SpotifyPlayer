@@ -33,7 +33,6 @@ struct TrackItem {
 }
 
 
-
 extension TrackSection: AnimatableSectionModelType {
     typealias Item = TrackItem
     typealias Identity = String

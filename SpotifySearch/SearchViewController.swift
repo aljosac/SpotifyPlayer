@@ -17,7 +17,8 @@ import RxDataSources
 
 class SearchViewController: UITableViewController, UISearchBarDelegate{
     
-    var searchController: UISearchController = UISearchController(searchResultsController: UITableViewController())
+    var searchController: UISearchController = UISearchController(searchResultsController: ResultsTableViewController())
+    
     var mainTabBarController:MainTabBarController {
         return (self.navigationController!.tabBarController as! MainTabBarController)
     }
@@ -25,7 +26,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     var disposeBag = DisposeBag()
     let provider = RxMoyaProvider<Spotify>(endpointClosure: requestClosure)
     var queueAdded:Variable<[Track]> = Variable.init([])
-    var results:Observable<[Track]>? = nil
+    var results:Observable<[SearchResultSectionModel]>? = nil
     var history:Set<String> = []
     
     fileprivate var searchBar: UISearchBar {
@@ -45,72 +46,105 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        // Set up view
-        navigationItem.titleView = searchBar
-        searchController.hidesNavigationBarDuringPresentation = false
-        self.definesPresentationContext = true
         
+        // Set up view
+        searchController.hidesNavigationBarDuringPresentation = false
+        self.navigationItem.titleView = searchController.searchBar
+        self.definesPresentationContext = true
         // load result cell layout
         resultsTableView.register(UINib(nibName: "SpotifySearchCell", bundle:nil), forCellReuseIdentifier: "searchCell")
-       
-        // get search model and top artists
-        let searchModel = SpotifySearchModel(provider: provider)
+        resultsTableView.register(UINib(nibName: "ArtistTableViewCell", bundle:nil), forCellReuseIdentifier: "artistCell")
+        //resultsTableView.contentInset = UIEdgeInsets(top: -50, left: 0, bottom: 0, right: 0)
         
+        setupHome()
+        setupSearch()
+        setupBindings()
+    }
+    
+    
+    
+    
+    func setupHome(){
+        // get search model and top artists
+        let spotifyModel = SpotifyModel(provider: provider)
+        
+        // Get any existing history values
         history = Set(UserDefaults.standard.array(forKey: "History") as? [String] ?? [])
         let historyItems = Array(history).map {SectionItem.HistorySectionItem(title: $0)}
         
+        // Create the datadatasource for the home search screen
         let datasource = RxTableViewSectionedReloadDataSource<SearchHomeSectionModel>()
-        skinTableDataSource(datasource: datasource)
+        searchHomeDataSource(datasource: datasource)
         
+        // Inital section
         let sections = Variable([SearchHomeSectionModel.HistorySection(items: historyItems)])
         
-        
-        searchModel.topArtists().subscribe { event in
+        spotifyModel.topArtists().subscribe { event in
             switch event {
             case let .next(list):
                 let newls = list.map {SectionItem.TopArtistSectionItem(artist: $0)}
-                sections.value = [SearchHomeSectionModel.HistorySection(items: historyItems), SearchHomeSectionModel.TopArtistsSection(items: newls)]
+                if newls.count != 0 {
+                    sections.value = [SearchHomeSectionModel.HistorySection(items: historyItems),SearchHomeSectionModel.TopArtistsSection(items: newls)]
+                }
             case .error(_):
                 print("error top Artist")
             case .completed:
                 break
             }
-        }.addDisposableTo(disposeBag)
-        
-        tableView.dataSource = nil
-        //tableView.delegate = nil
-        sections.asObservable().bindTo(tableView.rx.items(dataSource: datasource)).addDisposableTo(disposeBag)
-        setupRx()
-        setupBindings()
-    }
-    
-    func setupRx(){
-        resultsTableView.dataSource = nil
-        let searchModel = SpotifySearchModel(provider: provider)
-        // Throttle typing and send http search request
-         results = searchBar.rx.text.orEmpty.throttle(0.5, scheduler: MainScheduler.instance)
-            .distinctUntilChanged()
-            .flatMapLatest { query in
-                return searchModel.search(query: query)
-            }
-        
-        // sorts results of search request by most popular
-        let sortedResults = results!.map { list in
-            return list.sorted(by: { $0.popularity > $1.popularity })
-        }
-        
-        // populate table view with items from sorted results
-        sortedResults.bindTo(resultsTableView.rx.items(cellIdentifier: "searchCell", cellType: SpotifySearchCell.self)){
-            (_,track,cell) in
-            cell.mainLabel.text = track.name
-            cell.sublabel.text = track.artists[0].name + " - " + "\(track.album.name)"
-            cell.track = track
             }.addDisposableTo(disposeBag)
         
+        tableView.dataSource = nil
+        sections.asObservable()
+            .bindTo(self.tableView.rx.items(dataSource: datasource))
+            .addDisposableTo(disposeBag)
+    }
+    func setupSearch(){
+        
+        
+        resultsTableView.dataSource = nil
+        let spotifyModel = SpotifyModel(provider: provider)
+                // Throttle typing and send http search request
+        results = searchBar.rx.text.orEmpty.throttle(0.5, scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .flatMapLatest { query in
+                return spotifyModel.search(query: query)
+            }.map { result in
+                // setup section array
+                var sections:[SearchResultSectionModel] = []
+                
+                // sorts and adds Tracks to search results if any exist
+                let sortedTracks = result.tracks.sorted(by: {$0.popularity > $1.popularity})
+                    .map {SearchItem.TrackItem(track: $0)}
+                if sortedTracks.count > 0 {
+                    let count = min(sortedTracks.count,10)
+                    let section = Array(sortedTracks.prefix(through: count-1))
+                    sections.append(.TrackSection(items: section))
+                }
+                
+                // sorts and adds Artists to search results if any exist
+                let sortedArtists = result.artists.sorted(by: {$0.popularity > $1.popularity})
+                    .map {SearchItem.ArtistItem(artist: $0)}
+                if sortedArtists.count > 0 {
+                    let count = min(sortedArtists.count,3)
+                    let section = Array(sortedArtists.prefix(through: count-1))
+                    sections.append(.ArtistSection(items: section))
+                }
+                return sections
+            }
+        
+        // datasource setup
+        let dataSource = RxTableViewSectionedReloadDataSource<SearchResultSectionModel>()
+        searchResultDataSource(datasource: dataSource)
+        
+        
+        // populate table view with items from sorted results
+        results!.bindTo(resultsTableView.rx.items(dataSource: dataSource))
+                .addDisposableTo(disposeBag)
+        print(resultsTableView.delegate.debugDescription)
+        print(tableView.delegate.debugDescription)
     }
     
     func setupBindings(){
-        
         // hides keyboard
         resultsTableView.rx.contentOffset
             .asDriver()
@@ -125,9 +159,8 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         resultsTableView.rx.itemSelected.subscribe{ event in
             switch event {
             case let .next(index):
-                // Get Cell information
-                //self.view.window?.rootViewController?.view.viewWithTag(1337)?.isHidden = true
                 let cell = self.resultsTableView.cellForRow(at: index) as! SpotifySearchCell
+                self.mainTabBarController.presentPlayer()
                 self.mainTabBarController.queueViewController!.queue.value.append(cell.track!)
                 self.searchBar.resignFirstResponder()
                 self.addAndSaveHistory()
@@ -150,9 +183,12 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 
             }
             }.addDisposableTo(disposeBag)
+       //resultsTableView.sectionHeaderHeight = 80
     }
     
-    func skinTableDataSource(datasource:RxTableViewSectionedReloadDataSource<SearchHomeSectionModel>){
+    
+    // searchHomeDataSource
+    func searchHomeDataSource(datasource:RxTableViewSectionedReloadDataSource<SearchHomeSectionModel>){
         
         datasource.configureCell = { (dataSource, table, idxPath, _) in
             switch datasource[idxPath] {
@@ -169,12 +205,45 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         
         datasource.titleForHeaderInSection = { datasource, idx in
             let section = datasource[idx]
-            
             return section.title
         }
         
         
     }
+    
+    func searchResultDataSource(datasource:RxTableViewSectionedReloadDataSource<SearchResultSectionModel>){
+        datasource.configureCell = { (dataSource, table, idxPath, _) in
+            switch datasource[idxPath] {
+            case let .ArtistItem(artist):
+                let cell = table.dequeueReusableCell(withIdentifier: "artistCell", for: idxPath) as!
+                    ArtistTableViewCell
+                cell.name.text = artist.name
+                if artist.images.count > 0 {
+                    Alamofire.request(artist.images[0].url).responseData { response in
+                        if let data = response.data {
+                            let image:UIImage = UIImage(data: data)!
+                            cell.artistImage.image = image
+                        }
+                    }
+                }
+                return cell
+            case let .TrackItem(track):
+                let cell = table.dequeueReusableCell(withIdentifier: "searchCell", for: idxPath) as! SpotifySearchCell
+                cell.mainLabel.text = track.name
+                cell.sublabel.text = track.artists[0].name
+                cell.track = track
+                return cell
+            }
+            
+        }
+        
+        datasource.titleForHeaderInSection = { datasource, idx in
+            return datasource[idx].title
+        }
+        
+    }
+    
+    //MARK: - Delegate Methods
     
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let header = view as? UITableViewHeaderFooterView {
@@ -199,7 +268,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         let txt = cell?.textLabel?.text
         self.searchController.isActive = true
         self.searchController.searchBar.text = txt!
-        self.setupRx()
+        self.setupSearch()
     }
     
     func addAndSaveHistory(){
@@ -210,12 +279,5 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
             UserDefaults.standard.setValue(array, forKey: "History")
         }
         self.tableView.reloadData()
-    }
-}
-
-
-extension SearchViewController: UISearchControllerDelegate, UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        print("abcd")
     }
 }

@@ -27,15 +27,7 @@ struct Track: Mappable {
     }
 }
 
-extension Track: Hashable {
-    var hashValue: Int {
-        return id.hash
-    }
-    
-    static func == (lhs: Track, rhs: Track) -> Bool {
-        return lhs.id == rhs.id
-    }
-}
+
 
 
 struct SimpleArtist: Mappable {
@@ -46,6 +38,7 @@ struct SimpleArtist: Mappable {
     init(map: Mapper) throws {
         try name = map.from("name")
         try id = map.from("id")
+        
     }
 }
 
@@ -53,10 +46,13 @@ struct FullArtist: Mappable {
     
     let name:String
     let images:[Image]
+    let popularity:Int
+    let id:String
     init(map: Mapper) throws {
         try name = map.from("name")
+        try id = map.from("id")
         try images = map.from("images")
-        
+        try popularity = map.from("popularity")
     }
 }
 
@@ -90,3 +86,34 @@ struct Image: Mappable {
     }
 }
 
+struct Result:Mappable {
+    let tracks:[Track]
+    let artists:[FullArtist]
+    
+    init(map: Mapper) throws {
+        try tracks = map.from("tracks.items")
+        try artists = map.from("artists.items")
+    }
+}
+
+extension Track: Hashable {
+    var hashValue: Int {
+        return id.hash
+    }
+    
+    static func == (lhs: Track, rhs: Track) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    
+}
+
+extension FullArtist: Hashable {
+    var hashValue: Int {
+        return id.hash
+    }
+    
+    static func == (lhs: FullArtist, rhs: FullArtist) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
