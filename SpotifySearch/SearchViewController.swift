@@ -50,8 +50,9 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         self.navigationItem.titleView = searchController.searchBar
         self.definesPresentationContext = true
         // load result cell layout
-        resultsTableView.register(UINib(nibName: "TrackTableViewCell", bundle:nil), forCellReuseIdentifier: "searchCell")
+        resultsTableView.register(UINib(nibName: "TrackTableViewCell", bundle:nil), forCellReuseIdentifier: "trackCell")
         resultsTableView.register(UINib(nibName: "ArtistTableViewCell", bundle:nil), forCellReuseIdentifier: "artistCell")
+        
         //resultsTableView.contentInset = UIEdgeInsets(top: -50, left: 0, bottom: 0, right: 0)
         
         setupHome()
@@ -172,6 +173,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                     let artistPage = ArtistPageViewController()
                     artistPage.artist = artistCell.artist
                     self.navigationController?.pushViewController(artistPage, animated: true)
+                case .AlbumCell: break
                 }
                 
             case let .error(error):
@@ -240,10 +242,16 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 }
                 return cell
             case let .TrackItem(track):
-                let cell = table.dequeueReusableCell(withIdentifier: "searchCell", for: idxPath) as! TrackTableViewCell
+                let cell = table.dequeueReusableCell(withIdentifier: "trackCell", for: idxPath) as! TrackTableViewCell
                 cell.mainLabel.text = track.name
                 cell.sublabel.text = track.artists[0].name
                 cell.track = track
+                return cell
+            case let .AlbumItem(album):
+                let cell = table.dequeueReusableCell(withIdentifier: "albumCell", for: idxPath) as! AlbumTableViewCell
+                cell.albumName.text = album.name
+                
+                
                 return cell
             }
             

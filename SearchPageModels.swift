@@ -65,6 +65,7 @@ enum SearchResultSectionModel {
 enum SearchItem {
     case TrackItem(track:Track)
     case ArtistItem(artist:FullArtist)
+    case AlbumItem(album:SimpleAlbum)
 }
 
 extension SearchResultSectionModel: SectionModelType {

@@ -52,3 +52,15 @@ class ArtistPageViewController: UITableViewController {
     */
 
 }
+
+
+// MARK: - ArtistTableViewSectionModel
+
+enum ArtistSectionModel {
+    case TopTrackSection(items:[SearchItem])
+    case Albums(items:[SearchItem])
+}
+
+
+
+
