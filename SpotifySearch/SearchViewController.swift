@@ -53,6 +53,8 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         resultsTableView.register(UINib(nibName: "TrackTableViewCell", bundle:nil), forCellReuseIdentifier: "trackCell")
         resultsTableView.register(UINib(nibName: "ArtistTableViewCell", bundle:nil), forCellReuseIdentifier: "artistCell")
         
+        tableView.register(UINib(nibName: "ResultTableViewCell", bundle:nil), forCellReuseIdentifier: "resultCell")
+        tableView.register(UINib(nibName: "ArtistTableViewCell", bundle:nil), forCellReuseIdentifier: "artistCell")
         //resultsTableView.contentInset = UIEdgeInsets(top: -50, left: 0, bottom: 0, right: 0)
         
         setupHome()
@@ -165,15 +167,15 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 case .TrackCell:
                     let trackCell = cell as! TrackTableViewCell
                     self.mainTabBarController.presentPlayer()
-                    self.mainTabBarController.queueViewController!.queue.value.append(trackCell.track!)
+                    self.mainTabBarController.queueViewController.queue.value.append(trackCell.track!)
                     self.searchBar.resignFirstResponder()
                     self.addAndSaveHistory()
                 case .ArtistCell:
                     let artistCell = cell as! ArtistTableViewCell
-                    let artistPage = ArtistPageViewController()
-                    artistPage.artist = artistCell.artist
-                    self.navigationController?.pushViewController(artistPage, animated: true)
-                case .AlbumCell: break
+                    let artistPage = ArtistPageViewController(artist: artistCell.artist!)
+                    self.present(artistPage, animated: true, completion: nil)
+                default:
+                    break
                 }
                 
             case let .error(error):
@@ -205,11 +207,13 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         datasource.configureCell = { (dataSource, table, idxPath, _) in
             switch datasource[idxPath] {
             case let .HistorySectionItem(title):
-                let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: nil)
+                let cell = table.dequeueReusableCell(withIdentifier: "resultCell", for: idxPath)
                 cell.textLabel?.text = title
                 return cell
             case let .TopArtistSectionItem(artist):
-                let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: nil)
+                let cell = table.dequeueReusableCell(withIdentifier: "artistCell", for: idxPath) as! ArtistTableViewCell
+                
+                cell.artist = 
                 cell.textLabel?.text = artist.name
                 return cell
             }
@@ -225,7 +229,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     
     func searchResultDataSource(datasource:RxTableViewSectionedReloadDataSource<SearchResultSectionModel>){
         datasource.configureCell = { (dataSource, table, idxPath, _) in
-            switch datasource[idxPath] {
+            switch dataSource[idxPath] {
             case let .ArtistItem(artist):
                 let cell = table.dequeueReusableCell(withIdentifier: "artistCell", for: idxPath) as!
                     ArtistTableViewCell
@@ -250,8 +254,6 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
             case let .AlbumItem(album):
                 let cell = table.dequeueReusableCell(withIdentifier: "albumCell", for: idxPath) as! AlbumTableViewCell
                 cell.albumName.text = album.name
-                
-                
                 return cell
             }
             
@@ -284,11 +286,19 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        let txt = cell?.textLabel?.text
-        self.searchController.isActive = true
-        self.searchController.searchBar.text = txt!
-        self.setupSearch()
+        let cell = tableView.cellForRow(at: indexPath) as! ResultTableViewCell
+        switch cell.cellType! {
+        case .ArtistCell:
+            let artistCell = cell as! ArtistTableViewCell
+            let artistPage = ArtistPageViewController(artist: artistCell.artist!)
+            self.present(artistPage, animated: true, completion: nil)
+        default:
+            let txt = cell.textLabel?.text
+            self.searchController.isActive = true
+            self.searchController.searchBar.text = txt!
+            self.setupSearch()
+        }
+        
     }
     
     func addAndSaveHistory(){

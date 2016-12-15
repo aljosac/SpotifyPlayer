@@ -1,21 +1,19 @@
 //
-//  ResultTableViewCell.swift
+//  AlbumCollectionTableViewCell.swift
 //  SpotifySearch
 //
-//  Created by Aljosa Cucak on 12/9/16.
+//  Created by Aljosa Cucak on 12/12/16.
 //  Copyright © 2016 cse-cucak003. All rights reserved.
 //
 
 import UIKit
 
-class ResultTableViewCell: UITableViewCell {
+class AlbumCollectionTableViewCell: UITableViewCell {
 
-    var cellType:ResultCellType? = nil
-    
+    @IBOutlet weak var albumCollection: UICollectionView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -23,12 +21,5 @@ class ResultTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
-}
-
-enum ResultCellType {
-    case TrackCell
-    case ArtistCell
-    case AlbumCell
-    case HistoryCell
+    
 }

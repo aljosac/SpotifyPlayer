@@ -13,12 +13,12 @@ import RxCocoa
 
 class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
 
-    var queueViewController:QueueTableViewController? {
-        return (self.viewControllers?[0] as? UINavigationController)?.topViewController as? QueueTableViewController
+    var queueViewController:QueueTableViewController {
+        return (self.viewControllers?[0] as? UINavigationController)?.topViewController as! QueueTableViewController
     }
     
-    var searchViewController:SearchViewController? {
-        return (self.viewControllers?[1] as? UINavigationController)?.topViewController as? SearchViewController
+    var searchViewController:SearchViewController {
+        return (self.viewControllers?[1] as? UINavigationController)?.topViewController as! SearchViewController
     }
     
     var state = AppState.sharedInstance
@@ -29,18 +29,13 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
         print("View loading tab bar")
         super.viewDidLoad()
         self.delegate = self
-        print(state.playerShowing)
-        // Do any additional setup after loading the view.
-        
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        
-        let queue = queueViewController?.queue
-        let history = queueViewController?.history
+        // create popup player
+        let queue = queueViewController.queue
+        let history = queueViewController.history
         playerController = PlayerViewController(songQueue: queue,songHistory:history)
-        //presentPlayer()
-        print(state.playerShowing)
     }
     
     func presentPlayer() {
@@ -48,7 +43,7 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
             self.presentPopupBar(withContentViewController: playerController!, animated: true, completion: nil)
             state.playerShowing = true
         }
-        
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -58,7 +53,7 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         
-        
+        // Change view size while player is showing
         if AppState.sharedInstance.playerShowing {
             print("Changing size")
             let h = CGFloat(viewController.view.frame.height - self.tabBar.frame.height)
