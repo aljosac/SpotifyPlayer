@@ -55,7 +55,6 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         
         tableView.register(UINib(nibName: "ResultTableViewCell", bundle:nil), forCellReuseIdentifier: "resultCell")
         tableView.register(UINib(nibName: "ArtistTableViewCell", bundle:nil), forCellReuseIdentifier: "artistCell")
-        //resultsTableView.contentInset = UIEdgeInsets(top: -50, left: 0, bottom: 0, right: 0)
         
         setupHome()
         setupSearch()
@@ -213,8 +212,8 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
             case let .TopArtistSectionItem(artist):
                 let cell = table.dequeueReusableCell(withIdentifier: "artistCell", for: idxPath) as! ArtistTableViewCell
                 
-                cell.artist = 
-                cell.textLabel?.text = artist.name
+                cell.artist = artist
+                cell.name.text = artist.name
                 return cell
             }
         }
@@ -290,8 +289,12 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         switch cell.cellType! {
         case .ArtistCell:
             let artistCell = cell as! ArtistTableViewCell
-            let artistPage = ArtistPageViewController(artist: artistCell.artist!)
-            self.present(artistPage, animated: true, completion: nil)
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let artistPage = storyboard.instantiateViewController(withIdentifier: "artistPage") as! ArtistPageViewController
+        
+            artistPage.artist = artistCell.artist!
+            self.navigationController?.pushViewController(artistPage, animated: true)
         default:
             let txt = cell.textLabel?.text
             self.searchController.isActive = true

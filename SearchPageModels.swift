@@ -18,7 +18,7 @@ enum SearchHomeSectionModel {
 
 enum SectionItem {
     case HistorySectionItem(title:String)
-    case TopArtistSectionItem(artist:SimpleArtist)
+    case TopArtistSectionItem(artist:FullArtist)
 }
 
 extension SearchHomeSectionModel: SectionModelType {

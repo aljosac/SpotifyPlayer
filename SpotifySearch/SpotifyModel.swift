@@ -19,11 +19,11 @@ struct SpotifyModel {
     }
     
     func topArtists() -> Observable<[FullArtist]> {
-        return self.provider.request(Spotify.TopArtists).debug().mapArray(type: SimpleArtist.self, keyPath: "items").map(self.upgradeArtistList)
+        return self.provider.request(Spotify.TopArtists).debug().mapArray(type: SimpleArtist.self, keyPath: "items").map { list in list.map{$0.id}.joined(separator: ",")}.flatMap(getArtists(id:))
     }
     
     func getArtist(id:String) -> Observable<FullArtist> {
-        return self.provider.request(Spotify.Artist(id: id)).debug().mapObject(type: FullArtist.self, keyPath: )
+        return self.provider.request(Spotify.Artist(id: id)).debug().mapObject(type: FullArtist.self)
     }
     
     func getTopArtistTracks(id:String) -> Observable<[Track]> {
@@ -35,21 +35,8 @@ struct SpotifyModel {
         return self.provider.request(Spotify.ArtistAlbums(id: id)).debug().mapArray(type: SimpleAlbum.self, keyPath:"items")
     }
     
-    func upgradeArtistList(artists:[SimpleArtist]) -> [FullArtist] {
-        let provider = MoyaProvider<Spotify>()
-        let ids:String = artists.map { $0.id }.joined(separator: ",")
-        provider.request(Spotify.Artists(id: ids)) { (result) in
-            if case .success(let response) = result {
-                do {
-                    let repos = try response.mapArray(withKeyPath: "artists") as [FullArtist]
-                    print(repos)
-                } catch Error.jsonMapping(let error) {
-                    print(try? error.mapString())
-                } catch {
-                    print(":(")
-                }
-            }
-        }
+    func getArtists(id:String) -> Observable<[FullArtist]> {
+        return self.provider.request(Spotify.Artists(id: id)).debug().mapArray(type: FullArtist.self, keyPath: "artists")
     }
 }
 

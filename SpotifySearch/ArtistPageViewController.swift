@@ -12,11 +12,20 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 import Alamofire
+import Mapper
 
-class ArtistPageViewController: UITableViewController {
+extension BLKDelegateSplitter: UITableViewDelegate {}
 
+class ArtistPageViewController: UIViewController, UITableViewDelegate {
+
+    @IBOutlet weak var tableView: UITableView!
+    
+    override var preferredStatusBarStyle:UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
+    }
+    
     var artistBar:ArtistStyleBar? = nil
-    var artist:FullArtist
+    var artist:FullArtist?
     var delegateSplitter:BLKDelegateSplitter? = nil
     let provider = RxMoyaProvider<Spotify>(endpointClosure: requestClosure)
     var disposeBag = DisposeBag()
@@ -29,26 +38,37 @@ class ArtistPageViewController: UITableViewController {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        self.artist = nil
+        super.init(coder: aDecoder)
     }
     
     
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.setNeedsStatusBarAppearanceUpdate()
+        
         // Do any additional setup after loading the view.
         let artistRect:CGRect = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 200)
-        self.artistBar = ArtistStyleBar(frame: artistRect, artist: artist)
+        self.artistBar = ArtistStyleBar(frame: artistRect, artist: artist!)
         
         let behavior:ArtistBarBehavior = ArtistBarBehavior()
         behavior.addSnappingPositionProgress(0.0, forProgressRangeStart: 0.0, end: 0.5)
         behavior.addSnappingPositionProgress(1.0, forProgressRangeStart: 0.5, end: 1.0)
+        behavior.isSnappingEnabled = true
         behavior.isElasticMaximumHeightAtTop = true
         self.artistBar?.behaviorDefiner = behavior
         
+        delegateSplitter = BLKDelegateSplitter(firstDelegate: behavior, secondDelegate: self)
+        self.tableView.delegate = self.delegateSplitter
+        
         self.view.addSubview(self.artistBar!)
         
-        self.tableView.register(UINib(nibName: "TrackTableViewCell", bundle:nil),
-                                forCellReuseIdentifier: "trackCell")
+        
+        
+        self.tableView.register(UINib(nibName: "TrackTableViewCell", bundle:nil),forCellReuseIdentifier: "trackCell")
         self.tableView.contentInset = UIEdgeInsetsMake(self.artistBar!.maximumBarHeight, 0.0, 0.0, 0.0)
         
         // Request info for UITableView
@@ -62,7 +82,7 @@ class ArtistPageViewController: UITableViewController {
     func getSections() {
         let spotifyModel = SpotifyModel(provider: provider)
         
-        spotifyModel.getTopArtistTracks(id: artist.id).subscribe { event in
+        spotifyModel.getTopArtistTracks(id: artist!.id).subscribe { event in
             switch event {
             case let .next(trackList):
                 let topArtists = trackList.map{SearchItem.TrackItem(track: $0)}
@@ -113,6 +133,10 @@ class ArtistPageViewController: UITableViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
+        super.viewWillAppear(animated)
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -129,7 +153,13 @@ class ArtistPageViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let header = view as? UITableViewHeaderFooterView else { return }
+        header.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        header.textLabel?.frame = header.frame
+        header.textLabel?.textAlignment = .center
+    }
+    
 }
 
 
