@@ -42,16 +42,13 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
         super.init(coder: aDecoder)
     }
     
-    
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.setNeedsStatusBarAppearanceUpdate()
         
         // Do any additional setup after loading the view.
-        let artistRect:CGRect = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 200)
+        let artistRect:CGRect = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 300)
         self.artistBar = ArtistStyleBar(frame: artistRect, artist: artist!)
         
         let behavior:ArtistBarBehavior = ArtistBarBehavior()
@@ -79,6 +76,12 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
         self.sections.asObservable().bindTo(self.tableView.rx.items(dataSource: datasource)).addDisposableTo(disposeBag)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        super.viewWillAppear(animated)
+    }
+    
     func getSections() {
         let spotifyModel = SpotifyModel(provider: provider)
         
@@ -133,10 +136,6 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = true
-        super.viewWillAppear(animated)
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -160,11 +159,16 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
         header.textLabel?.textAlignment = .center
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 24
+    }
+    
 }
+
+extension ArtistPageViewController: UIGestureRecognizerDelegate {}
 
 
 // MARK: - ArtistTableViewSectionModel
-
 enum ArtistSectionModel {
     case TopTrackSection(items:[SearchItem])
     case Albums(items:[SearchItem])

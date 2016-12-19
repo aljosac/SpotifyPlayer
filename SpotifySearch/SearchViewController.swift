@@ -42,6 +42,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     }
     
     
+    // MARK: - View Controller Setup Functions
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -62,7 +63,11 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     }
     
     
-    
+    override func viewDidAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        super.viewWillAppear(animated)
+    }
     
     func setupHome(){
         // get search model and top artists
@@ -171,8 +176,12 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                     self.addAndSaveHistory()
                 case .ArtistCell:
                     let artistCell = cell as! ArtistTableViewCell
-                    let artistPage = ArtistPageViewController(artist: artistCell.artist!)
-                    self.present(artistPage, animated: true, completion: nil)
+        
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let artistPage = storyboard.instantiateViewController(withIdentifier: "artistPage") as! ArtistPageViewController
+                    
+                    artistPage.artist = artistCell.artist!
+                    self.navigationController?.pushViewController(artistPage, animated: true)
                 default:
                     break
                 }
@@ -183,6 +192,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 break
             }
             }.addDisposableTo(disposeBag)
+        
         
         self.searchBar.rx.searchButtonClicked.subscribe { event in
             switch event {
@@ -200,17 +210,28 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     }
     
     
-    // searchHomeDataSource
+    // MARK: - Home Data Source
     func searchHomeDataSource(datasource:RxTableViewSectionedReloadDataSource<SearchHomeSectionModel>){
         
         datasource.configureCell = { (dataSource, table, idxPath, _) in
             switch datasource[idxPath] {
             case let .HistorySectionItem(title):
-                let cell = table.dequeueReusableCell(withIdentifier: "resultCell", for: idxPath)
+                let cell = table.dequeueReusableCell(withIdentifier: "resultCell", for: idxPath) as! ResultTableViewCell
                 cell.textLabel?.text = title
+                cell.cellType = .HistoryCell
                 return cell
             case let .TopArtistSectionItem(artist):
                 let cell = table.dequeueReusableCell(withIdentifier: "artistCell", for: idxPath) as! ArtistTableViewCell
+                
+                if artist.images.count > 0 {
+                    Alamofire.request(artist.images[0].url).responseData { response in
+                        if let data = response.data {
+                            let image:UIImage = UIImage(data: data)!
+                            cell.artistImage.image = image
+                            cell.artist?.images[0].image = image
+                        }
+                    }
+                }
                 
                 cell.artist = artist
                 cell.name.text = artist.name
@@ -226,6 +247,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         
     }
     
+    // MARK: - Result Data Source
     func searchResultDataSource(datasource:RxTableViewSectionedReloadDataSource<SearchResultSectionModel>){
         datasource.configureCell = { (dataSource, table, idxPath, _) in
             switch dataSource[idxPath] {
@@ -240,6 +262,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                         if let data = response.data {
                             let image:UIImage = UIImage(data: data)!
                             cell.artistImage.image = image
+                            cell.artist?.images[0].image = image
                         }
                     }
                 }
@@ -264,7 +287,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         
     }
     
-    //MARK: - Delegate Methods
+    //MARK: - Home Delegate Methods
     
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let header = view as? UITableViewHeaderFooterView {
@@ -292,16 +315,26 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
             
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let artistPage = storyboard.instantiateViewController(withIdentifier: "artistPage") as! ArtistPageViewController
-        
+            
             artistPage.artist = artistCell.artist!
             self.navigationController?.pushViewController(artistPage, animated: true)
         default:
             let txt = cell.textLabel?.text
             self.searchController.isActive = true
             self.searchController.searchBar.text = txt!
+            
             self.setupSearch()
         }
         
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.section {
+        case 1 :
+            return 60
+        default:
+            return 44
+        }
     }
     
     func addAndSaveHistory(){
@@ -314,3 +347,5 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         self.tableView.reloadData()
     }
 }
+
+extension SearchViewController: UIGestureRecognizerDelegate {}

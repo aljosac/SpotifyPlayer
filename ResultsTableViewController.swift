@@ -17,7 +17,8 @@ class ResultsTableViewController: UITableViewController {
         self.tableView.dataSource = nil
         self.automaticallyAdjustsScrollViewInsets = false
         self.tableView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0)
-        print(tableView.delegate.debugDescription)
+        self.tableView.estimatedRowHeight = 60
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -36,19 +37,26 @@ class ResultsTableViewController: UITableViewController {
                                           height: self.view.frame.height)
             self.resized = false
         }
-       
+        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
+    // MARK: - TableView Delegate
 
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let header = view as? UITableViewHeaderFooterView {
             header.textLabel?.textAlignment = .center
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if tableView.headerView(forSection: indexPath.section)?.textLabel?.text == "Artists" {
+            return 60
+        }
+        return 44
     }
     
     /*

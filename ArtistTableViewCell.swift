@@ -18,7 +18,7 @@ class ArtistTableViewCell: ResultTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        artistImage.layer.cornerRadius = 18
+        artistImage.layer.cornerRadius = 20
         artistImage.layer.masksToBounds = true
         self.cellType = .ArtistCell
     }

@@ -45,7 +45,7 @@ struct SimpleArtist: Mappable {
 struct FullArtist: Mappable {
     
     let name:String
-    let images:[Image]
+    var images:[Image]
     let popularity:Int
     let id:String
     init(map: Mapper) throws {
@@ -79,10 +79,12 @@ struct Image: Mappable {
     let height:Int
     let width:Int
     let url:String
+    var image:UIImage?
     init(map: Mapper) throws {
         try height = map.from("height")
         try width = map.from("width")
         try url = map.from("url")
+        image = nil
     }
 }
 

@@ -313,8 +313,8 @@
 		F8D386681D70C274002A13FC /* SpotifySearch */ = {
 			isa = PBXGroup;
 			children = (
-				69FB3EB31E048CCD00DA5A38 /* ViewControllers */,
 				69E177291DD0FCCC0059CF92 /* SpotifyAPI */,
+				69FB3EB31E048CCD00DA5A38 /* ViewControllers */,
 				6916E06F1DF9CBD7002A7D66 /* Cells */,
 				694D60EF1DF923E40032B8A3 /* Models */,
 				698BFB941DF5F2EE00DD4217 /* ArtistPage */,
