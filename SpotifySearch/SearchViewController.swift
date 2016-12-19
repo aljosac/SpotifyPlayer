@@ -19,9 +19,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     
     var searchController: UISearchController = UISearchController(searchResultsController: ResultsTableViewController())
     
-    var mainTabBarController:MainTabBarController {
-        return (self.navigationController!.tabBarController as! MainTabBarController)
-    }
+    
     
     var disposeBag = DisposeBag()
     let provider = RxMoyaProvider<Spotify>(endpointClosure: requestClosure)
@@ -170,8 +168,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 switch cell.cellType! {
                 case .TrackCell:
                     let trackCell = cell as! TrackTableViewCell
-                    self.mainTabBarController.presentPlayer()
-                    self.mainTabBarController.queueViewController.queue.value.append(trackCell.track!)
+                    NotificationCenter.default.post(name: Notification.Name("addTrack"), object: nil, userInfo: ["track":trackCell.track!])
                     self.searchBar.resignFirstResponder()
                     self.addAndSaveHistory()
                 case .ArtistCell:

@@ -32,9 +32,9 @@ class ResultsTableViewController: UITableViewController {
         if state.playerShowing && !resized{
             self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width,height: self.view.frame.height-40)
             resized = true
-        } else if !state.playerShowing {
+        } else if !state.playerShowing && resized {
             self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width,
-                                          height: self.view.frame.height)
+                                          height: self.view.frame.height+40)
             self.resized = false
         }
         

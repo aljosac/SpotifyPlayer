@@ -24,7 +24,10 @@ class QueueTableViewController: UITableViewController {
             sender.title = "Done"
         }
     }
-        
+    
+    var mainTabBarController:MainTabBarController {
+        return (self.navigationController!.tabBarController as! MainTabBarController)
+    }
     
     @IBOutlet weak var showHideHistory: UIBarButtonItem!
     
@@ -39,7 +42,10 @@ class QueueTableViewController: UITableViewController {
         
         self.tableView.register(UINib(nibName: "TrackTableViewCell", bundle: nil ), forCellReuseIdentifier: "queueCell")
         
-        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(QueueTableViewController.addTrackToQueue(notification:)),
+                                               name: Notification.Name("addTrack"),
+                                               object: nil)
         // Remove automatically created dataSource
         self.tableView.dataSource = nil
 
@@ -74,7 +80,20 @@ class QueueTableViewController: UITableViewController {
             .addDisposableTo(disposeBag)
         
     }
-
+    
+    // Notification Handler for when a track is tapped
+    func addTrackToQueue(notification:Notification) {
+        
+        guard let info = notification.userInfo,
+              let track = info["track"] as? Track
+        else {
+            print("No user info")
+            return
+        }
+        self.mainTabBarController.presentPlayer()
+        queue.value.append(track)
+        print(track.name + " added")
+    }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         

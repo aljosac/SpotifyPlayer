@@ -163,6 +163,18 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
         return 24
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! ResultTableViewCell
+        switch cell.cellType! {
+        case .TrackCell:
+            let trackCell = cell as! TrackTableViewCell
+            print("posting")
+            NotificationCenter.default.post(name: Notification.Name("addTrack"), object: nil, userInfo: ["track":trackCell.track!])
+        default:
+            return
+        }
+    }
+    
 }
 
 extension ArtistPageViewController: UIGestureRecognizerDelegate {}
