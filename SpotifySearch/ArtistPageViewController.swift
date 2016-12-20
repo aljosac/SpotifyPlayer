@@ -27,7 +27,8 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
     var artistBar:ArtistStyleBar? = nil
     var artist:FullArtist?
     var delegateSplitter:BLKDelegateSplitter? = nil
-    let provider = RxMoyaProvider<Spotify>(endpointClosure: requestClosure)
+    var albums:[SimpleAlbum]? = nil
+    let provider = RxMoyaProvider<Spotify>()
     var disposeBag = DisposeBag()
     let sections:Variable<[ArtistPageSectionModel]> = Variable([.TopTracksSection(items: []),.AlbumsSection(items: []),
                                                                 .SinglesSection(items: []),.RelatedSection(items:[])])
@@ -66,6 +67,10 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
         
         
         self.tableView.register(UINib(nibName: "TrackTableViewCell", bundle:nil),forCellReuseIdentifier: "trackCell")
+        self.tableView.register(UINib(nibName: "AlbumCollectionTableViewCell", bundle:nil),forCellReuseIdentifier: "albumsCell")
+        
+        
+        
         self.tableView.contentInset = UIEdgeInsetsMake(self.artistBar!.maximumBarHeight, 0.0, 0.0, 0.0)
         
         // Request info for UITableView
@@ -90,6 +95,18 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
             case let .next(trackList):
                 let topArtists = trackList.map{SearchItem.TrackItem(track: $0)}
                 self.sections.value[0] = ArtistPageSectionModel.TopTracksSection(items: topArtists)
+            case .error,.completed:
+                break
+            }
+        }.addDisposableTo(disposeBag)
+        
+        spotifyModel.getArtistAlbums(id: artist!.id).subscribe { event in
+            switch event {
+            case let .next(albumList):
+                
+                let prunedList = albumList.removeDuplicates()
+                let albums = SearchItem.AlbumItem(album: prunedList)
+                self.sections.value[1] = ArtistPageSectionModel.AlbumsSection(items: [albums])
             case .error,.completed:
                 break
             }
@@ -123,8 +140,14 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
                 cell.track = track
                 return cell
             case let .AlbumItem(album):
-                let cell = table.dequeueReusableCell(withIdentifier: "albumCell", for: idxPath) as! AlbumTableViewCell
-                cell.albumName.text = album.name
+                let cell = table.dequeueReusableCell(withIdentifier: "albumsCell", for: idxPath) as! AlbumCollectionTableViewCell
+                cell.albumCollection.delegate = self
+                cell.albumCollection.dataSource = self
+                cell.albumCollection.register(UINib( nibName: "AlbumCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "albumCell")
+                self.albums = album
+                
+                
+                
                 return cell
             }
             
@@ -163,6 +186,19 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
         return 24
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.section {
+        case 1:
+            if let albums = self.albums {
+                let smaller = CGFloat(min(albums.count,4))
+                let rows:CGFloat = ceil(smaller/2.0)
+                return (rows * 215.0)
+            }
+            return 210
+        default:
+            return 44
+        }
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! ResultTableViewCell
         switch cell.cellType! {
@@ -177,7 +213,46 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
     
 }
 
-extension ArtistPageViewController: UIGestureRecognizerDelegate {}
+
+// MARK: - CollectionViewDelegate
+
+
+extension ArtistPageViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return min(4,self.albums!.count)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "albumCell", for: indexPath) as!
+        AlbumCollectionViewCell
+        if let album = self.albums?[indexPath.row] {
+            if album.images.count > 0 {
+                Alamofire.request(album.images[0].url).responseData { response in
+                    if let data = response.data {
+                        let image:UIImage = UIImage(data: data)!
+                        cell.albumImage.image = image
+                    }
+                }
+            }
+            cell.albumTitle.text = album.name
+        }
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 150, height: 200)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsetsMake(5, 15, 5, 15)
+    }
+}
 
 
 // MARK: - ArtistTableViewSectionModel
@@ -185,6 +260,8 @@ enum ArtistSectionModel {
     case TopTrackSection(items:[SearchItem])
     case Albums(items:[SearchItem])
 }
+
+extension ArtistPageViewController: UIGestureRecognizerDelegate {}
 
 
 

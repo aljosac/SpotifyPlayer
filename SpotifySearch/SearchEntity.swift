@@ -27,9 +27,6 @@ struct Track: Mappable {
     }
 }
 
-
-
-
 struct SimpleArtist: Mappable {
     
     let name:String
@@ -48,6 +45,7 @@ struct FullArtist: Mappable {
     var images:[Image]
     let popularity:Int
     let id:String
+    
     init(map: Mapper) throws {
         try name = map.from("name")
         try id = map.from("id")
@@ -60,9 +58,11 @@ struct SimpleAlbum: Mappable {
     let name:String
     let type:String
     let id:String
+    let images:[Image]
     init(map: Mapper) throws {
         try name = map.from("name")
         try type = map.from("type")
+        try images = map.from("images")
         try id = map.from("id")
     }
 }
@@ -119,3 +119,15 @@ extension FullArtist: Hashable {
         return lhs.id == rhs.id
     }
 }
+
+extension SimpleAlbum:Hashable {
+    
+    var hashValue: Int {
+        return name.hash
+    }
+    
+    static func == (lhs: SimpleAlbum, rhs: SimpleAlbum) -> Bool {
+        return lhs.name == rhs.name
+    }
+}
+

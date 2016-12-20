@@ -81,13 +81,13 @@ class QueueTableViewController: UITableViewController {
         
     }
     
-    // Notification Handler for when a track is tapped
+    // Notification Handler for when a track is being added
     func addTrackToQueue(notification:Notification) {
         
         guard let info = notification.userInfo,
               let track = info["track"] as? Track
         else {
-            print("No user info")
+            print("No track info")
             return
         }
         self.mainTabBarController.presentPlayer()

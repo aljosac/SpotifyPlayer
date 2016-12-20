@@ -61,7 +61,7 @@ extension Spotify: TargetType {
         case .Search(let name):
             return ["query":name+"*","type":"track,artist"]
         case .ArtistAlbums(_):
-            return ["album_type":"album,single"]
+            return ["album_type":"album","market":"US"]
         case .TopArtistTracks(id: _):
             return ["country":"US"]
         case .Artists(let id):

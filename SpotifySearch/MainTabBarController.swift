@@ -22,7 +22,6 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
     }
     
     var state = AppState.sharedInstance
-    
     var playerController:PlayerViewController? = nil
     
     override func viewDidLoad() {
@@ -32,7 +31,7 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        // create popup player
+        // create and configure popup player
         let queue = queueViewController.queue
         let history = queueViewController.history
         playerController = PlayerViewController(songQueue: queue,songHistory:history)
@@ -43,7 +42,6 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
             self.presentPopupBar(withContentViewController: playerController!, animated: true, completion: nil)
             state.playerShowing = true
         }
-
     }
     
     override func didReceiveMemoryWarning() {

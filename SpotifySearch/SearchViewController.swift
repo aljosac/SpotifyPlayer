@@ -31,8 +31,8 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         return self.searchController.searchBar
     }
     
-    fileprivate var resultsViewController: UITableViewController {
-        return (self.searchController.searchResultsController as? UITableViewController)!
+    fileprivate var resultsViewController: ResultsTableViewController {
+        return (self.searchController.searchResultsController as? ResultsTableViewController)!
     }
     
     fileprivate var resultsTableView: UITableView {
@@ -57,7 +57,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         
         setupHome()
         setupSearch()
-        setupSearchBindings()
+        setupBindings()
     }
     
     
@@ -144,11 +144,9 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         // populate table view with items from sorted results
         results!.bindTo(resultsTableView.rx.items(dataSource: dataSource))
                 .addDisposableTo(disposeBag)
-        print(resultsTableView.delegate.debugDescription)
-        print(tableView.delegate.debugDescription)
     }
     
-    func setupSearchBindings(){
+    func setupBindings(){
         // hides keyboard
         resultsTableView.rx.contentOffset
             .asDriver()
@@ -169,6 +167,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 case .TrackCell:
                     let trackCell = cell as! TrackTableViewCell
                     NotificationCenter.default.post(name: Notification.Name("addTrack"), object: nil, userInfo: ["track":trackCell.track!])
+                    self.resultsViewController.resize()
                     self.searchBar.resignFirstResponder()
                     self.addAndSaveHistory()
                 case .ArtistCell:
@@ -272,7 +271,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 return cell
             case let .AlbumItem(album):
                 let cell = table.dequeueReusableCell(withIdentifier: "albumCell", for: idxPath) as! AlbumTableViewCell
-                cell.albumName.text = album.name
+                //cell.albumName.text = album.name
                 return cell
             }
             

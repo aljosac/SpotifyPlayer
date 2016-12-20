@@ -28,22 +28,28 @@ class ResultsTableViewController: UITableViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let state = AppState.sharedInstance
-        if state.playerShowing && !resized{
-            self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width,height: self.view.frame.height-40)
-            resized = true
-        } else if !state.playerShowing && resized {
-            self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width,
-                                          height: self.view.frame.height+40)
-            self.resized = false
-        }
-        
+        self.resize()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
+    func resize() {
+        let state = AppState.sharedInstance
+        if state.playerShowing && !resized{
+            print("resizing")
+            self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width,height: self.view.frame.height-40)
+            resized = true
+        } else if !state.playerShowing && resized {
+            self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width,
+                                          height: self.view.frame.height+40)
+            self.resized = false
+            
+        }
+    }
+    
+    
     // MARK: - TableView Delegate
 
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {

@@ -35,6 +35,8 @@
 		6973F05B1DDB96AE0057946E /* QueueTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6973F05A1DDB96AE0057946E /* QueueTableViewController.swift */; };
 		69898F2A1E072FF30041907D /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69898F281E072FF30041907D /* ResultTableViewCell.swift */; };
 		69898F2B1E072FF30041907D /* ResultTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69898F291E072FF30041907D /* ResultTableViewCell.xib */; };
+		69898F2E1E08953C0041907D /* AlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69898F2C1E08953C0041907D /* AlbumCollectionViewCell.swift */; };
+		69898F2F1E08953D0041907D /* AlbumCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69898F2D1E08953C0041907D /* AlbumCollectionViewCell.xib */; };
 		698BFB881DF0BF2B00DD4217 /* BLKDelegateSplitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 698BFB7B1DF0BF2B00DD4217 /* BLKDelegateSplitter.m */; };
 		698BFB891DF0BF2B00DD4217 /* BLKFlexibleHeightBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 698BFB7D1DF0BF2B00DD4217 /* BLKFlexibleHeightBar.m */; };
 		698BFB8A1DF0BF2C00DD4217 /* BLKFlexibleHeightBarBehaviorDefiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 698BFB7F1DF0BF2B00DD4217 /* BLKFlexibleHeightBarBehaviorDefiner.m */; };
@@ -116,6 +118,8 @@
 		6973F05A1DDB96AE0057946E /* QueueTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueueTableViewController.swift; sourceTree = "<group>"; };
 		69898F281E072FF30041907D /* ResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
 		69898F291E072FF30041907D /* ResultTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResultTableViewCell.xib; sourceTree = "<group>"; };
+		69898F2C1E08953C0041907D /* AlbumCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCell.swift; sourceTree = "<group>"; };
+		69898F2D1E08953C0041907D /* AlbumCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlbumCollectionViewCell.xib; sourceTree = "<group>"; };
 		698BFB7A1DF0BF2B00DD4217 /* BLKDelegateSplitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLKDelegateSplitter.h; sourceTree = "<group>"; };
 		698BFB7B1DF0BF2B00DD4217 /* BLKDelegateSplitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLKDelegateSplitter.m; sourceTree = "<group>"; };
 		698BFB7C1DF0BF2B00DD4217 /* BLKFlexibleHeightBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLKFlexibleHeightBar.h; sourceTree = "<group>"; };
@@ -167,6 +171,8 @@
 		6916E06F1DF9CBD7002A7D66 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				69898F2C1E08953C0041907D /* AlbumCollectionViewCell.swift */,
+				69898F2D1E08953C0041907D /* AlbumCollectionViewCell.xib */,
 				69898F281E072FF30041907D /* ResultTableViewCell.swift */,
 				6916E0701DF9CCE6002A7D66 /* ArtistTableViewCell.swift */,
 				691FDBE01DD2247F000122EF /* TrackTableViewCell.swift */,
@@ -407,6 +413,7 @@
 			files = (
 				6916E0731DF9CCE6002A7D66 /* ArtistTableViewCell.xib in Resources */,
 				F8D386741D70C274002A13FC /* LaunchScreen.storyboard in Resources */,
+				69898F2F1E08953D0041907D /* AlbumCollectionViewCell.xib in Resources */,
 				693131091DFF505D001666DD /* AlbumCollectionTableViewCell.xib in Resources */,
 				69281CA91DE3D041007F749F /* PlayerViewController.xib in Resources */,
 				F8D386711D70C274002A13FC /* Assets.xcassets in Resources */,
@@ -488,6 +495,7 @@
 				69281CA81DE3D041007F749F /* PlayerViewController.swift in Sources */,
 				698BFB8D1DF0BF2C00DD4217 /* SquareCashStyleBehaviorDefiner.m in Sources */,
 				69898F2A1E072FF30041907D /* ResultTableViewCell.swift in Sources */,
+				69898F2E1E08953C0041907D /* AlbumCollectionViewCell.swift in Sources */,
 				6959AE5C1DEE1508003D2B35 /* LevenshteinDistance.swift in Sources */,
 				698BFB8C1DF0BF2C00DD4217 /* FacebookStyleBarBehaviorDefiner.m in Sources */,
 				69DCFA251DD67AE1007CF8A9 /* MainTabBarController.swift in Sources */,
