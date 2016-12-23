@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ArtistBarBehavior: BLKFlexibleHeightBarBehaviorDefiner {
+class BarBehavior: BLKFlexibleHeightBarBehaviorDefiner {
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         super.scrollViewDidScroll(scrollView)
         

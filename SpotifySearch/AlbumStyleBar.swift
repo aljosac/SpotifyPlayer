@@ -9,12 +9,13 @@
 import Foundation
 
 
-class ArtistStyleBar: BLKFlexibleHeightBar {
+class AlbumStyleBar: BLKFlexibleHeightBar {
     
-    var artist:FullArtist
-    
-    init(frame: CGRect,artist:FullArtist) {
-        self.artist = artist
+    var album:FullAlbum
+    var image:UIImage?
+    init(frame: CGRect,album:FullAlbum,image:UIImage?) {
+        self.album = album
+        self.image = image
         super.init(frame: frame)
         self.configureBar()
     }
@@ -28,18 +29,16 @@ class ArtistStyleBar: BLKFlexibleHeightBar {
         self.minimumBarHeight = 65.0
         self.backgroundColor = UIColor.darkGray
         
-        let artistImage = artist.images.first?.image
         
-        if let image = artistImage {
+        if let image = self.image {
             
-            
+            // BACKGROUND
             let backgroundImageView = UIImageView(image: image)
             backgroundImageView.contentMode = .scaleAspectFill
             backgroundImageView.clipsToBounds = true
             
             let blurEffect = UIBlurEffect(style: .dark)
             let blurView = UIVisualEffectView(effect: blurEffect)
-            
             
             let startBackgroundAttribute:BLKFlexibleHeightBarSubviewLayoutAttributes =
                 BLKFlexibleHeightBarSubviewLayoutAttributes()
@@ -59,10 +58,11 @@ class ArtistStyleBar: BLKFlexibleHeightBar {
             self.addSubview(backgroundImageView)
             self.addSubview(blurView)
             
+            // ALBUM COVER
             let imageView = UIImageView(image: image)
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
-            imageView.layer.cornerRadius = 50
+            let bounds = imageView.bounds
             
             let startImageAttribute:BLKFlexibleHeightBarSubviewLayoutAttributes =
                 BLKFlexibleHeightBarSubviewLayoutAttributes()
@@ -72,47 +72,64 @@ class ArtistStyleBar: BLKFlexibleHeightBar {
             
             let midImageAttribute:BLKFlexibleHeightBarSubviewLayoutAttributes =
                 BLKFlexibleHeightBarSubviewLayoutAttributes(existing: startImageAttribute)
-            midImageAttribute.center = CGPoint(x: self.frame.width*0.5, y: (self.maximumBarHeight-self.minimumBarHeight)*0.8+self.minimumBarHeight-110.0)
-            imageView.add(midImageAttribute, forProgress: 0.2)
+            midImageAttribute.size = CGSize(width: 100.0, height: 100.0)
+            midImageAttribute.center = CGPoint(x: self.frame.width*0.5, y: self.maximumBarHeight-150)
+            imageView.add(midImageAttribute, forProgress: 0.3)
             
             let endImageAttribute:BLKFlexibleHeightBarSubviewLayoutAttributes =
                 BLKFlexibleHeightBarSubviewLayoutAttributes(existing: midImageAttribute)
-            endImageAttribute.center = CGPoint(x: self.frame.width*0.5, y: (self.maximumBarHeight-self.minimumBarHeight)*0.64+self.minimumBarHeight-110.0)
-            endImageAttribute.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-            endImageAttribute.alpha = 0.0
-            imageView.add(endImageAttribute, forProgress: 0.5)
+            endImageAttribute.size = CGSize(width: 100.0, height: 100.0)
+            endImageAttribute.center = CGPoint(x: self.frame.width*0.5, y: self.maximumBarHeight-150)
+            endImageAttribute.bounds = CGRect(x: bounds.origin.x ,
+                                              y: bounds.origin.y,
+                                              width: 100, height: 0)
+            imageView.add(endImageAttribute, forProgress: 0.6)
             
-           
             self.addSubview(imageView)
         }
         
         
         
-        // Set name label
+        // TITLE LABEL
         let name:UILabel = UILabel.init()
-        name.text = artist.name
+        name.text = album.name
         name.textColor = UIColor.white
         name.font = UIFont.boldSystemFont(ofSize: 27.0)
     
-        
-        // Create Start Attribute
         let startNameAttribute:BLKFlexibleHeightBarSubviewLayoutAttributes = BLKFlexibleHeightBarSubviewLayoutAttributes()
         startNameAttribute.size = name.sizeThatFits(CGSize.zero)
         startNameAttribute.center = CGPoint(x: Double(self.frame.size.width) * 0.5, y: Double(self.maximumBarHeight) - 50)
         name.add(startNameAttribute, forProgress: 0.0)
         
-        // Create Mid Attribute
-        let midNameAttribute = BLKFlexibleHeightBarSubviewLayoutAttributes.init(existing: startNameAttribute)!
-        midNameAttribute.center = CGPoint(x: (self.frame.size.width) * 0.5, y: (self.maximumBarHeight-self.minimumBarHeight)*0.4+self.minimumBarHeight-50.0)
-        name.add(midNameAttribute, forProgress: 0.6)
-        
-        // Create End Attribute
-        let endNameAttribute = BLKFlexibleHeightBarSubviewLayoutAttributes(existing: midNameAttribute)!
-        endNameAttribute.center = CGPoint(x: self.frame.size.width*0.5, y: self.minimumBarHeight-25.0)
-        name.add(endNameAttribute, forProgress: 1.0)
+        let endNameAttribute = BLKFlexibleHeightBarSubviewLayoutAttributes(existing: startNameAttribute)!
+        endNameAttribute.alpha = 0.0
+        name.add(endNameAttribute, forProgress: 0.2)
         
         self.addSubview(name)
-    
+
+        
+        // HEADER LABEL
+        let headerName:UILabel = UILabel.init()
+        headerName.text = album.name
+        headerName.textColor = UIColor.white
+        headerName.font = UIFont.boldSystemFont(ofSize: 15.0)
+        headerName.textAlignment = .center
+        
+        let startHeaderAttribute:BLKFlexibleHeightBarSubviewLayoutAttributes = BLKFlexibleHeightBarSubviewLayoutAttributes()
+        startHeaderAttribute.size = name.sizeThatFits(CGSize.zero)
+        startHeaderAttribute.center = CGPoint(x: Double(self.frame.size.width) * 0.5, y: Double(self.minimumBarHeight - 25))
+        startHeaderAttribute.alpha = 0.0
+        headerName.add(startHeaderAttribute, forProgress: 0.0)
+        
+        let midHeaderAttribute = BLKFlexibleHeightBarSubviewLayoutAttributes.init(existing: startHeaderAttribute)!
+        midHeaderAttribute.alpha = 0.0
+        headerName.add(midHeaderAttribute, forProgress: 0.2)
+        
+        let endHeaderAttribute = BLKFlexibleHeightBarSubviewLayoutAttributes(existing: midHeaderAttribute)!
+        endHeaderAttribute.alpha = 1.0
+        
+        headerName.add(endHeaderAttribute, forProgress: 0.8)
+        self.addSubview(headerName)
         
     }
     

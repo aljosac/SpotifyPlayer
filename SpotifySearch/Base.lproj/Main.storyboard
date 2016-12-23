@@ -74,6 +74,34 @@
             </objects>
             <point key="canvasLocation" x="3217.3913043478265" y="591.84782608695662"/>
         </scene>
+        <!--Album Page View Controller-->
+        <scene sceneID="mD0-jN-BRX">
+            <objects>
+                <viewController storyboardIdentifier="albumPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zlX-Xh-7xs" customClass="AlbumPageViewController" customModule="SpotifySearch" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fS2-cM-oM6"/>
+                        <viewControllerLayoutGuide type="bottom" id="8kC-qt-KfM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2hF-wk-pD4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4XK-8s-yYD">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="4XK-8s-yYD" id="WZY-78-SY2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8xh-5j-QIb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3909.5999999999999" y="958.4707646176912"/>
+        </scene>
         <!--Artist Page View Controller-->
         <scene sceneID="uYl-zR-578">
             <objects>
@@ -100,7 +128,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UWI-7d-5N8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3944.8000000000002" y="589.65517241379314"/>
+            <point key="canvasLocation" x="3910" y="296"/>
         </scene>
         <!--Queue-->
         <scene sceneID="wWv-l4-IFx">

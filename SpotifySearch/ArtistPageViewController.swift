@@ -14,8 +14,6 @@ import RxDataSources
 import Alamofire
 import Mapper
 
-extension BLKDelegateSplitter: UITableViewDelegate {}
-
 class ArtistPageViewController: UIViewController, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
@@ -52,7 +50,7 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
         let artistRect:CGRect = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 300)
         self.artistBar = ArtistStyleBar(frame: artistRect, artist: artist!)
         
-        let behavior:ArtistBarBehavior = ArtistBarBehavior()
+        let behavior:BarBehavior = BarBehavior()
         behavior.addSnappingPositionProgress(0.0, forProgressRangeStart: 0.0, end: 0.5)
         behavior.addSnappingPositionProgress(1.0, forProgressRangeStart: 0.5, end: 1.0)
         behavior.isSnappingEnabled = true
@@ -145,8 +143,7 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
                 cell.albumCollection.dataSource = self
                 cell.albumCollection.register(UINib( nibName: "AlbumCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "albumCell")
                 self.albums = album
-                
-                
+        
                 
                 return cell
             }
@@ -240,8 +237,8 @@ extension ArtistPageViewController:UICollectionViewDelegate,UICollectionViewData
                 }
             }
             cell.albumTitle.text = album.name
+            cell.albumID = album.id
         }
-        
         return cell
     }
     
@@ -251,6 +248,18 @@ extension ArtistPageViewController:UICollectionViewDelegate,UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsetsMake(5, 15, 5, 15)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as!
+        AlbumCollectionViewCell
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let albumPage = storyboard.instantiateViewController(withIdentifier: "albumPage") as! AlbumPageViewController
+        
+        albumPage.albumImage = cell.albumImage.image
+        albumPage.id = cell.albumID
+        self.navigationController?.pushViewController(albumPage, animated: true)
     }
 }
 
@@ -262,7 +271,3 @@ enum ArtistSectionModel {
 }
 
 extension ArtistPageViewController: UIGestureRecognizerDelegate {}
-
-
-
-

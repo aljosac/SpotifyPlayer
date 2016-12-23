@@ -27,6 +27,19 @@ struct Track: Mappable {
     }
 }
 
+
+struct SimpleTrack: Mappable {
+    
+    let name: String
+    let id:String
+    let artists:[SimpleArtist]
+    init(map: Mapper) throws {
+        try name = map.from("name")
+        try id = map.from("id")
+        try artists = map.from("artists")
+    }
+}
+
 struct SimpleArtist: Mappable {
     
     let name:String
@@ -69,9 +82,12 @@ struct SimpleAlbum: Mappable {
 
 struct FullAlbum: Mappable {
     let name:String
-    
+    let images:[Image]
+    let tracks:[SimpleTrack]
     init(map: Mapper) throws {
         try name = map.from("name")
+        try images = map.from("images")
+        try tracks = map.from("tracks.items")
     }
 }
 

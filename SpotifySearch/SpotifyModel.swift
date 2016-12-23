@@ -13,17 +13,31 @@ import RxSwift
 struct SpotifyModel {
     let provider: RxMoyaProvider<Spotify>
     
+    // Queries Spotify
     func search(query:String) -> Observable<Result> {
         //return self.provider.request(Spotify.Search(name: query)).debug().mapArray(type: Track.self, keyPath: "tracks.items")
         return self.provider.request(Spotify.Search(name: query)).debug().mapObject(type: Result.self)
     }
     
+    func getTrack(id:String) -> Observable<Track> {
+        return self.provider.request(Spotify.Track(id: id)).debug().mapObject(type: Track.self)
+    }
+    
+    func getTracks(id:String) -> Observable<[Track]> {
+        return self.provider.request(Spotify.Tracks(id: id)).debug().mapArray(type: Track.self, keyPath: "tracks")
+    }
+    // Gets users top artists
     func topArtists() -> Observable<[FullArtist]> {
         return self.provider.request(Spotify.TopArtists).debug().mapArray(type: SimpleArtist.self, keyPath: "items").map { list in list.map{$0.id}.joined(separator: ",")}.flatMap(getArtists(id:))
     }
-    
+    // get a singular artist
     func getArtist(id:String) -> Observable<FullArtist> {
         return self.provider.request(Spotify.Artist(id: id)).debug().mapObject(type: FullArtist.self)
+    }
+    
+    // gets multiple artists
+    func getArtists(id:String) -> Observable<[FullArtist]> {
+        return self.provider.request(Spotify.Artists(id: id)).debug().mapArray(type: FullArtist.self, keyPath: "artists")
     }
     
     func getTopArtistTracks(id:String) -> Observable<[Track]> {
@@ -35,8 +49,8 @@ struct SpotifyModel {
         return self.provider.request(Spotify.ArtistAlbums(id: id)).debug().mapArray(type: SimpleAlbum.self, keyPath:"items")
     }
     
-    func getArtists(id:String) -> Observable<[FullArtist]> {
-        return self.provider.request(Spotify.Artists(id: id)).debug().mapArray(type: FullArtist.self, keyPath: "artists")
+    func getAlbum(id:String) -> Observable<FullAlbum> {
+        return self.provider.request(Spotify.Album(id: id)).debug().mapObject(type: FullAlbum.self)
     }
 }
 

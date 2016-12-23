@@ -14,6 +14,7 @@ class TrackTableViewCell: ResultTableViewCell {
     @IBOutlet weak var sublabel: UILabel!
     
     var track:Track? = nil
+    var id:String? = nil
     var albumImage:UIImage? = nil
     var type:QueueLocation? = nil
     

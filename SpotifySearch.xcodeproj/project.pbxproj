@@ -37,6 +37,8 @@
 		69898F2B1E072FF30041907D /* ResultTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69898F291E072FF30041907D /* ResultTableViewCell.xib */; };
 		69898F2E1E08953C0041907D /* AlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69898F2C1E08953C0041907D /* AlbumCollectionViewCell.swift */; };
 		69898F2F1E08953D0041907D /* AlbumCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69898F2D1E08953C0041907D /* AlbumCollectionViewCell.xib */; };
+		69898F311E09D8410041907D /* AlbumPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69898F301E09D8410041907D /* AlbumPageViewController.swift */; };
+		69898F331E0A27240041907D /* AlbumStyleBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69898F321E0A27240041907D /* AlbumStyleBar.swift */; };
 		698BFB881DF0BF2B00DD4217 /* BLKDelegateSplitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 698BFB7B1DF0BF2B00DD4217 /* BLKDelegateSplitter.m */; };
 		698BFB891DF0BF2B00DD4217 /* BLKFlexibleHeightBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 698BFB7D1DF0BF2B00DD4217 /* BLKFlexibleHeightBar.m */; };
 		698BFB8A1DF0BF2C00DD4217 /* BLKFlexibleHeightBarBehaviorDefiner.m in Sources */ = {isa = PBXBuildFile; fileRef = 698BFB7F1DF0BF2B00DD4217 /* BLKFlexibleHeightBarBehaviorDefiner.m */; };
@@ -46,6 +48,7 @@
 		698BFB8E1DF0BF2C00DD4217 /* UIView+BLKFlexibleHeightBarSubview.m in Sources */ = {isa = PBXBuildFile; fileRef = 698BFB871DF0BF2B00DD4217 /* UIView+BLKFlexibleHeightBarSubview.m */; };
 		698BFB8F1DF226AA00DD4217 /* LNPopupController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692E87761DE6257200C462F5 /* LNPopupController.framework */; };
 		698BFB901DF226AA00DD4217 /* LNPopupController.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 692E87761DE6257200C462F5 /* LNPopupController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		69AAE8C91E0C704700D1804C /* AlbumPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AAE8C81E0C704700D1804C /* AlbumPageModel.swift */; };
 		69AD12EA1DDF7A0800FDA308 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AD12E91DDF7A0800FDA308 /* Constants.swift */; };
 		69B459ED1DB5559D0013D71A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B459EC1DB5559D0013D71A /* SearchViewController.swift */; };
 		69B459EF1DB555B10013D71A /* SpotifyEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B459EE1DB555B10013D71A /* SpotifyEndpoint.swift */; };
@@ -120,6 +123,8 @@
 		69898F291E072FF30041907D /* ResultTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResultTableViewCell.xib; sourceTree = "<group>"; };
 		69898F2C1E08953C0041907D /* AlbumCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 		69898F2D1E08953C0041907D /* AlbumCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlbumCollectionViewCell.xib; sourceTree = "<group>"; };
+		69898F301E09D8410041907D /* AlbumPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumPageViewController.swift; sourceTree = "<group>"; };
+		69898F321E0A27240041907D /* AlbumStyleBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumStyleBar.swift; sourceTree = "<group>"; };
 		698BFB7A1DF0BF2B00DD4217 /* BLKDelegateSplitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLKDelegateSplitter.h; sourceTree = "<group>"; };
 		698BFB7B1DF0BF2B00DD4217 /* BLKDelegateSplitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLKDelegateSplitter.m; sourceTree = "<group>"; };
 		698BFB7C1DF0BF2B00DD4217 /* BLKFlexibleHeightBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLKFlexibleHeightBar.h; sourceTree = "<group>"; };
@@ -134,6 +139,7 @@
 		698BFB851DF0BF2B00DD4217 /* SquareCashStyleBehaviorDefiner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SquareCashStyleBehaviorDefiner.m; sourceTree = "<group>"; };
 		698BFB861DF0BF2B00DD4217 /* UIView+BLKFlexibleHeightBarSubview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+BLKFlexibleHeightBarSubview.h"; sourceTree = "<group>"; };
 		698BFB871DF0BF2B00DD4217 /* UIView+BLKFlexibleHeightBarSubview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+BLKFlexibleHeightBarSubview.m"; sourceTree = "<group>"; };
+		69AAE8C81E0C704700D1804C /* AlbumPageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumPageModel.swift; sourceTree = "<group>"; };
 		69AD12E91DDF7A0800FDA308 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		69B459EC1DB5559D0013D71A /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		69B459EE1DB555B10013D71A /* SpotifyEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpotifyEndpoint.swift; path = /Users/aljosacucak/Desktop/SpotifySearch/SpotifySearch/SpotifyEndpoint.swift; sourceTree = "<absolute>"; };
@@ -172,12 +178,12 @@
 			isa = PBXGroup;
 			children = (
 				69898F2C1E08953C0041907D /* AlbumCollectionViewCell.swift */,
-				69898F2D1E08953C0041907D /* AlbumCollectionViewCell.xib */,
 				69898F281E072FF30041907D /* ResultTableViewCell.swift */,
 				6916E0701DF9CCE6002A7D66 /* ArtistTableViewCell.swift */,
 				691FDBE01DD2247F000122EF /* TrackTableViewCell.swift */,
 				692D19971DFB5E27008408D4 /* AlbumTableViewCell.swift */,
 				693131061DFF505D001666DD /* AlbumCollectionTableViewCell.swift */,
+				69898F2D1E08953C0041907D /* AlbumCollectionViewCell.xib */,
 				69898F291E072FF30041907D /* ResultTableViewCell.xib */,
 				6916E0711DF9CCE6002A7D66 /* ArtistTableViewCell.xib */,
 				691FDBE11DD2247F000122EF /* TrackTableViewCell.xib */,
@@ -200,6 +206,7 @@
 			children = (
 				694D60F21DF92FAC0032B8A3 /* SearchPageModels.swift */,
 				692D199D1DFB6421008408D4 /* ArtistPageModel.swift */,
+				69AAE8C81E0C704700D1804C /* AlbumPageModel.swift */,
 				696D7B671DED1F560086BD4E /* TrackSection.swift */,
 			);
 			name = Models;
@@ -241,13 +248,14 @@
 			path = BLKFlexibleHeightBar;
 			sourceTree = "<group>";
 		};
-		698BFB941DF5F2EE00DD4217 /* ArtistPage */ = {
+		698BFB941DF5F2EE00DD4217 /* UIPages */ = {
 			isa = PBXGroup;
 			children = (
 				690B44E91DF0AB3000FB4118 /* ArtistStyleBar.swift */,
 				69210AA01DFB1CF800F8C436 /* ArtistBarBehavior.swift */,
+				69898F321E0A27240041907D /* AlbumStyleBar.swift */,
 			);
-			name = ArtistPage;
+			name = UIPages;
 			sourceTree = "<group>";
 		};
 		69E177291DD0FCCC0059CF92 /* SpotifyAPI */ = {
@@ -271,6 +279,7 @@
 				694D60F41DF967A90032B8A3 /* ResultsTableViewController.swift */,
 				6973F05A1DDB96AE0057946E /* QueueTableViewController.swift */,
 				69210A9C1DFB0D7100F8C436 /* ArtistPageViewController.swift */,
+				69898F301E09D8410041907D /* AlbumPageViewController.swift */,
 				694450E21DE000A6007DEF55 /* LoginViewController.swift */,
 			);
 			name = ViewControllers;
@@ -323,7 +332,7 @@
 				69FB3EB31E048CCD00DA5A38 /* ViewControllers */,
 				6916E06F1DF9CBD7002A7D66 /* Cells */,
 				694D60EF1DF923E40032B8A3 /* Models */,
-				698BFB941DF5F2EE00DD4217 /* ArtistPage */,
+				698BFB941DF5F2EE00DD4217 /* UIPages */,
 				F8D3866D1D70C274002A13FC /* Main.storyboard */,
 				6973F05D1DDB97620057946E /* Support Files */,
 			);
@@ -485,9 +494,11 @@
 				698BFB8E1DF0BF2C00DD4217 /* UIView+BLKFlexibleHeightBarSubview.m in Sources */,
 				692D19991DFB5E27008408D4 /* AlbumTableViewCell.swift in Sources */,
 				69B459F31DB555EB0013D71A /* AppDelegate.swift in Sources */,
+				69AAE8C91E0C704700D1804C /* AlbumPageModel.swift in Sources */,
 				69B459ED1DB5559D0013D71A /* SearchViewController.swift in Sources */,
 				69AD12EA1DDF7A0800FDA308 /* Constants.swift in Sources */,
 				698BFB891DF0BF2B00DD4217 /* BLKFlexibleHeightBar.m in Sources */,
+				69898F311E09D8410041907D /* AlbumPageViewController.swift in Sources */,
 				692D199E1DFB6421008408D4 /* ArtistPageModel.swift in Sources */,
 				698BFB8B1DF0BF2C00DD4217 /* BLKFlexibleHeightBarSubviewLayoutAttributes.m in Sources */,
 				69B459F11DB555E10013D71A /* SpotifyModel.swift in Sources */,
@@ -505,6 +516,7 @@
 				698BFB881DF0BF2B00DD4217 /* BLKDelegateSplitter.m in Sources */,
 				695526EF1DCB909D0023C4C5 /* SearchEntity.swift in Sources */,
 				69B459EF1DB555B10013D71A /* SpotifyEndpoint.swift in Sources */,
+				69898F331E0A27240041907D /* AlbumStyleBar.swift in Sources */,
 				694450E31DE000A6007DEF55 /* LoginViewController.swift in Sources */,
 				696D7B681DED1F560086BD4E /* TrackSection.swift in Sources */,
 				694D60F31DF92FAC0032B8A3 /* SearchPageModels.swift in Sources */,
