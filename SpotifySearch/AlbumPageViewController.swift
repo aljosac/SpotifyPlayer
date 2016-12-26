@@ -14,6 +14,10 @@ import RxDataSources
 
 class AlbumPageViewController: UIViewController,UITableViewDelegate {
 
+    override var preferredStatusBarStyle:UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
+    }
+    
     @IBOutlet weak var tableView: UITableView!
     
     var albumBar:AlbumStyleBar? = nil
@@ -50,8 +54,13 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
                 self.tableView.delegate = self.delegateSplitter
                 self.view.addSubview(self.albumBar!)
                 
-                self.tableView.contentInset = UIEdgeInsetsMake(self.albumBar!.maximumBarHeight, 0.0, 0.0, 0.0)
+                let playerHeight:CGFloat = AppState.sharedInstance.playerShowing ? 64.0 : 0.0
+                let insets = UIEdgeInsetsMake(self.albumBar!.maximumBarHeight, 0.0, 50+playerHeight, 0.0)
                 
+                self.tableView.contentInset = insets
+                self.tableView.scrollIndicatorInsets = insets
+                self.tableView.separatorColor = darkGray
+                self.tableView.backgroundColor = darkGray
                 let trackIds = album.tracks.map {$0.id}.joined(separator: ",")
                 spotifyModel.getTracks(id:trackIds).subscribe { event in
                     switch event {
@@ -90,6 +99,9 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
                 let artists = track.artists.map{ $0.name }
                 cell.sublabel.text = artists.joined(separator: ", ")
                 cell.track = track
+                cell.backgroundColor = darkGray
+                cell.mainLabel.textColor = .white
+                cell.sublabel.textColor = .white
                 return cell
             }
         }
@@ -108,6 +120,10 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
             let trackCell = cell as! TrackTableViewCell
             print("posting")
             NotificationCenter.default.post(name: Notification.Name("addTrack"), object: nil, userInfo: ["track":trackCell.track!])
+            let insets = UIEdgeInsetsMake(self.albumBar!.maximumBarHeight, 0.0, 50+64, 0.0)
+            
+            self.tableView.contentInset = insets
+            self.tableView.scrollIndicatorInsets = insets
         default:
             return
         }

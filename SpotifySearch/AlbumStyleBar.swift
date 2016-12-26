@@ -94,10 +94,12 @@ class AlbumStyleBar: BLKFlexibleHeightBar {
         let name:UILabel = UILabel.init()
         name.text = album.name
         name.textColor = UIColor.white
+        name.adjustsFontSizeToFitWidth = true
+        name.textAlignment = .center
         name.font = UIFont.boldSystemFont(ofSize: 27.0)
     
         let startNameAttribute:BLKFlexibleHeightBarSubviewLayoutAttributes = BLKFlexibleHeightBarSubviewLayoutAttributes()
-        startNameAttribute.size = name.sizeThatFits(CGSize.zero)
+        startNameAttribute.size = CGSize(width: self.frame.width - 20, height: 30)
         startNameAttribute.center = CGPoint(x: Double(self.frame.size.width) * 0.5, y: Double(self.maximumBarHeight) - 50)
         name.add(startNameAttribute, forProgress: 0.0)
         

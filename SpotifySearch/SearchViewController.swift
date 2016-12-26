@@ -19,7 +19,9 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     
     var searchController: UISearchController = UISearchController(searchResultsController: ResultsTableViewController())
     
-    
+    override var preferredStatusBarStyle:UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
+    }
     
     var disposeBag = DisposeBag()
     let provider = RxMoyaProvider<Spotify>(endpointClosure: requestClosure)
@@ -54,6 +56,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         
         tableView.register(UINib(nibName: "ResultTableViewCell", bundle:nil), forCellReuseIdentifier: "resultCell")
         tableView.register(UINib(nibName: "ArtistTableViewCell", bundle:nil), forCellReuseIdentifier: "artistCell")
+        tableView.backgroundColor = darkGray
         
         setupHome()
         setupSearch()
@@ -213,12 +216,15 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
             switch datasource[idxPath] {
             case let .HistorySectionItem(title):
                 let cell = table.dequeueReusableCell(withIdentifier: "resultCell", for: idxPath) as! ResultTableViewCell
+                cell.backgroundColor = darkGray
                 cell.textLabel?.text = title
+                cell.textLabel?.textColor = .white
                 cell.cellType = .HistoryCell
                 return cell
             case let .TopArtistSectionItem(artist):
                 let cell = table.dequeueReusableCell(withIdentifier: "artistCell", for: idxPath) as! ArtistTableViewCell
-                
+                cell.backgroundColor = darkGray
+                cell.name.textColor = .white
                 if artist.images.count > 0 {
                     Alamofire.request(artist.images[0].url).responseData { response in
                         if let data = response.data {
@@ -288,6 +294,9 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let header = view as? UITableViewHeaderFooterView {
             header.textLabel?.textAlignment = .center
+            header.textLabel?.textColor = .white
+            header.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+            header.backgroundColor = darkGray
         }
     }
     

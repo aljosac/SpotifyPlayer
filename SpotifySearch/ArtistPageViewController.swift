@@ -68,9 +68,13 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
         self.tableView.register(UINib(nibName: "AlbumCollectionTableViewCell", bundle:nil),forCellReuseIdentifier: "albumsCell")
         
         
+        let playerHeight:CGFloat = AppState.sharedInstance.playerShowing ? 64.0 : 0.0
+        let insets = UIEdgeInsetsMake(self.artistBar!.maximumBarHeight, 0.0, 50+playerHeight, 0.0)
         
-        self.tableView.contentInset = UIEdgeInsetsMake(self.artistBar!.maximumBarHeight, 0.0, 0.0, 0.0)
+        self.tableView.contentInset = insets
+        self.tableView.scrollIndicatorInsets = insets
         
+        self.tableView.backgroundColor = darkGray
         // Request info for UITableView
         getSections()
         self.tableView.dataSource = nil
@@ -100,11 +104,15 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
         
         spotifyModel.getArtistAlbums(id: artist!.id).subscribe { event in
             switch event {
-            case let .next(albumList):
-                
-                let prunedList = albumList.removeDuplicates()
-                let albums = SearchItem.AlbumItem(album: prunedList)
+            case var .next(albumList):
+                print(albumList.count)
+                let singleList = albumList.branch(eval: {$0.type == "single" }).removeDuplicates()
+                print(albumList.count)
+                let prunnedAlbums = albumList.removeDuplicates()
+                let albums = SearchItem.AlbumItem(album: prunnedAlbums)
+                let singles = SearchItem.AlbumItem(album: singleList)
                 self.sections.value[1] = ArtistPageSectionModel.AlbumsSection(items: [albums])
+                self.sections.value[2] = ArtistPageSectionModel.SinglesSection(items: [singles])
             case .error,.completed:
                 break
             }
@@ -120,8 +128,9 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
                 let cell = table.dequeueReusableCell(withIdentifier: "artistCell", for: idxPath) as!
                 ArtistTableViewCell
                 cell.name.text = artist.name
+                cell.name.textColor = .white
                 cell.artist = artist
-                
+                cell.backgroundColor = darkGray
                 if artist.images.count > 0 {
                     Alamofire.request(artist.images[0].url).responseData { response in
                         if let data = response.data {
@@ -135,13 +144,18 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
                 let cell = table.dequeueReusableCell(withIdentifier: "trackCell", for: idxPath) as! TrackTableViewCell
                 cell.mainLabel.text = track.name
                 cell.sublabel.text = track.artists[0].name
+                cell.mainLabel.textColor = .white
+                cell.sublabel.textColor = .white
                 cell.track = track
+                cell.backgroundColor = darkGray
                 return cell
             case let .AlbumItem(album):
                 let cell = table.dequeueReusableCell(withIdentifier: "albumsCell", for: idxPath) as! AlbumCollectionTableViewCell
                 cell.albumCollection.delegate = self
                 cell.albumCollection.dataSource = self
                 cell.albumCollection.register(UINib( nibName: "AlbumCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "albumCell")
+                cell.backgroundColor = darkGray
+                cell.albumCollection.backgroundColor = darkGray
                 self.albums = album
         
                 
@@ -174,9 +188,11 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
     */
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else { return }
-        header.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        header.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         header.textLabel?.frame = header.frame
         header.textLabel?.textAlignment = .center
+        header.textLabel?.textColor = UIColor.white
+        header.contentView.backgroundColor = darkGray
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -185,7 +201,7 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
-        case 1:
+        case 1,2:
             if let albums = self.albums {
                 let smaller = CGFloat(min(albums.count,4))
                 let rows:CGFloat = ceil(smaller/2.0)
@@ -203,10 +219,16 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
             let trackCell = cell as! TrackTableViewCell
             print("posting")
             NotificationCenter.default.post(name: Notification.Name("addTrack"), object: nil, userInfo: ["track":trackCell.track!])
+//            let playerHeight:CGFloat = AppState.sharedInstance.playerShowing ? 64.0 : 0.0
+            let insets = UIEdgeInsetsMake(self.artistBar!.maximumBarHeight+20, 0.0, 50+64, 0.0)
+            
+            self.tableView.contentInset = insets
+            self.tableView.scrollIndicatorInsets = insets
         default:
             return
         }
     }
+    
     
 }
 
@@ -239,6 +261,8 @@ extension ArtistPageViewController:UICollectionViewDelegate,UICollectionViewData
             cell.albumTitle.text = album.name
             cell.albumID = album.id
         }
+        cell.backgroundColor = darkGray
+        cell.albumTitle.textColor = .white
         return cell
     }
     

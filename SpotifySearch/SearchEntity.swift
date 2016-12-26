@@ -74,7 +74,7 @@ struct SimpleAlbum: Mappable {
     let images:[Image]
     init(map: Mapper) throws {
         try name = map.from("name")
-        try type = map.from("type")
+        try type = map.from("album_type")
         try images = map.from("images")
         try id = map.from("id")
     }

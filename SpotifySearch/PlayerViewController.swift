@@ -102,6 +102,7 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+//        self.updatePopupBarAppearance()
         
     }
     override func viewDidAppear(_ animated: Bool) {

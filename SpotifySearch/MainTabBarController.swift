@@ -28,6 +28,11 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
         print("View loading tab bar")
         super.viewDidLoad()
         self.delegate = self
+        self.tabBar.tintColor = appGreen
+        self.tabBar.barStyle = .black
+        self.tabBar.barTintColor = UIColor.darkGray
+        self.tabBar.isTranslucent = false
+        
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -55,7 +60,7 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
         if AppState.sharedInstance.playerShowing {
             print("Changing size")
             let h = CGFloat(viewController.view.frame.height - self.tabBar.frame.height)
-            viewController.view.frame = CGRect(x:CGFloat(0), y:CGFloat(0), width:self.view.bounds.width, height:h)
+            viewController.view.bounds = CGRect(x:CGFloat(0), y:CGFloat(0), width:self.view.frame.width, height:h)
         }
         
         
