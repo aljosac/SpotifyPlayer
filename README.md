@@ -1,5 +1,6 @@
 # SpotifySearch
-A simple app that finds and plays songs off spotify using RxSwift 
+A simple app that finds and plays songs off spotify using RxSwift
+(Requires Spotify Premium)
 
 ## Features
 * Be able to search tracks ordered by most popular
