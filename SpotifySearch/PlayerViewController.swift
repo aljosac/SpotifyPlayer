@@ -172,7 +172,6 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         
         
         self.popupItem.title = streamingController?.metadata.currentTrack?.name
-        
         playing = UIBarButtonItem(image: #imageLiteral(resourceName: "pause"), style: .plain, target: self, action: #selector(playPause(_:)))
         let _ = UIBarButtonItem(image: #imageLiteral(resourceName: "arrow"), style: .plain, target: self, action: #selector(popup))
         self.popupItem.rightBarButtonItems = [playing!]
@@ -255,7 +254,7 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didChangePosition position: TimeInterval) {
         let value = self.songUI(position: position)
         self.trackSlider.setValue(value, animated: true)
-        if value > 0.99 {
+        if value >= 0.995 {
             print("SkipNext")
             audioStreaming.skipNext(nil)
         }
@@ -294,10 +293,11 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
     }
     
     func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
+        print("Logged In")
         queue.asObservable().subscribe{ event in
             switch event {
             case .next(_):
-                if self.queue.value.count == 1 && !self.isPlaying {
+                if self.queue.value.count >= 1 && !self.isPlaying {
                     
                     print(self.isPlaying)
                     let track:Track = self.queue.value.removeFirst()

@@ -14,8 +14,8 @@ class AlbumTableViewCell: ResultTableViewCell {
     @IBOutlet weak var albumName: UILabel!
     @IBOutlet weak var artistName: UILabel!
     
-    var album:FullAlbum? = nil
-    
+    var id:String? = nil
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -24,7 +24,6 @@ class AlbumTableViewCell: ResultTableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
     

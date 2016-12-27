@@ -174,7 +174,11 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Zxs-bh-aal">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="barTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="v7Q-ue-bfZ">
@@ -339,9 +343,11 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="yWy-Ou-ect" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Queue" image="musicTab" id="CzW-VS-bh8"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ckt-VL-afb">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="ckt-VL-afb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="vxA-hr-Leu">
@@ -354,7 +360,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AkL-oI-9iX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1528.8" y="1351.5742128935533"/>
+            <point key="canvasLocation" x="1512" y="1434"/>
         </scene>
     </scenes>
     <resources>

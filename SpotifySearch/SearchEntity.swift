@@ -71,18 +71,20 @@ struct SimpleAlbum: Mappable {
     let name:String
     let type:String
     let id:String
-    let images:[Image]
+    var images:[Image]
+    let artists:[SimpleArtist]
     init(map: Mapper) throws {
         try name = map.from("name")
         try type = map.from("album_type")
         try images = map.from("images")
         try id = map.from("id")
+        try artists = map.from("artists")
     }
 }
 
 struct FullAlbum: Mappable {
     let name:String
-    let images:[Image]
+    var images:[Image]
     let tracks:[SimpleTrack]
     init(map: Mapper) throws {
         try name = map.from("name")
@@ -107,10 +109,11 @@ struct Image: Mappable {
 struct Result:Mappable {
     let tracks:[Track]
     let artists:[FullArtist]
-    
+    let albums:[SimpleAlbum]
     init(map: Mapper) throws {
         try tracks = map.from("tracks.items")
         try artists = map.from("artists.items")
+        try albums = map.from("albums.items")
     }
 }
 

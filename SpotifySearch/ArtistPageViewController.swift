@@ -157,9 +157,9 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
                 cell.backgroundColor = darkGray
                 cell.albumCollection.backgroundColor = darkGray
                 self.albums = album
-        
-                
                 return cell
+            default:
+                return UITableViewCell()
             }
             
         }
@@ -227,6 +227,7 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
         default:
             return
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     

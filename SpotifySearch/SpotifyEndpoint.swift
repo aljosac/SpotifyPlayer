@@ -55,7 +55,6 @@ extension Spotify: TargetType {
             return "/v1/tracks/\(id)"
         case .Tracks(id:_):
             return "/v1/tracks"
-            
         }
     }
     
@@ -66,7 +65,7 @@ extension Spotify: TargetType {
     public var parameters:[String:Any]?{
         switch self {
         case .Search(let name):
-            return ["query":name+"*","type":"track,artist"]
+            return ["query":name+"*","type":"track,artist,album"]
         case .ArtistAlbums(_):
             return ["album_type":"album,single","market":"US"]
         case .TopArtistTracks(id: _):

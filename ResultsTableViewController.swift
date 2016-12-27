@@ -16,7 +16,7 @@ class ResultsTableViewController: UITableViewController {
         super.viewDidLoad()
         self.tableView.dataSource = nil
         self.automaticallyAdjustsScrollViewInsets = false
-        self.tableView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0)
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
         self.tableView.estimatedRowHeight = 60
 
         // Uncomment the following line to preserve selection between presentations
@@ -55,14 +55,21 @@ class ResultsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let header = view as? UITableViewHeaderFooterView {
             header.textLabel?.textAlignment = .center
+            header.textLabel?.textColor = .white
+            header.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+            header.contentView.backgroundColor = UIColor.darkGray
+            
         }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if tableView.headerView(forSection: indexPath.section)?.textLabel?.text == "Artists" {
+        let section = tableView.headerView(forSection: indexPath.section)?.textLabel?.text ?? ""
+        switch section {
+        case "Artists","Albums":
             return 60
+        default:
+            return 44
         }
-        return 44
     }
     
     /*

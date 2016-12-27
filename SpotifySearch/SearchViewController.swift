@@ -46,17 +46,25 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
         // Set up view
         searchController.hidesNavigationBarDuringPresentation = false
         self.navigationItem.titleView = searchController.searchBar
+        
+        self.navigationController?.navigationBar.barStyle = .black
+        self.navigationController?.navigationBar.barTintColor = .darkGray
+        self.navigationController?.navigationBar.isTranslucent = false
         self.definesPresentationContext = true
         // load result cell layout
         resultsTableView.register(UINib(nibName: "TrackTableViewCell", bundle:nil), forCellReuseIdentifier: "trackCell")
         resultsTableView.register(UINib(nibName: "ArtistTableViewCell", bundle:nil), forCellReuseIdentifier: "artistCell")
+        resultsTableView.register(UINib(nibName: "AlbumTableViewCell", bundle:nil), forCellReuseIdentifier: "albumCell")
         
         tableView.register(UINib(nibName: "ResultTableViewCell", bundle:nil), forCellReuseIdentifier: "resultCell")
         tableView.register(UINib(nibName: "ArtistTableViewCell", bundle:nil), forCellReuseIdentifier: "artistCell")
         tableView.backgroundColor = darkGray
+        
+        resultsTableView.backgroundColor = darkGray
         
         setupHome()
         setupSearch()
@@ -67,6 +75,13 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     override func viewDidAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        
+        if AppState.sharedInstance.playerShowing {
+            let insets = UIEdgeInsetsMake(0, 0, 64, 0)
+            
+            self.tableView.contentInset = insets
+            self.tableView.scrollIndicatorInsets = insets
+        }
         super.viewWillAppear(animated)
     }
     
@@ -93,7 +108,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                     sections.value = [SearchHomeSectionModel.HistorySection(items: historyItems),SearchHomeSectionModel.TopArtistsSection(items: newls)]
                 }
             case .error(_):
-                print("error top Artist")
+                print("error Top Artist")
             case .completed:
                 break
             }
@@ -136,6 +151,14 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                     let section = Array(sortedArtists.prefix(through: count-1))
                     sections.append(.ArtistSection(items: section))
                 }
+                
+                let sortedAlbums = result.albums.map{SearchItem.SearchAlbumItem(album: $0)}
+                if sortedAlbums.count > 0 {
+                    let count = min(sortedAlbums.count,3)
+                    let section = Array(sortedAlbums.prefix(through: count-1))
+                    sections.append(.AlbumSection(items: section))
+                }
+                
                 return sections
             }
         
@@ -181,10 +204,19 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                     
                     artistPage.artist = artistCell.artist!
                     self.navigationController?.pushViewController(artistPage, animated: true)
+                case .AlbumCell:
+                    let albumCell = cell as! AlbumTableViewCell
+                    
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let albumPage = storyboard.instantiateViewController(withIdentifier:"albumPage") as! AlbumPageViewController
+                    
+                    albumPage.id = albumCell.id
+                    albumPage.albumImage = albumCell.albumCover.image
+                    self.navigationController?.pushViewController(albumPage, animated: true)
                 default:
                     break
                 }
-                
+                self.resultsTableView.deselectRow(at: index, animated: true)
             case let .error(error):
                 print(error.localizedDescription)
             case .completed:
@@ -257,6 +289,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 let cell = table.dequeueReusableCell(withIdentifier: "artistCell", for: idxPath) as!
                     ArtistTableViewCell
                 cell.name.text = artist.name
+                cell.name.textColor = .white
                 cell.artist = artist
                 
                 if artist.images.count > 0 {
@@ -268,19 +301,38 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                         }
                     }
                 }
+                cell.backgroundColor = darkGray
                 return cell
             case let .TrackItem(track):
                 let cell = table.dequeueReusableCell(withIdentifier: "trackCell", for: idxPath) as! TrackTableViewCell
                 cell.mainLabel.text = track.name
+                cell.mainLabel.textColor = .white
                 cell.sublabel.text = track.artists[0].name
+                cell.sublabel.textColor = .white
                 cell.track = track
+                cell.backgroundColor = darkGray
                 return cell
-            case let .AlbumItem(album):
+            case let .SearchAlbumItem(album):
                 let cell = table.dequeueReusableCell(withIdentifier: "albumCell", for: idxPath) as! AlbumTableViewCell
-                //cell.albumName.text = album.name
+                cell.albumName.text = album.name
+                cell.albumName.textColor = .white
+                cell.artistName.text = album.artists.map{$0.name}.joined(separator: ",")
+                cell.artistName.textColor = .white
+                if album.images.count > 0 {
+                    Alamofire.request(album.images[0].url).responseData { response in
+                        if let data = response.data {
+                            let image:UIImage = UIImage(data: data)!
+                            cell.albumCover.image = image
+                        }
+                    }
+                }
+                cell.backgroundColor = darkGray
+                cell.id = album.id
+                cell.layoutIfNeeded()
                 return cell
+            default:
+                return UITableViewCell()
             }
-            
         }
         
         datasource.titleForHeaderInSection = { datasource, idx in
@@ -296,7 +348,8 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
             header.textLabel?.textAlignment = .center
             header.textLabel?.textColor = .white
             header.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-            header.backgroundColor = darkGray
+            header.contentView.backgroundColor = .darkGray
+            header.tintColor = .darkGray
         }
     }
     

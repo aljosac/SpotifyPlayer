@@ -85,6 +85,7 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         super.viewWillAppear(animated)
     }
@@ -124,9 +125,11 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
             
             self.tableView.contentInset = insets
             self.tableView.scrollIndicatorInsets = insets
+           
         default:
             return
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     

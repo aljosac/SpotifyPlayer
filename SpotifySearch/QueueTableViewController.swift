@@ -40,7 +40,14 @@ class QueueTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.black
+        self.navigationController?.navigationBar.barTintColor = .darkGray
+        self.navigationController?.navigationBar.tintColor = .white
+        self.navigationController?.navigationBar.isTranslucent = false
+        
+        
         self.tableView.register(UINib(nibName: "TrackTableViewCell", bundle: nil ), forCellReuseIdentifier: "queueCell")
+        self.tableView.backgroundColor = darkGray
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(QueueTableViewController.addTrackToQueue(notification:)),
@@ -90,11 +97,26 @@ class QueueTableViewController: UITableViewController {
             print("No track info")
             return
         }
-        self.mainTabBarController.presentPlayer()
+        if !AppState.sharedInstance.playerShowing{
+            self.mainTabBarController.presentPlayer()
+            AppState.sharedInstance.playerShowing = true
+        }
+        
         queue.value.append(track)
         print(track.name + " added")
     }
 
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        if let header = view as? UITableViewHeaderFooterView {
+            header.textLabel?.textAlignment = .center
+            header.textLabel?.textColor = .white
+            header.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+            header.backgroundColor = .darkGray
+            header.tintColor = .darkGray
+            header.backgroundView?.backgroundColor = .darkGray
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let cell = (tableView.cellForRow(at: indexPath) as! TrackTableViewCell)
@@ -126,9 +148,12 @@ func skinTableViewDataSource(dataSource: RxTableViewSectionedAnimatedDataSource<
     dataSource.configureCell = { (dataSource, table, idxPath, item) in
         let cell = table.dequeueReusableCell(withIdentifier: "queueCell", for: idxPath) as! TrackTableViewCell
         cell.mainLabel?.text = item.track.name
+        cell.mainLabel.textColor = .white
         cell.sublabel.text = item.track.artists[0].name
+        cell.sublabel.textColor = .white
         cell.track = item.track
         cell.type = item.type
+        cell.backgroundColor = darkGray
         return cell
     }
     

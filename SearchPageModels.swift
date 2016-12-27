@@ -59,6 +59,7 @@ extension SearchHomeSectionModel {
 enum SearchResultSectionModel {
     case TrackSection(items:[SearchItem])
     case ArtistSection(items:[SearchItem])
+    case AlbumSection(items:[SearchItem])
     case TopResultSection(items:[SearchItem])
 }
 
@@ -66,6 +67,7 @@ enum SearchItem {
     case TrackItem(track:Track)
     case ArtistItem(artist:FullArtist)
     case AlbumItem(album:[SimpleAlbum])
+    case SearchAlbumItem(album:SimpleAlbum)
 }
 
 extension SearchResultSectionModel: SectionModelType {
@@ -76,6 +78,8 @@ extension SearchResultSectionModel: SectionModelType {
         case .TrackSection(items: let items):
             return items.map {$0}
         case .ArtistSection(items: let items):
+            return items.map {$0}
+        case .AlbumSection(items: let items):
             return items.map {$0}
         case .TopResultSection(items: let items):
             return items.map {$0}
@@ -88,6 +92,8 @@ extension SearchResultSectionModel: SectionModelType {
             self = .TrackSection(items: items)
         case .ArtistSection(items: _):
             self = .ArtistSection(items: items)
+        case .AlbumSection(items: _):
+            self = .AlbumSection(items: items)
         case .TopResultSection(items: _):
             self = .TopResultSection(items: items)
         }
@@ -101,6 +107,8 @@ extension SearchResultSectionModel {
             return "Tracks"
         case .ArtistSection(items: _):
             return "Artists"
+        case .AlbumSection(items: _):
+            return "Albums"
         case .TopResultSection(items: _):
             return "Top Result"
         }

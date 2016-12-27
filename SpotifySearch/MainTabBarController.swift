@@ -45,6 +45,7 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
     func presentPlayer() {
         if !AppState.sharedInstance.playerShowing {
             self.presentPopupBar(withContentViewController: playerController!, animated: true, completion: nil)
+//            self.popupBar?.titleTextAttributes = ["NSFontAttributeName":UIFont.boldSystemFont(ofSize: 20)]
             state.playerShowing = true
         }
     }
@@ -55,13 +56,6 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        
-        // Change view size while player is showing
-        if AppState.sharedInstance.playerShowing {
-            print("Changing size")
-            let h = CGFloat(viewController.view.frame.height - self.tabBar.frame.height)
-            viewController.view.bounds = CGRect(x:CGFloat(0), y:CGFloat(0), width:self.view.frame.width, height:h)
-        }
         
         
     }
