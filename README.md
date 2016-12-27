@@ -8,12 +8,9 @@ A simple app that finds and plays songs off spotify using RxSwift
 * Play songs from a popup player
 * Saves history of played tracks and searches
 * Gets your top artists for quick searching 
-
+* Get albums from artists and search
 
 ## Todo
-* Create artist page
-* Add album searching
-* Create album/playlist page
 * Add whole albums and playlists
 * Implement caching
 * Create Top Result Section
