@@ -16,8 +16,9 @@ class ResultsTableViewController: UITableViewController {
         super.viewDidLoad()
         self.tableView.dataSource = nil
         self.automaticallyAdjustsScrollViewInsets = false
-        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
+        
         self.tableView.estimatedRowHeight = 60
+        self.tableView.indicatorStyle = .white
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -36,16 +37,10 @@ class ResultsTableViewController: UITableViewController {
     }
 
     func resize() {
-        let state = AppState.sharedInstance
-        if state.playerShowing && !resized{
-            print("resizing")
-            self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width,height: self.view.frame.height-40)
-            resized = true
-        } else if !state.playerShowing && resized {
-            self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width,
-                                          height: self.view.frame.height+40)
-            self.resized = false
-            
+        if AppState.sharedInstance.playerShowing {
+            let insets = UIEdgeInsetsMake(0, 0, 64, 0)
+            self.tableView.contentInset = insets
+            self.tableView.scrollIndicatorInsets = insets
         }
     }
     

@@ -73,7 +73,7 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
         
         self.tableView.contentInset = insets
         self.tableView.scrollIndicatorInsets = insets
-        
+        self.tableView.indicatorStyle = .white
         self.tableView.backgroundColor = darkGray
         // Request info for UITableView
         getSections()

@@ -59,6 +59,7 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
                 
                 self.tableView.contentInset = insets
                 self.tableView.scrollIndicatorInsets = insets
+                self.tableView.indicatorStyle = .white
                 self.tableView.separatorColor = darkGray
                 self.tableView.backgroundColor = darkGray
                 let trackIds = album.tracks.map {$0.id}.joined(separator: ",")

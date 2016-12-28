@@ -222,7 +222,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
             case .completed:
                 break
             }
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
         
         
         self.searchBar.rx.searchButtonClicked.subscribe { event in
