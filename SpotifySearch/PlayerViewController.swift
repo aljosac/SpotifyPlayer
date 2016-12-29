@@ -166,10 +166,10 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
                     let image:UIImage = UIImage(data: data)!
                     self.album.image = image
                     self.blurAlbum.image = image
+                    self.popupItem.image = image
                 }
             }
         }
-        
         
         self.popupItem.title = streamingController?.metadata.currentTrack?.name
         playing = UIBarButtonItem(image: #imageLiteral(resourceName: "pause"), style: .plain, target: self, action: #selector(playPause(_:)))

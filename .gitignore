@@ -7,8 +7,9 @@ scratch-pad.playground/contents.xcplayground
 
 scratch-pad.playground/Contents.swift
 
-*.xcuserstate
-
-SpotifySearch/Constants.swift
+SpotifySearch/Keys.swift
 
 *.xcuserstate
+
+
+SpotifySearch/Keys.swift
