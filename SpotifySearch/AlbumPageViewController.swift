@@ -57,6 +57,13 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
                 let playerHeight:CGFloat = AppState.sharedInstance.playerShowing ? 64.0 : 0.0
                 let insets = UIEdgeInsetsMake(self.albumBar!.maximumBarHeight, 0.0, 50+playerHeight, 0.0)
                 
+                let backButton = UIButton(type: .custom)
+                backButton.frame = CGRect(x: 10, y: 25, width: 30, height: 30)
+                backButton.tintColor = .white
+                backButton.setImage(#imageLiteral(resourceName: "BackArrow"), for: .normal)
+                backButton.addTarget(self, action: #selector(self.close), for: .touchUpInside)
+                self.albumBar?.addSubview(backButton)
+                
                 self.tableView.contentInset = insets
                 self.tableView.scrollIndicatorInsets = insets
                 self.tableView.indicatorStyle = .white
@@ -113,6 +120,11 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func close() {
+        print("CLOSE")
+        self.navigationController?.popViewController(animated: true)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

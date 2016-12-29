@@ -62,7 +62,12 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
         
         self.view.addSubview(self.artistBar!)
         
-        
+        let backButton = UIButton(type: .custom)
+        backButton.frame = CGRect(x: 10, y: 25, width: 30, height: 30)
+        backButton.tintColor = .white
+        backButton.setImage(#imageLiteral(resourceName: "BackArrow"), for: .normal)
+        backButton.addTarget(self, action: #selector(close), for: .touchUpInside)
+        self.artistBar?.addSubview(backButton)
         
         self.tableView.register(UINib(nibName: "TrackTableViewCell", bundle:nil),forCellReuseIdentifier: "trackCell")
         self.tableView.register(UINib(nibName: "AlbumCollectionTableViewCell", bundle:nil),forCellReuseIdentifier: "albumsCell")
@@ -176,6 +181,10 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    func close() {
+        print("CLOSE")
+        self.navigationController?.popViewController(animated: true)
+    }
 
     /*
     // MARK: - Navigation
