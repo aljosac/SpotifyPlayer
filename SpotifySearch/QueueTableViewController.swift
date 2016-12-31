@@ -41,13 +41,14 @@ class QueueTableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.navigationController?.navigationBar.barStyle = UIBarStyle.black
-        self.navigationController?.navigationBar.barTintColor = .darkGray
+        self.navigationController?.navigationBar.barTintColor = dark
         self.navigationController?.navigationBar.tintColor = .white
         self.navigationController?.navigationBar.isTranslucent = false
         
         
         self.tableView.register(UINib(nibName: "TrackTableViewCell", bundle: nil ), forCellReuseIdentifier: "queueCell")
-        self.tableView.backgroundColor = darkGray
+        self.tableView.backgroundColor = tableGray
+        self.tableView.separatorColor = tableGray
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(QueueTableViewController.addTrackToQueue(notification:)),
@@ -111,9 +112,8 @@ class QueueTableViewController: UITableViewController {
             header.textLabel?.textAlignment = .center
             header.textLabel?.textColor = .white
             header.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-            header.backgroundColor = .darkGray
-            header.tintColor = .darkGray
-            header.backgroundView?.backgroundColor = .darkGray
+            header.tintColor = dark
+            header.contentView.backgroundColor = dark
         }
     }
     
@@ -153,7 +153,7 @@ func skinTableViewDataSource(dataSource: RxTableViewSectionedAnimatedDataSource<
         cell.sublabel.textColor = .white
         cell.track = item.track
         cell.type = item.type
-        cell.backgroundColor = darkGray
+        cell.backgroundColor = tableGray
         return cell
     }
     

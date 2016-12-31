@@ -40,9 +40,12 @@ class AppState {
     var playerShowing:Bool = false
 }
 
-let darkGray:UIColor = UIColor(red: 0.147, green: 0.147, blue: 0.147, alpha: 1.0)
+let tableGray:UIColor = UIColor(red: 0.147, green: 0.147, blue: 0.147, alpha: 1.0)
+let dark:UIColor = UIColor(white: 0.10, alpha: 1.0)
 let appGreen:UIColor = UIColor(colorLiteralRed: 0.114, green: 0.725, blue: 0.329, alpha: 1.0)
 
+let albumText = "See All Albums"
+let singleText = "See All Singles"
 
 extension UIImage {
     class func circle(diameter: CGFloat, color: UIColor,alpha:CGFloat) -> UIImage {

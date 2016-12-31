@@ -18,6 +18,9 @@
 		69210A9E1DFB0D7100F8C436 /* ArtistPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69210A9C1DFB0D7100F8C436 /* ArtistPageViewController.swift */; };
 		69210AA11DFB1CF800F8C436 /* ArtistBarBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69210AA01DFB1CF800F8C436 /* ArtistBarBehavior.swift */; };
 		69267B741E14C79D003E1589 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69267B731E14C79D003E1589 /* Keys.swift */; };
+		69267B761E164C7F003E1589 /* ExpandTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69267B751E164C7F003E1589 /* ExpandTableViewCell.swift */; };
+		69267B7A1E17723B003E1589 /* ExpandTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69267B791E17723B003E1589 /* ExpandTableViewController.swift */; };
+		69267B7C1E17A5E0003E1589 /* AlbumCollectionDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69267B7B1E17A5E0003E1589 /* AlbumCollectionDatasource.swift */; };
 		69281CA81DE3D041007F749F /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69281CA61DE3D041007F749F /* PlayerViewController.swift */; };
 		69281CA91DE3D041007F749F /* PlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69281CA71DE3D041007F749F /* PlayerViewController.xib */; };
 		692D19991DFB5E27008408D4 /* AlbumTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692D19971DFB5E27008408D4 /* AlbumTableViewCell.swift */; };
@@ -105,6 +108,9 @@
 		69210A9C1DFB0D7100F8C436 /* ArtistPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistPageViewController.swift; sourceTree = "<group>"; };
 		69210AA01DFB1CF800F8C436 /* ArtistBarBehavior.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistBarBehavior.swift; sourceTree = "<group>"; };
 		69267B731E14C79D003E1589 /* Keys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
+		69267B751E164C7F003E1589 /* ExpandTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandTableViewCell.swift; sourceTree = "<group>"; };
+		69267B791E17723B003E1589 /* ExpandTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandTableViewController.swift; sourceTree = "<group>"; };
+		69267B7B1E17A5E0003E1589 /* AlbumCollectionDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumCollectionDatasource.swift; sourceTree = "<group>"; };
 		69281CA61DE3D041007F749F /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		69281CA71DE3D041007F749F /* PlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerViewController.xib; sourceTree = "<group>"; };
 		692D19971DFB5E27008408D4 /* AlbumTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumTableViewCell.swift; sourceTree = "<group>"; };
@@ -181,6 +187,7 @@
 			children = (
 				69898F2C1E08953C0041907D /* AlbumCollectionViewCell.swift */,
 				69898F281E072FF30041907D /* ResultTableViewCell.swift */,
+				69267B751E164C7F003E1589 /* ExpandTableViewCell.swift */,
 				6916E0701DF9CCE6002A7D66 /* ArtistTableViewCell.swift */,
 				691FDBE01DD2247F000122EF /* TrackTableViewCell.swift */,
 				692D19971DFB5E27008408D4 /* AlbumTableViewCell.swift */,
@@ -206,6 +213,7 @@
 		694D60EF1DF923E40032B8A3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				69267B7B1E17A5E0003E1589 /* AlbumCollectionDatasource.swift */,
 				694D60F21DF92FAC0032B8A3 /* SearchPageModels.swift */,
 				692D199D1DFB6421008408D4 /* ArtistPageModel.swift */,
 				69AAE8C81E0C704700D1804C /* AlbumPageModel.swift */,
@@ -275,6 +283,7 @@
 		69FB3EB31E048CCD00DA5A38 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				694450E21DE000A6007DEF55 /* LoginViewController.swift */,
 				694450E41DE2430A007DEF55 /* WebViewController.swift */,
 				69DCFA241DD67AE1007CF8A9 /* MainTabBarController.swift */,
 				69281CA61DE3D041007F749F /* PlayerViewController.swift */,
@@ -283,7 +292,7 @@
 				6973F05A1DDB96AE0057946E /* QueueTableViewController.swift */,
 				69210A9C1DFB0D7100F8C436 /* ArtistPageViewController.swift */,
 				69898F301E09D8410041907D /* AlbumPageViewController.swift */,
-				694450E21DE000A6007DEF55 /* LoginViewController.swift */,
+				69267B791E17723B003E1589 /* ExpandTableViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -494,6 +503,7 @@
 				691FDBE21DD2247F000122EF /* TrackTableViewCell.swift in Sources */,
 				69210A9E1DFB0D7100F8C436 /* ArtistPageViewController.swift in Sources */,
 				698BFB8A1DF0BF2C00DD4217 /* BLKFlexibleHeightBarBehaviorDefiner.m in Sources */,
+				69267B7A1E17723B003E1589 /* ExpandTableViewController.swift in Sources */,
 				698BFB8E1DF0BF2C00DD4217 /* UIView+BLKFlexibleHeightBarSubview.m in Sources */,
 				692D19991DFB5E27008408D4 /* AlbumTableViewCell.swift in Sources */,
 				69B459F31DB555EB0013D71A /* AppDelegate.swift in Sources */,
@@ -507,9 +517,11 @@
 				69B459F11DB555E10013D71A /* SpotifyModel.swift in Sources */,
 				690B44EA1DF0AB3000FB4118 /* ArtistStyleBar.swift in Sources */,
 				69281CA81DE3D041007F749F /* PlayerViewController.swift in Sources */,
+				69267B761E164C7F003E1589 /* ExpandTableViewCell.swift in Sources */,
 				698BFB8D1DF0BF2C00DD4217 /* SquareCashStyleBehaviorDefiner.m in Sources */,
 				69898F2A1E072FF30041907D /* ResultTableViewCell.swift in Sources */,
 				69898F2E1E08953C0041907D /* AlbumCollectionViewCell.swift in Sources */,
+				69267B7C1E17A5E0003E1589 /* AlbumCollectionDatasource.swift in Sources */,
 				6959AE5C1DEE1508003D2B35 /* LevenshteinDistance.swift in Sources */,
 				698BFB8C1DF0BF2C00DD4217 /* FacebookStyleBarBehaviorDefiner.m in Sources */,
 				69DCFA251DD67AE1007CF8A9 /* MainTabBarController.swift in Sources */,

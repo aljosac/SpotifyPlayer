@@ -30,7 +30,7 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
         self.delegate = self
         self.tabBar.tintColor = appGreen
         self.tabBar.barStyle = .black
-        self.tabBar.barTintColor = UIColor.darkGray
+        self.tabBar.barTintColor = UIColor(white: 0.10, alpha: 1.0)
         self.tabBar.isTranslucent = false
         
     }

@@ -20,6 +20,9 @@ class AlbumTableViewCell: ResultTableViewCell {
         super.awakeFromNib()
         // Initialization code
         cellType = .AlbumCell
+        self.backgroundColor = tableGray
+        self.albumName.textColor = .white
+        self.artistName.textColor = .white
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -19,6 +19,7 @@ class ResultsTableViewController: UITableViewController {
         
         self.tableView.estimatedRowHeight = 60
         self.tableView.indicatorStyle = .white
+        self.tableView.separatorColor = tableGray
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -52,7 +53,7 @@ class ResultsTableViewController: UITableViewController {
             header.textLabel?.textAlignment = .center
             header.textLabel?.textColor = .white
             header.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-            header.contentView.backgroundColor = UIColor.darkGray
+            header.contentView.backgroundColor = dark
             
         }
     }

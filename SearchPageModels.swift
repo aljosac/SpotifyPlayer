@@ -67,7 +67,9 @@ enum SearchItem {
     case TrackItem(track:Track)
     case ArtistItem(artist:FullArtist)
     case AlbumItem(album:[SimpleAlbum])
+    case SingleItem(single:[SimpleAlbum])
     case SearchAlbumItem(album:SimpleAlbum)
+    case EndCell(text:String,album:[SimpleAlbum])
 }
 
 extension SearchResultSectionModel: SectionModelType {

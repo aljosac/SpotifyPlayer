@@ -67,8 +67,8 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
                 self.tableView.contentInset = insets
                 self.tableView.scrollIndicatorInsets = insets
                 self.tableView.indicatorStyle = .white
-                self.tableView.separatorColor = darkGray
-                self.tableView.backgroundColor = darkGray
+                self.tableView.separatorColor = tableGray
+                self.tableView.backgroundColor = tableGray
                 let trackIds = album.tracks.map {$0.id}.joined(separator: ",")
                 spotifyModel.getTracks(id:trackIds).subscribe { event in
                     switch event {
@@ -108,7 +108,7 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
                 let artists = track.artists.map{ $0.name }
                 cell.sublabel.text = artists.joined(separator: ", ")
                 cell.track = track
-                cell.backgroundColor = darkGray
+                cell.backgroundColor = tableGray
                 cell.mainLabel.textColor = .white
                 cell.sublabel.textColor = .white
                 return cell
@@ -123,8 +123,7 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
     }
     
     func close() {
-        print("CLOSE")
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

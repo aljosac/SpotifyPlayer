@@ -52,7 +52,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         self.navigationItem.titleView = searchController.searchBar
         
         self.navigationController?.navigationBar.barStyle = .black
-        self.navigationController?.navigationBar.barTintColor = .darkGray
+        self.navigationController?.navigationBar.barTintColor = dark
         self.navigationController?.navigationBar.isTranslucent = false
         self.definesPresentationContext = true
         // load result cell layout
@@ -62,9 +62,10 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         
         tableView.register(UINib(nibName: "ResultTableViewCell", bundle:nil), forCellReuseIdentifier: "resultCell")
         tableView.register(UINib(nibName: "ArtistTableViewCell", bundle:nil), forCellReuseIdentifier: "artistCell")
-        tableView.backgroundColor = darkGray
+        tableView.backgroundColor = tableGray
+        tableView.separatorColor = tableGray
         
-        resultsTableView.backgroundColor = darkGray
+        resultsTableView.backgroundColor = tableGray
         
         setupHome()
         setupSearch()
@@ -248,14 +249,14 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
             switch datasource[idxPath] {
             case let .HistorySectionItem(title):
                 let cell = table.dequeueReusableCell(withIdentifier: "resultCell", for: idxPath) as! ResultTableViewCell
-                cell.backgroundColor = darkGray
+                cell.backgroundColor = tableGray
                 cell.textLabel?.text = title
                 cell.textLabel?.textColor = .white
                 cell.cellType = .HistoryCell
                 return cell
             case let .TopArtistSectionItem(artist):
                 let cell = table.dequeueReusableCell(withIdentifier: "artistCell", for: idxPath) as! ArtistTableViewCell
-                cell.backgroundColor = darkGray
+                cell.backgroundColor = tableGray
                 cell.name.textColor = .white
                 if artist.images.count > 0 {
                     Alamofire.request(artist.images[0].url).responseData { response in
@@ -301,16 +302,16 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                         }
                     }
                 }
-                cell.backgroundColor = darkGray
+                cell.backgroundColor = tableGray
                 return cell
             case let .TrackItem(track):
                 let cell = table.dequeueReusableCell(withIdentifier: "trackCell", for: idxPath) as! TrackTableViewCell
                 cell.mainLabel.text = track.name
                 cell.mainLabel.textColor = .white
-                cell.sublabel.text = track.artists[0].name
+                cell.sublabel.text = track.artists.map{$0.name}.joined(separator: ",")
                 cell.sublabel.textColor = .white
                 cell.track = track
-                cell.backgroundColor = darkGray
+                cell.backgroundColor = tableGray
                 return cell
             case let .SearchAlbumItem(album):
                 let cell = table.dequeueReusableCell(withIdentifier: "albumCell", for: idxPath) as! AlbumTableViewCell
@@ -326,7 +327,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                         }
                     }
                 }
-                cell.backgroundColor = darkGray
+                cell.backgroundColor = tableGray
                 cell.id = album.id
                 cell.layoutIfNeeded()
                 return cell
@@ -348,8 +349,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
             header.textLabel?.textAlignment = .center
             header.textLabel?.textColor = .white
             header.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-            header.contentView.backgroundColor = .darkGray
-            header.tintColor = .darkGray
+            header.contentView.backgroundColor = dark
         }
     }
     

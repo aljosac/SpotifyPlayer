@@ -136,6 +136,24 @@
             </objects>
             <point key="canvasLocation" x="3910" y="296"/>
         </scene>
+        <!--Expand Table View Controller-->
+        <scene sceneID="Jbw-aB-7uz">
+            <objects>
+                <tableViewController storyboardIdentifier="expandPage" id="ttx-9f-hJT" customClass="ExpandTableViewController" customModule="SpotifySearch" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="jUf-8u-aL3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="ttx-9f-hJT" id="qmQ-0z-OlE"/>
+                            <outlet property="delegate" destination="ttx-9f-hJT" id="zZ8-7p-WmA"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fll-LQ-cg6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4577" y="609"/>
+        </scene>
         <!--Queue-->
         <scene sceneID="wWv-l4-IFx">
             <objects>
@@ -171,11 +189,11 @@
                 <navigationController storyboardIdentifier="navController" automaticallyAdjustsScrollViewInsets="NO" id="hlp-AB-kjj" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="search" id="TeS-Md-FYs"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Zxs-bh-aal">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Zxs-bh-aal">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="barTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" white="0.10381401909722222" alpha="1" colorSpace="calibratedWhite"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </textAttributes>
@@ -343,11 +361,11 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="yWy-Ou-ect" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Queue" image="musicTab" id="CzW-VS-bh8"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="ckt-VL-afb">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ckt-VL-afb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="barTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" white="0.10297309027777778" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="vxA-hr-Leu">
@@ -360,7 +378,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AkL-oI-9iX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1512" y="1434"/>
+            <point key="canvasLocation" x="1528" y="1434"/>
         </scene>
     </scenes>
     <resources>
