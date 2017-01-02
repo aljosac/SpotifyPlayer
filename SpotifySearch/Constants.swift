@@ -36,7 +36,7 @@ let requestClosure = { (target: Spotify) -> Endpoint<Spotify> in
 }
 
 class AppState {
-    static let sharedInstance = AppState()
+    static let shared = AppState()
     var playerShowing:Bool = false
 }
 

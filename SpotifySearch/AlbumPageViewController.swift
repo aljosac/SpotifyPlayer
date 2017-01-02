@@ -36,6 +36,14 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
         self.tableView.register(UINib(nibName: "TrackTableViewCell", bundle:nil),forCellReuseIdentifier: "trackCell")
         let albumRect:CGRect = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 300)
         let spotifyModel = SpotifyModel(provider: provider)
+        self.tableView.indicatorStyle = .white
+        self.tableView.separatorColor = tableGray
+        self.tableView.backgroundColor = tableGray
+        
+        let activityView = UIActivityIndicatorView(frame: self.view.frame)
+        activityView.startAnimating()
+        self.view.addSubview(activityView)
+        
         spotifyModel.getAlbum(id: self.id!).subscribe{ event in
             switch event {
             case let .next(album):
@@ -54,7 +62,7 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
                 self.tableView.delegate = self.delegateSplitter
                 self.view.addSubview(self.albumBar!)
                 
-                let playerHeight:CGFloat = AppState.sharedInstance.playerShowing ? 64.0 : 0.0
+                let playerHeight:CGFloat = AppState.shared.playerShowing ? 64.0 : 0.0
                 let insets = UIEdgeInsetsMake(self.albumBar!.maximumBarHeight, 0.0, 50+playerHeight, 0.0)
                 
                 let backButton = UIButton(type: .custom)
@@ -66,9 +74,7 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
                 
                 self.tableView.contentInset = insets
                 self.tableView.scrollIndicatorInsets = insets
-                self.tableView.indicatorStyle = .white
-                self.tableView.separatorColor = tableGray
-                self.tableView.backgroundColor = tableGray
+                
                 let trackIds = album.tracks.map {$0.id}.joined(separator: ",")
                 spotifyModel.getTracks(id:trackIds).subscribe { event in
                     switch event {
@@ -83,6 +89,7 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
                 
                 let datasource = RxTableViewSectionedReloadDataSource<AlbumPageSectionModel>()
                 self.albumPageDataSource(datasource: datasource)
+                activityView.stopAnimating()
                 self.trackList.asObservable().bindTo(self.tableView.rx.items(dataSource: datasource)).addDisposableTo(self.disposeBag)
             case let .error(error):
                 print(error.localizedDescription)
