@@ -14,3 +14,4 @@ A simple app that finds and plays songs off spotify using RxSwift
 * Add whole albums and playlists
 * Implement caching
 * Create Top Result Section
+* create layouts for devices other than regular 6/7 size
