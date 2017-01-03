@@ -20,7 +20,7 @@ class ResultsTableViewController: UITableViewController {
         self.tableView.estimatedRowHeight = 60
         self.tableView.indicatorStyle = .white
         self.tableView.separatorColor = tableGray
-
+        resize()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -38,8 +38,9 @@ class ResultsTableViewController: UITableViewController {
     }
 
     func resize() {
+        
         if AppState.shared.playerShowing {
-            let insets = UIEdgeInsetsMake(0, 0, 64, 0)
+            let insets = UIEdgeInsetsMake(0, 0, 50+64, 0)
             self.tableView.contentInset = insets
             self.tableView.scrollIndicatorInsets = insets
         }
@@ -56,6 +57,37 @@ class ResultsTableViewController: UITableViewController {
             header.contentView.backgroundColor = dark
             
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if let cell = tableView.cellForRow(at: indexPath) as? ResultTableViewCell {
+            switch cell.cellType! {
+            case .TrackCell:
+                if cell.accessoryType == .checkmark {
+                    return nil
+                }
+                fallthrough
+            default:
+                return indexPath
+            }
+        }
+        return indexPath
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        if let cell = tableView.cellForRow(at: indexPath) as? ResultTableViewCell {
+            switch cell.cellType! {
+            case .TrackCell:
+                if cell.accessoryType == .checkmark {
+                    return false
+                }
+                fallthrough
+            default:
+                return true
+            }
+        }
+        return true
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

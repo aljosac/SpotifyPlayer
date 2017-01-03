@@ -216,7 +216,7 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
     // Updates UI based on current song position
     func songUI(position:TimeInterval) -> Float {
         let positionDouble = Double(position)
-        let durationDouble = Double(SPTAudioStreamingController.sharedInstance().metadata.currentTrack!.duration)
+        let durationDouble = Double(SPTAudioStreamingController.sharedInstance().metadata.currentTrack?.duration ?? 0)
         let value = Float(positionDouble / durationDouble)
         
         self.startSong.text = secondsToString(seconds: Int(position))
@@ -267,12 +267,7 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         print("didReceiveError: \(error!.localizedDescription)")
     }
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didStartPlayingTrack trackUri: String) {
-        print("Starting \(trackUri)")
-        print("Source \(SPTAudioStreamingController.sharedInstance().metadata.currentTrack?.playbackSourceUri)")
-        // If context is a single track and the uri of the actual track being played is different
-        // than we can assume that relink has happended.
-        let isRelinked = (SPTAudioStreamingController.sharedInstance().metadata.currentTrack?.playbackSourceUri.contains("spotify:track"))! && !(SPTAudioStreamingController.sharedInstance().metadata.currentTrack!.playbackSourceUri == trackUri)
-        print("Relinked \(isRelinked)")
+        
     }
     
     func audioStreamingDidSkip(toNextTrack audioStreaming: SPTAudioStreamingController!) {

@@ -78,7 +78,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         if AppState.shared.playerShowing {
-            let insets = UIEdgeInsetsMake(0, 0, 64, 0)
+            let insets = UIEdgeInsetsMake(0, 0, 50+64, 0)
             
             self.tableView.contentInset = insets
             self.tableView.scrollIndicatorInsets = insets
@@ -193,6 +193,8 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 switch cell.cellType! {
                 case .TrackCell:
                     let trackCell = cell as! TrackTableViewCell
+                    trackCell.tintColor = appGreen
+                    trackCell.accessoryType = .checkmark
                     NotificationCenter.default.post(name: Notification.Name("addTrack"), object: nil, userInfo: ["track":trackCell.track!])
                     self.resultsViewController.resize()
                     self.searchBar.resignFirstResponder()
@@ -313,6 +315,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 cell.track = track
                 cell.tintColor = appGreen
                 cell.backgroundColor = tableGray
+                cell.accessoryType = .none
                 if AppState.shared.queueIds.contains(track.id) {
                     cell.accessoryType = .checkmark
                 }

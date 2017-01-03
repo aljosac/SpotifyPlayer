@@ -66,7 +66,7 @@ class AlbumStyleBar: BLKFlexibleHeightBar {
             
             let startImageAttribute:BLKFlexibleHeightBarSubviewLayoutAttributes =
                 BLKFlexibleHeightBarSubviewLayoutAttributes()
-            startImageAttribute.size = CGSize(width: 100.0, height: 100.0)
+            startImageAttribute.size = CGSize(width: 150, height: 150)
             startImageAttribute.center = CGPoint(x: self.frame.width*0.5, y: self.maximumBarHeight-150)
             imageView.add(startImageAttribute, forProgress: 0.0)
             
@@ -100,7 +100,7 @@ class AlbumStyleBar: BLKFlexibleHeightBar {
     
         let startNameAttribute:BLKFlexibleHeightBarSubviewLayoutAttributes = BLKFlexibleHeightBarSubviewLayoutAttributes()
         startNameAttribute.size = CGSize(width: self.frame.width - 20, height: 30)
-        startNameAttribute.center = CGPoint(x: Double(self.frame.size.width) * 0.5, y: Double(self.maximumBarHeight) - 50)
+        startNameAttribute.center = CGPoint(x: Double(self.frame.size.width) * 0.5, y: Double(self.maximumBarHeight) - 40)
         name.add(startNameAttribute, forProgress: 0.0)
         
         let endNameAttribute = BLKFlexibleHeightBarSubviewLayoutAttributes(existing: startNameAttribute)!

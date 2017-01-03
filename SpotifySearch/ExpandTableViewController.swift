@@ -26,7 +26,7 @@ class ExpandTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        resize()
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "BackArrow")
     }
@@ -79,6 +79,13 @@ class ExpandTableViewController: UITableViewController {
         self.navigationController?.pushViewController(albumPage, animated: true)
     }
     
+    func resize() {
+        if AppState.shared.playerShowing {
+            let insets = UIEdgeInsetsMake(0, 0, 64, 0)
+            self.tableView.contentInset = insets
+            self.tableView.scrollIndicatorInsets = insets
+        }
+    }
     /*
     // MARK: - Navigation
 

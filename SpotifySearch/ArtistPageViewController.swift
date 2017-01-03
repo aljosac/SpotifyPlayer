@@ -163,7 +163,7 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
                 cell.track = track
                 cell.backgroundColor = tableGray
                 cell.tintColor = appGreen
-                
+                cell.accessoryType = .none
                 if AppState.shared.queueIds.contains(track.id) {
                     cell.accessoryType = .checkmark
                 }
