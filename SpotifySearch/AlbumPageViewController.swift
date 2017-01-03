@@ -118,6 +118,10 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
                 cell.backgroundColor = tableGray
                 cell.mainLabel.textColor = .white
                 cell.sublabel.textColor = .white
+                cell.tintColor = appGreen
+                if AppState.shared.queueIds.contains(track.id) {
+                    cell.accessoryType = .checkmark
+                }
                 return cell
             }
         }
@@ -144,6 +148,7 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
             
             self.tableView.contentInset = insets
             self.tableView.scrollIndicatorInsets = insets
+            trackCell.accessoryType = .checkmark
            
         default:
             return
@@ -151,7 +156,35 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if let cell = tableView.cellForRow(at: indexPath) as? ResultTableViewCell {
+            switch cell.cellType! {
+            case .TrackCell:
+                if cell.accessoryType == .checkmark {
+                    return nil
+                }
+                fallthrough
+            default:
+                return indexPath
+            }
+        }
+        return indexPath
+    }
     
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        if let cell = tableView.cellForRow(at: indexPath) as? ResultTableViewCell {
+            switch cell.cellType! {
+            case .TrackCell:
+                if cell.accessoryType == .checkmark {
+                    return false
+                }
+                fallthrough
+            default:
+                return true
+            }
+        }
+        return true
+    }
     
 }
 

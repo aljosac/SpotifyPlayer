@@ -38,7 +38,7 @@ class ResultsTableViewController: UITableViewController {
     }
 
     func resize() {
-        if AppState.sharedInstance.playerShowing {
+        if AppState.shared.playerShowing {
             let insets = UIEdgeInsetsMake(0, 0, 64, 0)
             self.tableView.contentInset = insets
             self.tableView.scrollIndicatorInsets = insets

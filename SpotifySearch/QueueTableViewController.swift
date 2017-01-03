@@ -89,6 +89,9 @@ class QueueTableViewController: UITableViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        resize()
+    }
     // Notification Handler for when a track is being added
     func addTrackToQueue(notification:Notification) {
         
@@ -98,12 +101,14 @@ class QueueTableViewController: UITableViewController {
             print("No track info")
             return
         }
-        if !AppState.sharedInstance.playerShowing{
+        if !AppState.shared.playerShowing{
             self.mainTabBarController.presentPlayer()
-            AppState.sharedInstance.playerShowing = true
+            AppState.shared.playerShowing = true
+            resize()
         }
         
         queue.value.append(track)
+        AppState.shared.queueIds.insert(track.id)
         print(track.name + " added")
     }
 
@@ -137,6 +142,13 @@ class QueueTableViewController: UITableViewController {
         return indexPath
     }
     
+    func resize() {
+        if AppState.shared.playerShowing {
+            let insets = UIEdgeInsetsMake(0, 0, 64, 0)
+            self.tableView.contentInset = insets
+            self.tableView.scrollIndicatorInsets = insets
+        }
+    }
 }
 
 // Setup the given dataSource

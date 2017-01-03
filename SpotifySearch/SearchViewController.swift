@@ -77,7 +77,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
-        if AppState.sharedInstance.playerShowing {
+        if AppState.shared.playerShowing {
             let insets = UIEdgeInsetsMake(0, 0, 64, 0)
             
             self.tableView.contentInset = insets
@@ -311,7 +311,11 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 cell.sublabel.text = track.artists.map{$0.name}.joined(separator: ",")
                 cell.sublabel.textColor = .white
                 cell.track = track
+                cell.tintColor = appGreen
                 cell.backgroundColor = tableGray
+                if AppState.shared.queueIds.contains(track.id) {
+                    cell.accessoryType = .checkmark
+                }
                 return cell
             case let .SearchAlbumItem(album):
                 let cell = table.dequeueReusableCell(withIdentifier: "albumCell", for: idxPath) as! AlbumTableViewCell

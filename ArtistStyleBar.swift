@@ -26,7 +26,7 @@ class ArtistStyleBar: BLKFlexibleHeightBar {
     func configureBar(){
         self.maximumBarHeight = 300
         self.minimumBarHeight = 65.0
-        self.backgroundColor = UIColor.darkGray
+        self.backgroundColor = tableGray
         
         let artistImage = artist.images.first?.image
         

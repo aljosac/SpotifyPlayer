@@ -247,7 +247,6 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
     }
     
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didChange metadata: SPTPlaybackMetadata) {
-        print("updateUI Called")
         self.updateUI()
     }
     
@@ -279,6 +278,7 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
     func audioStreamingDidSkip(toNextTrack audioStreaming: SPTAudioStreamingController!) {
         if queue.value.count > 0 {
             let track = queue.value.removeFirst()
+            AppState.shared.queueIds.remove(track.id)
             self.history.value.append(track)
             let uri = track.uri
             audioStreaming.playSpotifyURI(uri, startingWith: 0, startingWithPosition: 0) { error in
@@ -299,9 +299,10 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
             case .next(_):
                 if self.queue.value.count >= 1 && !self.isPlaying {
                     
-                    print(self.isPlaying)
+                    self.isPlaying = true
                     let track:Track = self.queue.value.removeFirst()
                     self.history.value.append(track)
+                    AppState.shared.queueIds.remove(track.id)
                     print("Removed First")
                     let controller = SPTAudioStreamingController.sharedInstance()
                     self.updateUI()

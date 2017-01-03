@@ -77,7 +77,7 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
         self.tableView.register(ExpandTableViewCell.self, forCellReuseIdentifier: "expandCell")
 
         
-        let playerHeight:CGFloat = AppState.sharedInstance.playerShowing ? 64.0 : 0.0
+        let playerHeight:CGFloat = AppState.shared.playerShowing ? 64.0 : 0.0
         let insets = UIEdgeInsetsMake(self.artistBar!.maximumBarHeight, 0.0, 50+playerHeight, 0.0)
         
         self.tableView.contentInset = insets
@@ -162,6 +162,11 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
                 cell.sublabel.textColor = .white
                 cell.track = track
                 cell.backgroundColor = tableGray
+                cell.tintColor = appGreen
+                
+                if AppState.shared.queueIds.contains(track.id) {
+                    cell.accessoryType = .checkmark
+                }
                 return cell
             case let .AlbumItem(album):
                 let cell = table.dequeueReusableCell(withIdentifier: "albumsCell", for: idxPath) as! AlbumCollectionTableViewCell
@@ -261,6 +266,7 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
             case .TrackCell:
                 let trackCell = cell as! TrackTableViewCell
                 print("posting")
+                cell.accessoryType = .checkmark
                 NotificationCenter.default.post(name: Notification.Name("addTrack"), object: nil, userInfo: ["track":trackCell.track!])
                 let insets = UIEdgeInsetsMake(self.artistBar!.maximumBarHeight+20, 0.0, 50+64, 0.0)
                 
@@ -281,6 +287,35 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if let cell = tableView.cellForRow(at: indexPath) as? ResultTableViewCell {
+            switch cell.cellType! {
+            case .TrackCell:
+                if cell.accessoryType == .checkmark {
+                    return nil
+                }
+                fallthrough
+            default:
+                return indexPath
+            }
+        }
+        return indexPath
+    }
+    
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        if let cell = tableView.cellForRow(at: indexPath) as? ResultTableViewCell {
+            switch cell.cellType! {
+            case .TrackCell:
+                if cell.accessoryType == .checkmark {
+                    return false
+                }
+                fallthrough
+            default:
+                return true
+            }
+        }
+        return true
+    }
     
 }
 

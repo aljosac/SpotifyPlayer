@@ -27,7 +27,7 @@ class AlbumStyleBar: BLKFlexibleHeightBar {
     func configureBar(){
         self.maximumBarHeight = 300
         self.minimumBarHeight = 65.0
-        self.backgroundColor = UIColor.darkGray
+        self.backgroundColor = tableGray
         
         
         if let image = self.image {

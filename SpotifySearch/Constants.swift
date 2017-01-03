@@ -38,6 +38,7 @@ let requestClosure = { (target: Spotify) -> Endpoint<Spotify> in
 class AppState {
     static let shared = AppState()
     var playerShowing:Bool = false
+    var queueIds:Set<String> = Set()
 }
 
 let tableGray:UIColor = UIColor(red: 0.147, green: 0.147, blue: 0.147, alpha: 1.0)

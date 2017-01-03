@@ -21,7 +21,7 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
         return (self.viewControllers?[1] as? UINavigationController)?.topViewController as! SearchViewController
     }
     
-    var state = AppState.sharedInstance
+    var state = AppState.shared
     var playerController:PlayerViewController? = nil
     
     override func viewDidLoad() {
@@ -43,7 +43,7 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
     }
     
     func presentPlayer() {
-        if !AppState.sharedInstance.playerShowing {
+        if !AppState.shared.playerShowing {
             self.presentPopupBar(withContentViewController: playerController!, animated: true, completion: nil)
 //            self.popupBar?.titleTextAttributes = ["NSFontAttributeName":UIFont.boldSystemFont(ofSize: 20)]
             state.playerShowing = true
