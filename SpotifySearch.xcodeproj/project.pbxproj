@@ -26,6 +26,7 @@
 		692D19991DFB5E27008408D4 /* AlbumTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692D19971DFB5E27008408D4 /* AlbumTableViewCell.swift */; };
 		692D199A1DFB5E27008408D4 /* AlbumTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 692D19981DFB5E27008408D4 /* AlbumTableViewCell.xib */; };
 		692D199E1DFB6421008408D4 /* ArtistPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692D199D1DFB6421008408D4 /* ArtistPageModel.swift */; };
+		692E6BAF1E1C35EB0087E689 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692E6BAE1E1C35EB0087E689 /* MediaPlayer.framework */; };
 		692E87771DE6258000C462F5 /* LNPopupController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692E87761DE6257200C462F5 /* LNPopupController.framework */; };
 		693131081DFF505D001666DD /* AlbumCollectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693131061DFF505D001666DD /* AlbumCollectionTableViewCell.swift */; };
 		693131091DFF505D001666DD /* AlbumCollectionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 693131071DFF505D001666DD /* AlbumCollectionTableViewCell.xib */; };
@@ -116,6 +117,7 @@
 		692D19971DFB5E27008408D4 /* AlbumTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumTableViewCell.swift; sourceTree = "<group>"; };
 		692D19981DFB5E27008408D4 /* AlbumTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlbumTableViewCell.xib; sourceTree = "<group>"; };
 		692D199D1DFB6421008408D4 /* ArtistPageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistPageModel.swift; sourceTree = "<group>"; };
+		692E6BAE1E1C35EB0087E689 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		692E87711DE6257200C462F5 /* LNPopupController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LNPopupController.xcodeproj; path = "../../Downloads/LNPopupController-master/LNPopupController/LNPopupController.xcodeproj"; sourceTree = "<group>"; };
 		693131061DFF505D001666DD /* AlbumCollectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumCollectionTableViewCell.swift; sourceTree = "<group>"; };
 		693131071DFF505D001666DD /* AlbumCollectionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlbumCollectionTableViewCell.xib; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				692E6BAF1E1C35EB0087E689 /* MediaPlayer.framework in Frameworks */,
 				692E87771DE6258000C462F5 /* LNPopupController.framework in Frameworks */,
 				F8D386851D775461002A13FC /* AVFoundation.framework in Frameworks */,
 				691E54061DD65FD500B1A62F /* SpotifyAuthentication.framework in Frameworks */,
@@ -309,6 +312,7 @@
 		C39651AD22CFC32A580AE8EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				692E6BAE1E1C35EB0087E689 /* MediaPlayer.framework */,
 				99D28A58F76A19FCD7BE6563 /* Pods_SpotifySearch.framework */,
 			);
 			name = Frameworks;
@@ -390,6 +394,11 @@
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = 9YG3QBY4Y5;
 						LastSwiftMigration = 0800;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
