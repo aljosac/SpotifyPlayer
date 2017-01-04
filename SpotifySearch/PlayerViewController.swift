@@ -103,6 +103,8 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         // Do any additional setup after loading the view.
         self.track.text = "Nothing Playing"
         self.artist.text = "Really it's nothing"
+        //UIApplication.shared.beginReceivingRemoteControlEvents()
+        
         self.setupSlider()
         self.newSession()
         self.setupCommand()
@@ -173,6 +175,9 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         let streamingController = SPTAudioStreamingController.sharedInstance()
         self.track.text = streamingController?.metadata.currentTrack?.name
         self.artist.text = streamingController?.metadata.currentTrack?.artistName
+        
+        
+        
         if let url = streamingController?.metadata.currentTrack?.albumCoverArtURL {
             Alamofire.request(url).responseData { response in
                 if let data = response.data {
@@ -185,17 +190,15 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
                     }
                     let meta = SPTAudioStreamingController.sharedInstance().metadata.currentTrack!
                     
-                    self.nowPlayingInfo.nowPlayingInfo = [MPMediaItemPropertyTitle:meta.name,
-                                                     MPMediaItemPropertyArtist:meta.artistName,
-                                                     MPMediaItemPropertyAlbumTitle:meta.albumName,
-                                                     MPMediaItemPropertyPlaybackDuration:meta.duration,
-                                                     MPMediaItemPropertyArtwork:artImage,
-                                                     MPNowPlayingInfoPropertyElapsedPlaybackTime:Double(0),
-                                                     MPNowPlayingInfoPropertyPlaybackRate:1.0]
+                    MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyTitle:meta.name,
+                                                                       MPMediaItemPropertyArtist:meta.artistName,
+                                                                       MPMediaItemPropertyAlbumTitle:meta.albumName,
+                                                                       MPMediaItemPropertyPlaybackDuration:meta.duration,
+                                                                       MPNowPlayingInfoPropertyElapsedPlaybackTime:0.0,
+                                                                       MPMediaItemPropertyArtwork:artImage]
                 }
             }
         }
-        
         self.popupItem.title = streamingController?.metadata.currentTrack?.name
         playing = UIBarButtonItem(image: #imageLiteral(resourceName: "pause"), style: .plain, target: self, action: #selector(playPause(_:)))
         self.popupItem.rightBarButtonItems = [playing!]
@@ -260,16 +263,19 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         if isPlaying {
             self.playButton.setImage(#imageLiteral(resourceName: "nowPlaying_pause"), for: UIControlState.normal)
             self.playing?.image = #imageLiteral(resourceName: "Pause Filled-32")
+            mp[MPNowPlayingInfoPropertyPlaybackRate] = 1.0
         } else {
             self.playButton.setImage(#imageLiteral(resourceName: "nowPlaying_play"), for: UIControlState.normal)
             self.playing?.image = #imageLiteral(resourceName: "Play Filled-32")
+            mp[MPNowPlayingInfoPropertyPlaybackRate] = 0.0
+
         }
         MPNowPlayingInfoCenter.default().nowPlayingInfo = mp
-        //isPlaying ? self.activateAudioSession() : self.deactivateAudioSession()
+        isPlaying ? self.activateAudioSession() : self.deactivateAudioSession()
     }
     
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didChange metadata: SPTPlaybackMetadata) {
-        self.updateUI()
+        
     }
     
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didChangePosition position: TimeInterval) {
@@ -289,6 +295,7 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         print("didReceiveError: \(error!.localizedDescription)")
     }
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didStartPlayingTrack trackUri: String) {
+        self.updateUI()
         nowPlayingInfo.nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = 0
     }
     
@@ -322,7 +329,6 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
                     self.currentTrack = track
                     print("Removed First")
                     let controller = SPTAudioStreamingController.sharedInstance()
-                    self.updateUI()
                     controller?.playSpotifyURI(track.uri, startingWith: 0, startingWithPosition: 0){ response in
                         
                         if let error = response {
