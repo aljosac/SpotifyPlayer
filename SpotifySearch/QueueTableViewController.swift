@@ -33,8 +33,8 @@ class QueueTableViewController: UITableViewController {
     
     var disposeBag = DisposeBag()
     
-    var queue:Variable<[Track]> = Variable([])
-    var history:Variable<[Track]> = Variable([])
+    var queue:Variable<[FullTrack]> = Variable([])
+    var history:Variable<[FullTrack]> = Variable([])
     var historyShowing:Bool = false
     
     override func viewDidLoad() {
@@ -60,7 +60,7 @@ class QueueTableViewController: UITableViewController {
         // Setup inital dataSource
         let dataSource = RxTableViewSectionedAnimatedDataSource<TrackSection>()
         let sections: [TrackSection] = [TrackSection(header: "Up Next", tracks: [], updated: Date())]
-        let dataSections:[Variable<[Track]>] = [queue,history]
+        let dataSections:[Variable<[FullTrack]>] = [queue,history]
         let state = SectionedQueueTableViewState(sections: sections,data:dataSections,current: dataSections[0],showHistory:true)
     
         // Setup tableView Commands
@@ -96,7 +96,7 @@ class QueueTableViewController: UITableViewController {
     func addTrackToQueue(notification:Notification) {
         
         guard let info = notification.userInfo,
-              let track = info["track"] as? Track
+              let track = info["track"] as? FullTrack
         else {
             print("No track info")
             return
@@ -194,11 +194,11 @@ enum TableViewEditingCommand {
 
 struct SectionedQueueTableViewState {
     fileprivate var sections: [TrackSection]
-    fileprivate var dataSections: [Variable<[Track]>]
-    fileprivate var currentData: Variable<[Track]>
+    fileprivate var dataSections: [Variable<[FullTrack]>]
+    fileprivate var currentData: Variable<[FullTrack]>
     fileprivate var toggle:Bool
     
-    init(sections:[TrackSection],data:[Variable<[Track]>],current:Variable<[Track]>,showHistory:Bool) {
+    init(sections:[TrackSection],data:[Variable<[FullTrack]>],current:Variable<[FullTrack]>,showHistory:Bool) {
         self.sections = sections
         self.dataSections = data
         self.currentData = current
@@ -267,14 +267,14 @@ struct SectionedQueueTableViewState {
 }
 
 extension TableViewEditingCommand {
-    static func addTrack(queue:[Track]) -> TableViewEditingCommand {
+    static func addTrack(queue:[FullTrack]) -> TableViewEditingCommand {
         var trackItem:[TrackItem] = []
         trackItem = queue.map { TrackItem(track: $0, type: .Queue, date: Date()) }
         return TableViewEditingCommand.AppendItem(list: trackItem, section: 0)
         
     }
     
-    static func addHistory(history:[Track]) -> TableViewEditingCommand {
+    static func addHistory(history:[FullTrack]) -> TableViewEditingCommand {
         var trackItem:[TrackItem] = []
         trackItem = history.map { TrackItem(track: $0, type: .History, date: Date()) }
         return TableViewEditingCommand.AppendItem(list: trackItem, section: 1)

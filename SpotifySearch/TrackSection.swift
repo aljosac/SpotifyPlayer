@@ -27,7 +27,7 @@ enum QueueLocation {
 }
 
 struct TrackItem {
-    let track:Track
+    let track:FullTrack
     let type:QueueLocation
     let date:Date
 }
@@ -58,9 +58,9 @@ extension TrackSection: CustomDebugStringConvertible {
 }
 
 extension TrackItem: IdentifiableType, Equatable {
-    typealias Identity = Track
+    typealias Identity = FullTrack
     
-    var identity:Track {
+    var identity:FullTrack {
         return track
     }
     

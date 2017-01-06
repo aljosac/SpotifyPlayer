@@ -112,24 +112,31 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
             }
         }.addDisposableTo(disposeBag)
         
-        spotifyModel.getArtistAlbums(id: artist!.id).subscribe { event in
+        spotifyModel.getArtistAlbums(id: artist!.id,type:"album").subscribe { event in
             switch event {
-            case var .next(albumList):
-                print(albumList.count)
-                let singleList = albumList.branch(eval: {$0.type == "single" }).removeDuplicates()
-                print(albumList.count)
-                let prunnedAlbums = albumList.removeDuplicates()
+            case let .next(albumPage):
+                let prunnedAlbums = albumPage.items.removeDuplicates()
                 let albums = SearchItem.AlbumItem(album: prunnedAlbums)
-                let singles = SearchItem.SingleItem(single: singleList)
-                
                 self.albums = AlbumCollectionModel(albums: prunnedAlbums)
-                self.singles = AlbumCollectionModel(albums: singleList)
-                
-                self.sections.value[1] = ArtistPageSectionModel.AlbumsSection(items: [albums,SearchItem.EndCell(text: albumText,album:prunnedAlbums)])
-                self.sections.value[2] = ArtistPageSectionModel.SinglesSection(items: [singles,SearchItem.EndCell(text: singleText,album:singleList)])
+                let albumEndCell = SearchItem.EndCell(text: albumText,type:"album")
+                self.sections.value[1] = ArtistPageSectionModel.AlbumsSection(items: [albums,albumEndCell])
             case .error,.completed:
                 break
             }
+        }.addDisposableTo(disposeBag)
+        
+        spotifyModel.getArtistAlbums(id: artist!.id,type:"single").subscribe { event in
+            switch event {
+            case let .next(singlePage):
+                let singleList = singlePage.items.removeDuplicates()
+                let singles = SearchItem.SingleItem(single: singleList)
+                self.singles = AlbumCollectionModel(albums: singleList)
+                let singleEndCell = SearchItem.EndCell(text: singleText,type:"single")
+                self.sections.value[2] = ArtistPageSectionModel.SinglesSection(items: [singles,singleEndCell])
+            case .error,.completed:
+                break
+            }
+            
         }.addDisposableTo(disposeBag)
         
     }
@@ -186,13 +193,13 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
                 cell.albumCollection.backgroundColor = tableGray
                 cell.albums = single
                 return cell
-            case let .EndCell(text,albums):
+            case let .EndCell(text,type):
                 let cell = table.dequeueReusableCell(withIdentifier: "expandCell", for: idxPath) as! ExpandTableViewCell
                 cell.textLabel?.text = text
                 cell.textLabel?.textColor = .white
                 cell.backgroundColor = tableGray
                 cell.accessoryType = .disclosureIndicator
-                cell.albums = albums
+                cell.albumType = type
                 cell.cellType = .ExpandCell
                 return cell
             default:
@@ -277,7 +284,8 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
                 
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let expandController = storyboard.instantiateViewController(withIdentifier: "expandPage") as! ExpandTableViewController
-                expandController.data = expandCell.albums!
+                expandController.type = expandCell.albumType
+                expandController.id = self.artist!.id
                 self.navigationController?.pushViewController(expandController, animated: true)
             default:
                 return

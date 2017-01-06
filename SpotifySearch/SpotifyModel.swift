@@ -19,12 +19,12 @@ struct SpotifyModel {
         return self.provider.request(Spotify.Search(name: query)).debug().mapObject(type: Result.self)
     }
     
-    func getTrack(id:String) -> Observable<Track> {
-        return self.provider.request(Spotify.Track(id: id)).debug().mapObject(type: Track.self)
+    func getTrack(id:String) -> Observable<FullTrack> {
+        return self.provider.request(Spotify.Track(id: id)).debug().mapObject(type: FullTrack.self)
     }
     
-    func getTracks(id:String) -> Observable<[Track]> {
-        return self.provider.request(Spotify.Tracks(id: id)).debug().mapArray(type: Track.self, keyPath: "tracks")
+    func getTracks(id:String) -> Observable<[FullTrack]> {
+        return self.provider.request(Spotify.Tracks(id: id)).debug().mapArray(type: FullTrack.self, keyPath: "tracks")
     }
     // Gets users top artists
     func topArtists() -> Observable<[FullArtist]> {
@@ -40,13 +40,13 @@ struct SpotifyModel {
         return self.provider.request(Spotify.Artists(id: id)).debug().mapArray(type: FullArtist.self, keyPath: "artists")
     }
     
-    func getTopArtistTracks(id:String) -> Observable<[Track]> {
+    func getTopArtistTracks(id:String) -> Observable<[FullTrack]> {
         print(Spotify.TopArtistTracks(id: id).baseURL.absoluteString + Spotify.TopArtistTracks(id: id).path)
-        return self.provider.request(Spotify.TopArtistTracks(id: id)).debug().mapArray(type: Track.self, keyPath:"tracks")
+        return self.provider.request(Spotify.TopArtistTracks(id: id)).debug().mapArray(type: FullTrack.self, keyPath:"tracks")
     }
     
-    func getArtistAlbums(id:String) -> Observable<[SimpleAlbum]>{
-        return self.provider.request(Spotify.ArtistAlbums(id: id)).debug().mapArray(type: SimpleAlbum.self, keyPath:"items")
+    func getArtistAlbums(id:String,type:String = "album,single",offset:Int = 0,limit:Int = 10) -> Observable<SimpleAlbumPage>{
+        return self.provider.request(Spotify.ArtistAlbums(id:id,type:type,limit:limit,offset:offset)).debug().mapObject(type: SimpleAlbumPage.self)
     }
     
     func getAlbum(id:String) -> Observable<FullAlbum> {

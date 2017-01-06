@@ -13,7 +13,7 @@ class TrackTableViewCell: ResultTableViewCell {
     @IBOutlet weak var mainLabel: UILabel!
     @IBOutlet weak var sublabel: UILabel!
     
-    var track:Track? = nil
+    var track:FullTrack? = nil
     var id:String? = nil
     var albumImage:UIImage? = nil
     var type:QueueLocation? = nil

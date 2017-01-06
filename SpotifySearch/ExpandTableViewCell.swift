@@ -10,7 +10,7 @@ import UIKit
 
 class ExpandTableViewCell: ResultTableViewCell {
 
-    var albums:[SimpleAlbum]? = nil
+    var albumType:String = ""
     
     override func awakeFromNib() {
         super.awakeFromNib()

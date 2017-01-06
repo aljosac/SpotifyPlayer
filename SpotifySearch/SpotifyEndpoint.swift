@@ -25,7 +25,7 @@ public enum Spotify {
     case Artist(id: String)
     case TopArtists
     case TopArtistTracks(id:String)
-    case ArtistAlbums(id:String)
+    case ArtistAlbums(id:String,type:String,limit:Int,offset:Int)
     case Artists(id: String)
     case Track(id: String)
     case Tracks(id: String)
@@ -47,7 +47,7 @@ extension Spotify: TargetType {
             return "/v1/me/top/artists"
         case .TopArtistTracks(let id):
             return "/v1/artists/\(id)/top-tracks"
-        case .ArtistAlbums(let id):
+        case .ArtistAlbums(let id,_,_,_):
             return "/v1/artists/\(id)/albums"
         case .Artists(id:_):
             return "/v1/artists"
@@ -66,8 +66,8 @@ extension Spotify: TargetType {
         switch self {
         case .Search(let name):
             return ["query":name+"*","type":"track,artist,album"]
-        case .ArtistAlbums(_):
-            return ["album_type":"album,single","market":"US","limit":"50"]
+        case .ArtistAlbums(_,let type,let limit,let offset):
+            return ["album_type":"\(type)","market":"US","limit":"\(limit)","offset":"\(offset)"]
         case .TopArtistTracks(id: _):
             return ["country":"US"]
         case .Artists(let id), .Tracks(let id):

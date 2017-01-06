@@ -9,7 +9,20 @@
 import Mapper
 
 
-struct Track: Mappable {
+
+struct SimpleTrack: Mappable {
+    
+    let name: String
+    let id:String
+    let artists:[SimpleArtist]
+    init(map: Mapper) throws {
+        try name = map.from("name")
+        try id = map.from("id")
+        try artists = map.from("artists")
+    }
+}
+
+struct FullTrack: Mappable {
     
     let name: String
     let popularity: Int
@@ -24,19 +37,6 @@ struct Track: Mappable {
         try artists = map.from("artists")
         try album = map.from("album")
         try uri = map.from("uri")
-    }
-}
-
-
-struct SimpleTrack: Mappable {
-    
-    let name: String
-    let id:String
-    let artists:[SimpleArtist]
-    init(map: Mapper) throws {
-        try name = map.from("name")
-        try id = map.from("id")
-        try artists = map.from("artists")
     }
 }
 
@@ -85,11 +85,11 @@ struct SimpleAlbum: Mappable {
 struct FullAlbum: Mappable {
     let name:String
     var images:[Image]
-    let tracks:[SimpleTrack]
+    let tracks:SimpleTrackPage
     init(map: Mapper) throws {
         try name = map.from("name")
         try images = map.from("images")
-        try tracks = map.from("tracks.items")
+        try tracks = map.from("tracks")
     }
 }
 
@@ -106,23 +106,90 @@ struct Image: Mappable {
     }
 }
 
-struct Result:Mappable {
-    let tracks:[Track]
-    let artists:[FullArtist]
-    let albums:[SimpleAlbum]
-    init(map: Mapper) throws {
-        try tracks = map.from("tracks.items")
-        try artists = map.from("artists.items")
-        try albums = map.from("albums.items")
+
+enum PageType {
+    case SimpleTrack(items:[SimpleTrack])
+    case FullTrack(items:[FullTrack])
+    case SimpleArtist(items:[SimpleArtist])
+    case FullArtist(items:[FullArtist])
+    case SimpleAlbum(items:[SimpleAlbum])
+    case FullAlbum(items:[FullAlbum])
+}
+
+class Page:Mappable {
+    let next:String?
+    let total:Int
+    let limit:Int
+    let offset:Int
+    required init(map: Mapper) throws {
+        next = map.optionalFrom("next")
+        try total = map.from("total")
+        try limit = map.from("limit")
+        try offset = map.from("offset")
+    }
+    
+}
+
+class FullTrackPage: Page {
+    
+    var items:[FullTrack]
+    
+    required init(map: Mapper) throws {
+        try items = map.from("items")
+        try super.init(map: map)
     }
 }
 
-extension Track: Hashable {
+class SimpleTrackPage: Page {
+    
+    var items:[SimpleTrack]
+    
+    required init(map: Mapper) throws {
+        try items = map.from("items")
+        try super.init(map: map)
+    }
+}
+
+class FullArtistPage: Page {     
+    
+    var items:[FullArtist]
+    
+    required init(map: Mapper) throws {
+        try items = map.from("items")
+        try super.init(map: map)
+    }
+}
+
+class SimpleAlbumPage: Page {
+    
+    var items:[SimpleAlbum]
+    
+    required init(map: Mapper) throws {
+        try items = map.from("items")
+        try super.init(map: map)
+    }
+}
+
+struct Result:Mappable {
+    
+    let tracks:FullTrackPage
+    let artists:FullArtistPage
+    let albums:SimpleAlbumPage
+    init(map: Mapper) throws {
+        try tracks = map.from("tracks")
+        try artists = map.from("artists")
+        try albums = map.from("albums")
+    }
+}
+
+
+// MARK: - Extensions
+extension FullTrack: Hashable {
     var hashValue: Int {
         return id.hash
     }
     
-    static func == (lhs: Track, rhs: Track) -> Bool {
+    static func == (lhs: FullTrack, rhs: FullTrack) -> Bool {
         return lhs.id == rhs.id
     }
     

@@ -16,9 +16,9 @@ import MediaPlayer
 class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioStreamingPlaybackDelegate {
 
     // MARK: - Variables
-    var queue:Variable<[Track]>
-    var history:Variable<[Track]>
-    var currentTrack:Track? = nil
+    var queue:Variable<[FullTrack]>
+    var history:Variable<[FullTrack]>
+    var currentTrack:FullTrack? = nil
     var disposeBag:DisposeBag = DisposeBag()
     var playing:UIBarButtonItem? = nil
     var isChangingProgress: Bool = false
@@ -80,7 +80,7 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
         }
     }
     // MARK: - Class Functions
-    init(songQueue:Variable<[Track]>?,songHistory:Variable<[Track]>?) {
+    init(songQueue:Variable<[FullTrack]>?,songHistory:Variable<[FullTrack]>?) {
         print("Player initalized")
         queue = songQueue!
         history = songHistory!
@@ -325,7 +325,7 @@ class PlayerViewController: UIViewController,SPTAudioStreamingDelegate,SPTAudioS
                 if self.queue.value.count >= 1 && !self.isPlaying {
                     
                     self.isPlaying = true
-                    let track:Track = self.queue.value.removeFirst()
+                    let track:FullTrack = self.queue.value.removeFirst()
                     self.currentTrack = track
                     print("Removed First")
                     let controller = SPTAudioStreamingController.sharedInstance()

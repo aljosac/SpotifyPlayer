@@ -75,7 +75,7 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
                 backButton.addTarget(self, action: #selector(self.close), for: .touchUpInside)
                 self.albumBar?.addSubview(backButton)
                 
-                let trackIds = album.tracks.map {$0.id}.joined(separator: ",")
+                let trackIds = album.tracks.items.map {$0.id}.joined(separator: ",")
                 spotifyModel.getTracks(id:trackIds).subscribe { event in
                     switch event {
                     case let .next(response):
@@ -110,7 +110,7 @@ class AlbumPageViewController: UIViewController,UITableViewDelegate {
             switch datasource[idxPath] {
             case let .AlbumTrack(track):
                 let cell = table.dequeueReusableCell(withIdentifier: "trackCell", for: idxPath) as! TrackTableViewCell
-            
+                // Configure Cell
                 cell.mainLabel.text = track.name
                 let artists = track.artists.map{ $0.name }
                 cell.sublabel.text = artists.joined(separator: ", ")

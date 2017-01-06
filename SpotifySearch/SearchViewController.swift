@@ -25,7 +25,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     
     var disposeBag = DisposeBag()
     let provider = RxMoyaProvider<Spotify>(endpointClosure: requestClosure)
-    var queueAdded:Variable<[Track]> = Variable.init([])
+    var queueAdded:Variable<[FullTrack]> = Variable.init([])
     var results:Observable<[SearchResultSectionModel]>? = nil
     var history:Set<String> = []
     
@@ -123,7 +123,6 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     
     func setupSearch(){
         
-        
         resultsTableView.dataSource = nil
         let spotifyModel = SpotifyModel(provider: provider)
                 // Throttle typing and send http search request
@@ -136,7 +135,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 var sections:[SearchResultSectionModel] = []
                 
                 // sorts and adds Tracks to search results if any exist
-                let sortedTracks = result.tracks.sorted(by: {$0.popularity > $1.popularity})
+                let sortedTracks = result.tracks.items.sorted(by: {$0.popularity > $1.popularity})
                     .map {SearchItem.TrackItem(track: $0)}
                 if sortedTracks.count > 0 {
                     let count = min(sortedTracks.count,10)
@@ -145,7 +144,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 }
                 
                 // sorts and adds Artists to search results if any exist
-                let sortedArtists = result.artists.sorted(by: {$0.popularity > $1.popularity})
+                let sortedArtists = result.artists.items.sorted(by: {$0.popularity > $1.popularity})
                     .map {SearchItem.ArtistItem(artist: $0)}
                 if sortedArtists.count > 0 {
                     let count = min(sortedArtists.count,3)
@@ -153,7 +152,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                     sections.append(.ArtistSection(items: section))
                 }
                 
-                let sortedAlbums = result.albums.map{SearchItem.SearchAlbumItem(album: $0)}
+                let sortedAlbums = result.albums.items.map{SearchItem.SearchAlbumItem(album: $0)}
                 if sortedAlbums.count > 0 {
                     let count = min(sortedAlbums.count,3)
                     let section = Array(sortedAlbums.prefix(through: count-1))

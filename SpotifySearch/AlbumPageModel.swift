@@ -14,7 +14,7 @@ enum AlbumPageSectionModel {
 }
 
 enum AlbumItem {
-    case AlbumTrack(track:Track)
+    case AlbumTrack(track:FullTrack)
 }
 
 extension AlbumPageSectionModel: SectionModelType {
