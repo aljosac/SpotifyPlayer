@@ -30,4 +30,19 @@ class TrackTableViewCell: ResultTableViewCell {
         // Configure the view for the selected state
     }
     
+    func configureCell() {
+        self.mainLabel.text = track?.name
+        self.mainLabel.textColor = .white
+        self.sublabel.text = track?.artists.map{ $0.name }.joined(separator: ",")
+        self.sublabel.textColor = .white
+        self.backgroundColor = tableGray
+        self.tintColor = appGreen
+        
+        // Using resuable cell must reset accessory type
+        self.accessoryType = .none
+        if AppState.shared.queueIds.contains((track?.id)!) {
+            self.accessoryType = .checkmark
+        }
+    }
+    
 }

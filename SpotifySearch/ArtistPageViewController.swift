@@ -118,7 +118,7 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
                 let prunnedAlbums = albumPage.items.removeDuplicates()
                 let albums = SearchItem.AlbumItem(album: prunnedAlbums)
                 self.albums = AlbumCollectionModel(albums: prunnedAlbums)
-                let albumEndCell = SearchItem.EndCell(text: albumText,type:"album")
+                let albumEndCell = SearchItem.ExpandItem(type: .Album(text: albumText, type: "album", page: albumPage))
                 self.sections.value[1] = ArtistPageSectionModel.AlbumsSection(items: [albums,albumEndCell])
             case .error,.completed:
                 break
@@ -131,7 +131,7 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
                 let singleList = singlePage.items.removeDuplicates()
                 let singles = SearchItem.SingleItem(single: singleList)
                 self.singles = AlbumCollectionModel(albums: singleList)
-                let singleEndCell = SearchItem.EndCell(text: singleText,type:"single")
+                let singleEndCell = SearchItem.ExpandItem(type: .Album(text: singleText, type: "single", page: singlePage))
                 self.sections.value[2] = ArtistPageSectionModel.SinglesSection(items: [singles,singleEndCell])
             case .error,.completed:
                 break
@@ -148,32 +148,12 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
             case let .ArtistItem(artist):
                 let cell = table.dequeueReusableCell(withIdentifier: "artistCell", for: idxPath) as!
                 ArtistTableViewCell
-                cell.name.text = artist.name
-                cell.name.textColor = .white
                 cell.artist = artist
-                cell.backgroundColor = tableGray
-                if artist.images.count > 0 {
-                    Alamofire.request(artist.images[0].url).responseData { response in
-                        if let data = response.data {
-                            let image:UIImage = UIImage(data: data)!
-                            cell.artistImage.image = image
-                        }
-                    }
-                }
                 return cell
             case let .TrackItem(track):
                 let cell = table.dequeueReusableCell(withIdentifier: "trackCell", for: idxPath) as! TrackTableViewCell
-                cell.mainLabel.text = track.name
-                cell.sublabel.text = track.artists[0].name
-                cell.mainLabel.textColor = .white
-                cell.sublabel.textColor = .white
                 cell.track = track
-                cell.backgroundColor = tableGray
-                cell.tintColor = appGreen
-                cell.accessoryType = .none
-                if AppState.shared.queueIds.contains(track.id) {
-                    cell.accessoryType = .checkmark
-                }
+                cell.configureCell()
                 return cell
             case let .AlbumItem(album):
                 let cell = table.dequeueReusableCell(withIdentifier: "albumsCell", for: idxPath) as! AlbumCollectionTableViewCell
@@ -193,14 +173,21 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
                 cell.albumCollection.backgroundColor = tableGray
                 cell.albums = single
                 return cell
-            case let .EndCell(text,type):
+            case let .ExpandItem(endCell):
                 let cell = table.dequeueReusableCell(withIdentifier: "expandCell", for: idxPath) as! ExpandTableViewCell
-                cell.textLabel?.text = text
-                cell.textLabel?.textColor = .white
-                cell.backgroundColor = tableGray
-                cell.accessoryType = .disclosureIndicator
-                cell.albumType = type
-                cell.cellType = .ExpandCell
+                
+                switch endCell {
+                case let .Album(text,_,_):
+                    cell.textLabel?.text = text
+                    cell.textLabel?.textColor = .white
+                    cell.backgroundColor = tableGray
+                    cell.accessoryType = .disclosureIndicator
+                    cell.info = endCell
+                    cell.cellType = .ExpandCell
+                default:
+                    return cell
+                }
+                
                 return cell
             default:
                 return UITableViewCell()
@@ -282,10 +269,7 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
             case .ExpandCell:
                 let expandCell = cell as! ExpandTableViewCell
                 
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let expandController = storyboard.instantiateViewController(withIdentifier: "expandPage") as! ExpandTableViewController
-                expandController.type = expandCell.albumType
-                expandController.id = self.artist!.id
+                let expandController = ExpandTableViewController(info: expandCell.info!, style: .plain)
                 self.navigationController?.pushViewController(expandController, animated: true)
             default:
                 return

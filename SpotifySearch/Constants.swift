@@ -47,6 +47,8 @@ let appGreen:UIColor = UIColor(colorLiteralRed: 0.114, green: 0.725, blue: 0.329
 
 let albumText = "See All Albums"
 let singleText = "See All Singles"
+let trackText = "See All Tracks"
+let artistText = "See All Artists"
 
 extension UIImage {
     class func circle(diameter: CGFloat, color: UIColor,alpha:CGFloat) -> UIImage {
@@ -120,5 +122,17 @@ extension Array where Element:Equatable {
             }
         }
         return ret
+    }
+}
+
+extension String {
+    func capitalizingFirstLetter() -> String {
+        let first = String(characters.prefix(1)).capitalized
+        let other = String(characters.dropFirst())
+        return first + other
+    }
+    
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
     }
 }

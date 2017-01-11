@@ -117,10 +117,10 @@ enum PageType {
 }
 
 class Page:Mappable {
-    let next:String?
+    var next:String?
     let total:Int
     let limit:Int
-    let offset:Int
+    var offset:Int
     required init(map: Mapper) throws {
         next = map.optionalFrom("next")
         try total = map.from("total")

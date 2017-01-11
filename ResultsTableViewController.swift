@@ -9,8 +9,6 @@
 import UIKit
 
 class ResultsTableViewController: UITableViewController {
-
-    var resized:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +38,7 @@ class ResultsTableViewController: UITableViewController {
     func resize() {
         
         if AppState.shared.playerShowing {
-            let insets = UIEdgeInsetsMake(0, 0, 50+64, 0)
+            let insets = UIEdgeInsetsMake(0, 0, 64, 0)
             self.tableView.contentInset = insets
             self.tableView.scrollIndicatorInsets = insets
         }
@@ -94,43 +92,15 @@ class ResultsTableViewController: UITableViewController {
         let section = tableView.headerView(forSection: indexPath.section)?.textLabel?.text ?? ""
         switch section {
         case "Artists","Albums":
+            if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+                return 44
+            }
             return 60
+            
         default:
             return 44
         }
     }
     
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    
-
-    
-
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

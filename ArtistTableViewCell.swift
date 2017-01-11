@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class ArtistTableViewCell: ResultTableViewCell {
 
@@ -27,6 +28,20 @@ class ArtistTableViewCell: ResultTableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    func configureCell() {
+        self.name.text = artist!.name
+        self.name.textColor = .white
+        self.backgroundColor = tableGray
+        if artist!.images.count > 0 {
+            Alamofire.request(artist!.images[0].url).responseData { response in
+                if let data = response.data {
+                    let image:UIImage = UIImage(data: data)!
+                    self.artistImage.image = image
+                }
+            }
+        }
     }
     
 }

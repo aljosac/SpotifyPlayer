@@ -59,6 +59,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         resultsTableView.register(UINib(nibName: "TrackTableViewCell", bundle:nil), forCellReuseIdentifier: "trackCell")
         resultsTableView.register(UINib(nibName: "ArtistTableViewCell", bundle:nil), forCellReuseIdentifier: "artistCell")
         resultsTableView.register(UINib(nibName: "AlbumTableViewCell", bundle:nil), forCellReuseIdentifier: "albumCell")
+        resultsTableView.register(ExpandTableViewCell.self, forCellReuseIdentifier: "expandCell")
         
         tableView.register(UINib(nibName: "ResultTableViewCell", bundle:nil), forCellReuseIdentifier: "resultCell")
         tableView.register(UINib(nibName: "ArtistTableViewCell", bundle:nil), forCellReuseIdentifier: "artistCell")
@@ -139,8 +140,9 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                     .map {SearchItem.TrackItem(track: $0)}
                 if sortedTracks.count > 0 {
                     let count = min(sortedTracks.count,10)
-                    let section = Array(sortedTracks.prefix(through: count-1))
-                    sections.append(.TrackSection(items: section))
+                    var tracks:[SearchItem] = Array(sortedTracks.prefix(through: count-1))
+                    tracks.append(SearchItem.ExpandItem(type: EndCell.Track(text: trackText, page: result.tracks)))
+                    sections.append(.TrackSection(items: tracks))
                 }
                 
                 // sorts and adds Artists to search results if any exist
@@ -148,15 +150,17 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                     .map {SearchItem.ArtistItem(artist: $0)}
                 if sortedArtists.count > 0 {
                     let count = min(sortedArtists.count,3)
-                    let section = Array(sortedArtists.prefix(through: count-1))
-                    sections.append(.ArtistSection(items: section))
+                    var artists:[SearchItem] = Array(sortedArtists.prefix(through: count-1))
+                    artists.append(SearchItem.ExpandItem(type: EndCell.Artist(text: artistText, page: result.artists)))
+                    sections.append(.ArtistSection(items: artists))
                 }
                 
                 let sortedAlbums = result.albums.items.map{SearchItem.SearchAlbumItem(album: $0)}
                 if sortedAlbums.count > 0 {
                     let count = min(sortedAlbums.count,3)
-                    let section = Array(sortedAlbums.prefix(through: count-1))
-                    sections.append(.AlbumSection(items: section))
+                    var albums = Array(sortedAlbums.prefix(through: count-1))
+                    albums.append(SearchItem.ExpandItem(type: EndCell.Album(text: albumText,type:"album", page: result.albums)))
+                    sections.append(.AlbumSection(items: albums))
                 }
                 
                 return sections
@@ -192,18 +196,15 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 switch cell.cellType! {
                 case .TrackCell:
                     let trackCell = cell as! TrackTableViewCell
-                    trackCell.tintColor = appGreen
                     trackCell.accessoryType = .checkmark
                     NotificationCenter.default.post(name: Notification.Name("addTrack"), object: nil, userInfo: ["track":trackCell.track!])
                     self.resultsViewController.resize()
                     self.searchBar.resignFirstResponder()
-                    self.addAndSaveHistory()
                 case .ArtistCell:
                     let artistCell = cell as! ArtistTableViewCell
         
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     let artistPage = storyboard.instantiateViewController(withIdentifier: "artistPage") as! ArtistPageViewController
-                    
                     artistPage.artist = artistCell.artist!
                     self.navigationController?.pushViewController(artistPage, animated: true)
                 case .AlbumCell:
@@ -215,9 +216,14 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                     albumPage.id = albumCell.id
                     albumPage.albumImage = albumCell.albumCover.image
                     self.navigationController?.pushViewController(albumPage, animated: true)
+                case .ExpandCell:
+                    let expandCell = cell as! ExpandTableViewCell
+                    let expandController = ExpandTableViewController(info: expandCell.info!, style: .plain)
+                    self.navigationController?.pushViewController(expandController, animated: true)
                 default:
                     break
                 }
+                self.addAndSaveHistory()
                 self.resultsTableView.deselectRow(at: index, animated: true)
             case let .error(error):
                 print(error.localizedDescription)
@@ -290,52 +296,35 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
             case let .ArtistItem(artist):
                 let cell = table.dequeueReusableCell(withIdentifier: "artistCell", for: idxPath) as!
                     ArtistTableViewCell
-                cell.name.text = artist.name
-                cell.name.textColor = .white
                 cell.artist = artist
-                
-                if artist.images.count > 0 {
-                    Alamofire.request(artist.images[0].url).responseData { response in
-                        if let data = response.data {
-                            let image:UIImage = UIImage(data: data)!
-                            cell.artistImage.image = image
-                            cell.artist?.images[0].image = image
-                        }
-                    }
-                }
-                cell.backgroundColor = tableGray
+                cell.configureCell()
                 return cell
             case let .TrackItem(track):
                 let cell = table.dequeueReusableCell(withIdentifier: "trackCell", for: idxPath) as! TrackTableViewCell
-                cell.mainLabel.text = track.name
-                cell.mainLabel.textColor = .white
-                cell.sublabel.text = track.artists.map{$0.name}.joined(separator: ",")
-                cell.sublabel.textColor = .white
                 cell.track = track
-                cell.tintColor = appGreen
-                cell.backgroundColor = tableGray
-                cell.accessoryType = .none
-                if AppState.shared.queueIds.contains(track.id) {
-                    cell.accessoryType = .checkmark
-                }
+                cell.configureCell()
                 return cell
             case let .SearchAlbumItem(album):
                 let cell = table.dequeueReusableCell(withIdentifier: "albumCell", for: idxPath) as! AlbumTableViewCell
-                cell.albumName.text = album.name
-                cell.albumName.textColor = .white
-                cell.artistName.text = album.artists.map{$0.name}.joined(separator: ",")
-                cell.artistName.textColor = .white
-                if album.images.count > 0 {
-                    Alamofire.request(album.images[0].url).responseData { response in
-                        if let data = response.data {
-                            let image:UIImage = UIImage(data: data)!
-                            cell.albumCover.image = image
-                        }
-                    }
+                cell.album = album
+                cell.configureCell()
+                return cell
+            case let .ExpandItem(endCell):
+                let cell = table.dequeueReusableCell(withIdentifier: "expandCell", for: idxPath) as! ExpandTableViewCell
+                
+                switch endCell {
+                case let .Track(text, _):
+                    cell.textLabel?.text = text
+                case let .Artist(text,_):
+                    cell.textLabel?.text = text
+                case let .Album(text,_,_):
+                    cell.textLabel?.text = text
                 }
+                cell.textLabel?.textColor = .white
+                cell.cellType = .ExpandCell
+                cell.info = endCell
+                cell.accessoryType = .disclosureIndicator
                 cell.backgroundColor = tableGray
-                cell.id = album.id
-                cell.layoutIfNeeded()
                 return cell
             default:
                 return UITableViewCell()

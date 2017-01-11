@@ -63,13 +63,19 @@ enum SearchResultSectionModel {
     case TopResultSection(items:[SearchItem])
 }
 
+enum EndCell {
+    case Album(text:String,type:String,page:SimpleAlbumPage)
+    case Track(text:String,page:FullTrackPage)
+    case Artist(text:String,page:FullArtistPage)
+}
+
 enum SearchItem {
     case TrackItem(track:FullTrack)
     case ArtistItem(artist:FullArtist)
     case AlbumItem(album:[SimpleAlbum])
     case SingleItem(single:[SimpleAlbum])
     case SearchAlbumItem(album:SimpleAlbum)
-    case EndCell(text:String,type:String)
+    case ExpandItem(type:EndCell)
 }
 
 extension SearchResultSectionModel: SectionModelType {
