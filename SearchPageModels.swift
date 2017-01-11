@@ -123,3 +123,32 @@ extension SearchResultSectionModel {
     }
 }
 
+extension SearchItem {
+
+    var name:String {
+        switch self {
+        case .TrackItem(let track):
+            return track.name
+        case .ArtistItem(let artist):
+            return artist.name
+        case .SearchAlbumItem(let album):
+            return album.name
+        default:
+            return ""
+        }
+    }
+    
+    var popularity:Int {
+        switch self {
+        case .TrackItem(let track):
+            return track.popularity
+        case .ArtistItem(let artist):
+            return artist.popularity
+        case .SearchAlbumItem( _):
+            return 100
+        default:
+            return 0
+        }
+    }
+}
+    

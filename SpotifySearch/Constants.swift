@@ -136,3 +136,25 @@ extension String {
         self = self.capitalizingFirstLetter()
     }
 }
+
+func calcTop(query:String, items: [SearchItem]) -> SearchItem? {
+    var dict:[Int:[SearchItem]] = [:]
+    
+    for item in items {
+        let key = levenshtein(stringOne: item.name, stringTwo: query)!
+        var values = dict[key] ?? []
+        values.append(item)
+        dict[key] = values
+    }
+    
+    // max levenshtein distence is the size of the query
+    for i in 0...query.characters.count {
+        let values = dict[i] ?? []
+        
+        if values.count > 0 {
+            let max = values.map{$0.popularity}.max()!
+            return values.first{$0.popularity == max}!
+        }
+    }
+    return nil
+}

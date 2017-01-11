@@ -93,8 +93,8 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         
         // Get any existing history values
         history = Set(UserDefaults.standard.array(forKey: "History") as? [String] ?? [])
-        let historyItems = Array(history).map {SectionItem.HistorySectionItem(title: $0)}
-        
+        var historyItems:[SectionItem] = Array(history).map {SectionItem.HistorySectionItem(title: $0)}
+        historyItems = Array(historyItems.prefix(10))
         // Create the datadatasource for the home search screen
         let datasource = RxTableViewSectionedReloadDataSource<SearchHomeSectionModel>()
         searchHomeDataSource(datasource: datasource)
@@ -117,6 +117,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
             }.addDisposableTo(disposeBag)
         
         tableView.dataSource = nil
+        tableView.delegate = self
         sections.asObservable()
             .bindTo(self.tableView.rx.items(dataSource: datasource))
             .addDisposableTo(disposeBag)
@@ -135,33 +136,44 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 // setup section array
                 var sections:[SearchResultSectionModel] = []
                 
-                // sorts and adds Tracks to search results if any exist
+                // Adds Tracks
                 let sortedTracks = result.tracks.items.sorted(by: {$0.popularity > $1.popularity})
                     .map {SearchItem.TrackItem(track: $0)}
-                if sortedTracks.count > 0 {
-                    let count = min(sortedTracks.count,10)
+                
+                    var count = min(sortedTracks.count,10)
                     var tracks:[SearchItem] = Array(sortedTracks.prefix(through: count-1))
                     tracks.append(SearchItem.ExpandItem(type: EndCell.Track(text: trackText, page: result.tracks)))
                     sections.append(.TrackSection(items: tracks))
-                }
                 
-                // sorts and adds Artists to search results if any exist
+                
+                // Adds Artists
                 let sortedArtists = result.artists.items.sorted(by: {$0.popularity > $1.popularity})
                     .map {SearchItem.ArtistItem(artist: $0)}
-                if sortedArtists.count > 0 {
-                    let count = min(sortedArtists.count,3)
+                
+                     count = min(sortedArtists.count,3)
                     var artists:[SearchItem] = Array(sortedArtists.prefix(through: count-1))
                     artists.append(SearchItem.ExpandItem(type: EndCell.Artist(text: artistText, page: result.artists)))
                     sections.append(.ArtistSection(items: artists))
-                }
                 
+                // Adds albums
                 let sortedAlbums = result.albums.items.map{SearchItem.SearchAlbumItem(album: $0)}
-                if sortedAlbums.count > 0 {
-                    let count = min(sortedAlbums.count,3)
+                
+                     count = min(sortedAlbums.count,3)
                     var albums = Array(sortedAlbums.prefix(through: count-1))
                     albums.append(SearchItem.ExpandItem(type: EndCell.Album(text: albumText,type:"album", page: result.albums)))
                     sections.append(.AlbumSection(items: albums))
+                
+                // Gets top section
+                var findTop = Array.init(sortedTracks)
+                findTop.append(contentsOf: Array.init(sortedArtists))
+                findTop.append(contentsOf: Array.init(sortedAlbums))
+                let topItem = calcTop(query: self.searchBar.text!, items: findTop)
+                
+                if let t = topItem {
+                    let temp:[SearchResultSectionModel] = [.TopResultSection(items:[t])]
+                    sections = temp + sections
                 }
+                
                 
                 return sections
             }
@@ -225,6 +237,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 }
                 self.addAndSaveHistory()
                 self.resultsTableView.deselectRow(at: index, animated: true)
+                self.resultsTableView.reloadData()
             case let .error(error):
                 print(error.localizedDescription)
             case .completed:
@@ -298,16 +311,29 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                     ArtistTableViewCell
                 cell.artist = artist
                 cell.configureCell()
+                if idxPath.section == 0 {
+                    self.resultsViewController.topType = .ArtistCell
+                    self.tableView.reloadRows(at: [idxPath], with: .automatic)
+                }
                 return cell
             case let .TrackItem(track):
                 let cell = table.dequeueReusableCell(withIdentifier: "trackCell", for: idxPath) as! TrackTableViewCell
                 cell.track = track
+                if idxPath.section == 0 {
+                    self.resultsViewController.topType = .TrackCell
+                    self.tableView.reloadRows(at: [idxPath], with: .automatic)
+                }
                 cell.configureCell()
+                
                 return cell
             case let .SearchAlbumItem(album):
                 let cell = table.dequeueReusableCell(withIdentifier: "albumCell", for: idxPath) as! AlbumTableViewCell
                 cell.album = album
                 cell.configureCell()
+                if idxPath.section == 0 {
+                    self.resultsViewController.topType = .AlbumCell
+                    self.tableView.reloadRows(at: [idxPath], with: .automatic)
+                }
                 return cell
             case let .ExpandItem(endCell):
                 let cell = table.dequeueReusableCell(withIdentifier: "expandCell", for: idxPath) as! ExpandTableViewCell
@@ -329,6 +355,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
             default:
                 return UITableViewCell()
             }
+            
         }
         
         datasource.titleForHeaderInSection = { datasource, idx in
@@ -352,7 +379,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return min(10,self.history.count)
+            return min(5,self.history.count)
         case 1:
             return 5
         default:

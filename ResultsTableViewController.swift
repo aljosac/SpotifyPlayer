@@ -10,6 +10,8 @@ import UIKit
 
 class ResultsTableViewController: UITableViewController {
     
+    var topType:ResultCellType? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.dataSource = nil
@@ -89,17 +91,25 @@ class ResultsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let section = tableView.headerView(forSection: indexPath.section)?.textLabel?.text ?? ""
-        switch section {
-        case "Artists","Albums":
+        switch indexPath.section {
+        case 2,3:
             if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
                 return 44
             }
             return 60
-            
+        case 0:
+            if let c = topType {
+                switch c {
+                case .AlbumCell,.ArtistCell:
+                    return 60
+                default:
+                    break
+                }
+            }
         default:
-            return 44
+           break
         }
+        return 44
     }
     
 

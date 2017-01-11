@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifySearch/SearchViewController.swift"
-            timestampString = "505686397.206437"
+            timestampString = "505860976.184478"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
             landmarkName = "setupSearch()"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,13 +42,61 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ResultsTableViewController.swift"
-            timestampString = "505841622.588743"
+            timestampString = "505855917.553209"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
             landmarkName = "viewDidAppear(_:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ResultsTableViewController.swift"
+            timestampString = "505856995.025728"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "tableView(_:heightForRowAt:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SpotifySearch.ResultsTableViewController.tableView (__ObjC.UITableView, heightForRowAt : Foundation.IndexPath) -&gt; CoreGraphics.CGFloat"
+                  moduleName = "SpotifySearch"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aljosacucak/Desktop/SpotifySearch/ResultsTableViewController.swift"
+                  timestampString = "505856390.029481"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "102"
+                  endingLineNumber = "102"
+                  offsetFromSymbolStart = "1660">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SpotifySearch.ResultsTableViewController.tableView (__ObjC.UITableView, heightForRowAt : Foundation.IndexPath) -&gt; CoreGraphics.CGFloat"
+                  moduleName = "SpotifySearch"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aljosacucak/Desktop/SpotifySearch/ResultsTableViewController.swift"
+                  timestampString = "505856390.03097"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "102"
+                  endingLineNumber = "102"
+                  offsetFromSymbolStart = "1703">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

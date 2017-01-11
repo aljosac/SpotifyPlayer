@@ -39,6 +39,8 @@ class ArtistTableViewCell: ResultTableViewCell {
                 if let data = response.data {
                     let image:UIImage = UIImage(data: data)!
                     self.artistImage.image = image
+                    self.artist?.images[0].image = image
+
                 }
             }
         }
