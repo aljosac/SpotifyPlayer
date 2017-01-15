@@ -27,7 +27,7 @@ let requestClosure = { (target: Spotify) -> Endpoint<Spotify> in
     let defaultEndpoint = MoyaProvider.defaultEndpointMapping(target)
     
     switch target {
-    case .TopArtists,.TopArtistTracks,.ArtistAlbums :
+    case .TopArtists,.TopArtistTracks,.ArtistAlbums,.Playlist :
         let authToken = "Bearer " + SPTAuth.defaultInstance().session.accessToken
         return defaultEndpoint.adding(newHttpHeaderFields:["Authorization": authToken])
     default:
@@ -36,9 +36,11 @@ let requestClosure = { (target: Spotify) -> Endpoint<Spotify> in
 }
 
 class AppState {
+    
     static let shared = AppState()
     var playerShowing:Bool = false
     var queueIds:Set<String> = Set()
+    let provider = RxMoyaProvider<Spotify>(endpointClosure: requestClosure)
 }
 
 let tableGray:UIColor = UIColor(red: 0.147, green: 0.147, blue: 0.147, alpha: 1.0)
@@ -49,6 +51,7 @@ let albumText = "See All Albums"
 let singleText = "See All Singles"
 let trackText = "See All Tracks"
 let artistText = "See All Artists"
+let playlistText = "See All Playlists"
 
 extension UIImage {
     class func circle(diameter: CGFloat, color: UIColor,alpha:CGFloat) -> UIImage {
@@ -158,3 +161,5 @@ func calcTop(query:String, items: [SearchItem]) -> SearchItem? {
     }
     return nil
 }
+
+

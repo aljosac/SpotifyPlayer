@@ -32,4 +32,5 @@ enum ResultCellType {
     case AlbumCell
     case HistoryCell
     case ExpandCell
+    case PlaylistCell
 }

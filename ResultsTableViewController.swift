@@ -92,7 +92,7 @@ class ResultsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
-        case 2,3:
+        case 2,3,4:
             if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
                 return 44
             }

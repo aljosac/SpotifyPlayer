@@ -60,6 +60,7 @@ enum SearchResultSectionModel {
     case TrackSection(items:[SearchItem])
     case ArtistSection(items:[SearchItem])
     case AlbumSection(items:[SearchItem])
+    case PlaylistSection(items:[SearchItem])
     case TopResultSection(items:[SearchItem])
 }
 
@@ -67,6 +68,7 @@ enum EndCell {
     case Album(text:String,type:String,page:SimpleAlbumPage)
     case Track(text:String,page:FullTrackPage)
     case Artist(text:String,page:FullArtistPage)
+    case Playlist(text:String,page:SimplePlaylistPage)
 }
 
 enum SearchItem {
@@ -74,6 +76,7 @@ enum SearchItem {
     case ArtistItem(artist:FullArtist)
     case AlbumItem(album:[SimpleAlbum])
     case SingleItem(single:[SimpleAlbum])
+    case PlaylistItem(playlist:SimplePlaylist)
     case SearchAlbumItem(album:SimpleAlbum)
     case ExpandItem(type:EndCell)
 }
@@ -89,6 +92,8 @@ extension SearchResultSectionModel: SectionModelType {
             return items.map {$0}
         case .AlbumSection(items: let items):
             return items.map {$0}
+        case .PlaylistSection(items: let items):
+            return items.map {$0}
         case .TopResultSection(items: let items):
             return items.map {$0}
         }
@@ -102,6 +107,8 @@ extension SearchResultSectionModel: SectionModelType {
             self = .ArtistSection(items: items)
         case .AlbumSection(items: _):
             self = .AlbumSection(items: items)
+        case .PlaylistSection(items: _):
+            self = .PlaylistSection(items: items)
         case .TopResultSection(items: _):
             self = .TopResultSection(items: items)
         }
@@ -117,6 +124,8 @@ extension SearchResultSectionModel {
             return "Artists"
         case .AlbumSection(items: _):
             return "Albums"
+        case.PlaylistSection(items: _):
+            return "Playlists"
         case .TopResultSection(items: _):
             return "Top Result"
         }
@@ -133,6 +142,8 @@ extension SearchItem {
             return artist.name
         case .SearchAlbumItem(let album):
             return album.name
+        case .PlaylistItem(let playlist):
+            return playlist.name
         default:
             return ""
         }
@@ -144,8 +155,10 @@ extension SearchItem {
             return track.popularity
         case .ArtistItem(let artist):
             return artist.popularity
-        case .SearchAlbumItem( _):
-            return 100
+        case .SearchAlbumItem(_):
+            return 75
+        case .PlaylistItem(_):
+            return 25
         default:
             return 0
         }

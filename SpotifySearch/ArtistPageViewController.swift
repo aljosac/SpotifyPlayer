@@ -51,7 +51,7 @@ class ArtistPageViewController: UIViewController, UITableViewDelegate {
         
         // Do any additional setup after loading the view.
         let artistRect:CGRect = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 300)
-        self.artistBar = ArtistStyleBar(frame: artistRect, artist: artist!)
+        self.artistBar = ArtistStyleBar(frame: artistRect, name: artist!.name,image:artist?.images.first?.image)
         
         let behavior:BarBehavior = BarBehavior()
         behavior.addSnappingPositionProgress(0.0, forProgressRangeStart: 0.0, end: 0.5)
@@ -334,7 +334,7 @@ extension ArtistPageViewController:UICollectionViewDelegate,UICollectionViewDele
         let albumPage = storyboard.instantiateViewController(withIdentifier: "albumPage") as! AlbumPageViewController
         
         albumPage.albumImage = cell.albumImage.image
-        albumPage.id = cell.albumID
+        albumPage.album = cell.album
         self.navigationController?.pushViewController(albumPage, animated: true)
     }
 }

@@ -12,7 +12,7 @@ class AlbumCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var albumImage: UIImageView!
     @IBOutlet weak var albumTitle: UILabel!
 
-    var albumID:String? = nil
+    var album:SimpleAlbum? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()

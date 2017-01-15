@@ -46,9 +46,11 @@ class ExpandTableViewController: UITableViewController {
         case let .Album(_, type,_):
             self.title = type.uppercased()
         case .Track:
-            self.title = "Tracks"
+            self.title = "TRACKS"
         case .Artist:
-            self.title = "Artists"
+            self.title = "ARTISTS"
+        case .Playlist:
+            self.title = "PLAYLISTS"
         }
         self.tableView.estimatedRowHeight = 60
         
@@ -82,12 +84,14 @@ class ExpandTableViewController: UITableViewController {
             return page.items.count
         case .Artist(text: _, page: let page):
             return page.items.count
+        case .Playlist(text: _, let page):
+            return page.items.count
         }
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch info {
-        case .Artist(text: _, page: _),.Album(text: _, type: _, page: _):
+        case .Artist(text: _, page: _),.Album(text: _, type: _, page: _),.Playlist(text: _, page:_):
             return 60
         case .Track(text: _, page: _):
             return 44
@@ -101,6 +105,8 @@ class ExpandTableViewController: UITableViewController {
             return makeTrackCell(page: page, indexPath: indexPath)
         case let .Artist(_,page):
             return makeArtistCell(page: page, indexPath: indexPath)
+        case let .Playlist(_,page):
+            return makePlaylistCell(page:page,indexPath: indexPath)
         }
     }
     
@@ -122,9 +128,14 @@ class ExpandTableViewController: UITableViewController {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let albumPage = storyboard.instantiateViewController(withIdentifier:"albumPage") as! AlbumPageViewController
             
-            albumPage.id = albumCell.id
+            albumPage.album = albumCell.album
             albumPage.albumImage = albumCell.albumCover.image
             self.navigationController?.pushViewController(albumPage, animated: true)
+        case .Playlist(text: _, page: _):
+            let playlistCell = tableView.cellForRow(at: indexPath) as! AlbumTableViewCell
+            let playlistController = PlaylistPageViewController(loader: playlistCell.playlist!)
+            
+            self.navigationController?.pushViewController(playlistController, animated: true)
         }
     }
     
@@ -207,7 +218,7 @@ class ExpandTableViewController: UITableViewController {
         }
         cell.albumName.text = album.name
         cell.artistName.text = album.artists.map{$0.name}.joined(separator: ",")
-        cell.id = album.id
+        cell.album = album
         
         // Load next page after loading current last cell
         if indexPath.row == page.items.count - 1, let next = page.next {
@@ -220,6 +231,46 @@ class ExpandTableViewController: UITableViewController {
                         page.items.append(contentsOf: responsePage.items.removeDuplicates())
                         page.next = responsePage.next
                     } else if let responsePage = SimpleAlbumPage.from(JSON["albums"] as! NSDictionary) {
+                        page.items.append(contentsOf: responsePage.items.removeDuplicates())
+                        page.next = responsePage.next
+                    }
+                    self.tableView.reloadData()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        
+        return cell
+    }
+    
+    func makePlaylistCell(page:SimplePlaylistPage,indexPath:IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "albumCell", for: indexPath) as! AlbumTableViewCell
+        let playlist = page.items[indexPath.row]
+        if playlist.images.count > 0 {
+            Alamofire.request(playlist.images[0].url).responseData { response in
+                if let data = response.data {
+                    let image:UIImage = UIImage(data: data)!
+                    cell.albumCover.image = image
+                    playlist.images[0].image = image
+                }
+            }
+        }
+        cell.albumName.text = playlist.name
+        cell.artistName.text = ""
+        cell.playlist = playlist
+        
+        // Load next page after loading current last cell
+        if indexPath.row == page.items.count - 1, let next = page.next {
+            Alamofire.request(next).responseJSON { response in
+                switch response.result {
+                case .success(let json):
+                    print("NEW DATA")
+                    let JSON = json as! NSDictionary
+                    if let responsePage = SimplePlaylistPage.from(JSON) {
+                        page.items.append(contentsOf: responsePage.items.removeDuplicates())
+                        page.next = responsePage.next
+                    } else if let responsePage = SimplePlaylistPage.from(JSON["playlists"] as! NSDictionary) {
                         page.items.append(contentsOf: responsePage.items.removeDuplicates())
                         page.next = responsePage.next
                     }

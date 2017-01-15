@@ -155,7 +155,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                     artists.append(SearchItem.ExpandItem(type: EndCell.Artist(text: artistText, page: result.artists)))
                     sections.append(.ArtistSection(items: artists))
                 
-                // Adds albums
+                // Adds Albums
                 let sortedAlbums = result.albums.items.map{SearchItem.SearchAlbumItem(album: $0)}
                 
                      count = min(sortedAlbums.count,3)
@@ -163,10 +163,18 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                     albums.append(SearchItem.ExpandItem(type: EndCell.Album(text: albumText,type:"album", page: result.albums)))
                     sections.append(.AlbumSection(items: albums))
                 
+                // Adds Playlists
+                let sortedPlaylists = result.playlist.items.map{SearchItem.PlaylistItem(playlist: $0)}
+                
+                    count = min(sortedAlbums.count,3)
+                    var playlists = Array(sortedPlaylists.prefix(through: count-1))
+                    playlists.append(SearchItem.ExpandItem(type: EndCell.Playlist(text: playlistText, page: result.playlist)))
+                    sections.append(.PlaylistSection(items: playlists))
                 // Gets top section
                 var findTop = Array.init(sortedTracks)
                 findTop.append(contentsOf: Array.init(sortedArtists))
                 findTop.append(contentsOf: Array.init(sortedAlbums))
+                findTop.append(contentsOf: Array.init(sortedPlaylists))
                 let topItem = calcTop(query: self.searchBar.text!, items: findTop)
                 
                 if let t = topItem {
@@ -225,9 +233,14 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     let albumPage = storyboard.instantiateViewController(withIdentifier:"albumPage") as! AlbumPageViewController
                     
-                    albumPage.id = albumCell.id
+                    albumPage.album = albumCell.album
                     albumPage.albumImage = albumCell.albumCover.image
                     self.navigationController?.pushViewController(albumPage, animated: true)
+                case .PlaylistCell:
+                    let playlistCell = cell as! AlbumTableViewCell
+                    
+                    let playlistController = PlaylistPageViewController(loader: playlistCell.playlist!)
+                    self.navigationController?.pushViewController(playlistController, animated: true)
                 case .ExpandCell:
                     let expandCell = cell as! ExpandTableViewCell
                     let expandController = ExpandTableViewController(info: expandCell.info!, style: .plain)
@@ -335,6 +348,16 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                     self.tableView.reloadRows(at: [idxPath], with: .automatic)
                 }
                 return cell
+            case let .PlaylistItem(playlist):
+                let cell = table.dequeueReusableCell(withIdentifier: "albumCell", for: idxPath) as! AlbumTableViewCell
+                cell.playlist = playlist
+                cell.configureCell()
+                cell.cellType = .PlaylistCell
+                if idxPath.section == 0 {
+                    self.resultsViewController.topType = .AlbumCell
+                    self.tableView.reloadRows(at: [idxPath], with: .automatic)
+                }
+                return cell
             case let .ExpandItem(endCell):
                 let cell = table.dequeueReusableCell(withIdentifier: "expandCell", for: idxPath) as! ExpandTableViewCell
                 
@@ -344,6 +367,8 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
                 case let .Artist(text,_):
                     cell.textLabel?.text = text
                 case let .Album(text,_,_):
+                    cell.textLabel?.text = text
+                case let .Playlist(text,_):
                     cell.textLabel?.text = text
                 }
                 cell.textLabel?.textColor = .white
@@ -370,8 +395,8 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
         if let header = view as? UITableViewHeaderFooterView {
             header.textLabel?.textAlignment = .center
             header.textLabel?.textColor = .white
-            header.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-            header.contentView.backgroundColor = dark
+            header.textLabel?.font = UIFont.boldSystemFont(ofSize: 22)
+            header.contentView.backgroundColor = tableGray
         }
     }
     
@@ -405,7 +430,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate{
             
             self.setupSearch()
         }
-        
+        self.tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

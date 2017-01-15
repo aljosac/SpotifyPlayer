@@ -11,10 +11,10 @@ import Foundation
 
 class AlbumStyleBar: BLKFlexibleHeightBar {
     
-    var album:FullAlbum
+    var name:String
     var image:UIImage?
-    init(frame: CGRect,album:FullAlbum,image:UIImage?) {
-        self.album = album
+    init(frame: CGRect,name:String,image:UIImage? = nil) {
+        self.name = name
         self.image = image
         super.init(frame: frame)
         self.configureBar()
@@ -92,7 +92,7 @@ class AlbumStyleBar: BLKFlexibleHeightBar {
         
         // TITLE LABEL
         let name:UILabel = UILabel.init()
-        name.text = album.name
+        name.text = self.name
         name.textColor = UIColor.white
         name.adjustsFontSizeToFitWidth = true
         name.textAlignment = .center
@@ -112,7 +112,7 @@ class AlbumStyleBar: BLKFlexibleHeightBar {
         
         // HEADER LABEL
         let headerName:UILabel = UILabel.init()
-        headerName.text = album.name
+        headerName.text = self.name
         headerName.textColor = UIColor.white
         headerName.font = UIFont.boldSystemFont(ofSize: 15.0)
         headerName.textAlignment = .center

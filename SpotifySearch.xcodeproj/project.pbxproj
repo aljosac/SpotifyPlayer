@@ -34,6 +34,7 @@
 		694450E51DE2430A007DEF55 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694450E41DE2430A007DEF55 /* WebViewController.swift */; };
 		694D60F31DF92FAC0032B8A3 /* SearchPageModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D60F21DF92FAC0032B8A3 /* SearchPageModels.swift */; };
 		694D60F51DF967A90032B8A3 /* ResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D60F41DF967A90032B8A3 /* ResultsTableViewController.swift */; };
+		694D7FC11E2940C60061D3A5 /* PlaylistPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D7FC01E2940C50061D3A5 /* PlaylistPageViewController.swift */; };
 		695526EF1DCB909D0023C4C5 /* SearchEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695526EE1DCB909D0023C4C5 /* SearchEntity.swift */; };
 		6959AE5C1DEE1508003D2B35 /* LevenshteinDistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6959AE5B1DEE1508003D2B35 /* LevenshteinDistance.swift */; };
 		696D7B681DED1F560086BD4E /* TrackSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696D7B671DED1F560086BD4E /* TrackSection.swift */; };
@@ -125,6 +126,7 @@
 		694450E41DE2430A007DEF55 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		694D60F21DF92FAC0032B8A3 /* SearchPageModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchPageModels.swift; path = ../SearchPageModels.swift; sourceTree = "<group>"; };
 		694D60F41DF967A90032B8A3 /* ResultsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResultsTableViewController.swift; path = ../ResultsTableViewController.swift; sourceTree = "<group>"; };
+		694D7FC01E2940C50061D3A5 /* PlaylistPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistPageViewController.swift; sourceTree = "<group>"; };
 		695526EE1DCB909D0023C4C5 /* SearchEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchEntity.swift; path = SpotifySearch/SearchEntity.swift; sourceTree = "<group>"; };
 		6959AE5B1DEE1508003D2B35 /* LevenshteinDistance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevenshteinDistance.swift; sourceTree = "<group>"; };
 		696D7B671DED1F560086BD4E /* TrackSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackSection.swift; sourceTree = "<group>"; };
@@ -292,6 +294,7 @@
 				69281CA61DE3D041007F749F /* PlayerViewController.swift */,
 				69B459EC1DB5559D0013D71A /* SearchViewController.swift */,
 				694D60F41DF967A90032B8A3 /* ResultsTableViewController.swift */,
+				694D7FC01E2940C50061D3A5 /* PlaylistPageViewController.swift */,
 				6973F05A1DDB96AE0057946E /* QueueTableViewController.swift */,
 				69210A9C1DFB0D7100F8C436 /* ArtistPageViewController.swift */,
 				69898F301E09D8410041907D /* AlbumPageViewController.swift */,
@@ -511,6 +514,7 @@
 			files = (
 				691FDBE21DD2247F000122EF /* TrackTableViewCell.swift in Sources */,
 				69210A9E1DFB0D7100F8C436 /* ArtistPageViewController.swift in Sources */,
+				694D7FC11E2940C60061D3A5 /* PlaylistPageViewController.swift in Sources */,
 				698BFB8A1DF0BF2C00DD4217 /* BLKFlexibleHeightBarBehaviorDefiner.m in Sources */,
 				69267B7A1E17723B003E1589 /* ExpandTableViewController.swift in Sources */,
 				698BFB8E1DF0BF2C00DD4217 /* UIView+BLKFlexibleHeightBarSubview.m in Sources */,

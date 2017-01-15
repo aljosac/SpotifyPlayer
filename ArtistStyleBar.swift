@@ -11,10 +11,12 @@ import Foundation
 
 class ArtistStyleBar: BLKFlexibleHeightBar {
     
-    var artist:FullArtist
+    let name:String
+    let artistImage:UIImage?
     
-    init(frame: CGRect,artist:FullArtist) {
-        self.artist = artist
+    init(frame: CGRect,name:String,image:UIImage? = nil) {
+        self.name = name
+        self.artistImage = image
         super.init(frame: frame)
         self.configureBar()
     }
@@ -28,9 +30,7 @@ class ArtistStyleBar: BLKFlexibleHeightBar {
         self.minimumBarHeight = 65.0
         self.backgroundColor = tableGray
         
-        let artistImage = artist.images.first?.image
-        
-        if let image = artistImage {
+        if let image = self.artistImage {
             
             
             let backgroundImageView = UIImageView(image: image)
@@ -90,7 +90,7 @@ class ArtistStyleBar: BLKFlexibleHeightBar {
         
         // Set name label
         let name:UILabel = UILabel.init()
-        name.text = artist.name
+        name.text = self.name
         name.textColor = UIColor.white
         name.font = UIFont.boldSystemFont(ofSize: 27.0)
     

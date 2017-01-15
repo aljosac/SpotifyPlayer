@@ -14,7 +14,7 @@ struct SpotifyModel {
     let provider: RxMoyaProvider<Spotify>
     
     // Queries Spotify
-    func search(query:String,type:String = "track,artist,album") -> Observable<Result> {
+    func search(query:String,type:String = "track,artist,album,playlist") -> Observable<Result> {
         //return self.provider.request(Spotify.Search(name: query)).debug().mapArray(type: Track.self, keyPath: "tracks.items")
         return self.provider.request(Spotify.Search(query: query,type: type)).debug().mapObject(type: Result.self)
     }
@@ -51,6 +51,10 @@ struct SpotifyModel {
     
     func getAlbum(id:String) -> Observable<FullAlbum> {
         return self.provider.request(Spotify.Album(id: id)).debug().mapObject(type: FullAlbum.self)
+    }
+    
+    func getPlaylist(loader:SimplePlaylist) -> Observable<FullPlaylist> {
+        return self.provider.request(Spotify.Playlist(uid: loader.uid, pid: loader.pid)).debug().mapObject(type: FullPlaylist.self)
     }
 }
 

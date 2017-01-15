@@ -37,7 +37,7 @@ class AlbumCollectionModel:NSObject, UICollectionViewDataSource {
             }
         }
         cell.albumTitle.text = album.name
-        cell.albumID = album.id
+        cell.album = album
         
         cell.backgroundColor = tableGray
         cell.albumTitle.textColor = .white
