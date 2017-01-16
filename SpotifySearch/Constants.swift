@@ -9,6 +9,10 @@
 import Foundation
 import Moya
 
+let CLIENT_ID = "ENTER_YOUR_OWN"
+let CLIENT_SECRET = "ENTER_YOUR_OWN"
+
+
 func secondsToString(seconds:Int) -> String {
 
     let hours = seconds > 3600 ? "\(seconds / 3600):" : ""

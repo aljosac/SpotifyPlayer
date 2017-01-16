@@ -17,7 +17,6 @@
 		691FDBE31DD2247F000122EF /* TrackTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 691FDBE11DD2247F000122EF /* TrackTableViewCell.xib */; };
 		69210A9E1DFB0D7100F8C436 /* ArtistPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69210A9C1DFB0D7100F8C436 /* ArtistPageViewController.swift */; };
 		69210AA11DFB1CF800F8C436 /* ArtistBarBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69210AA01DFB1CF800F8C436 /* ArtistBarBehavior.swift */; };
-		69267B741E14C79D003E1589 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69267B731E14C79D003E1589 /* Keys.swift */; };
 		69267B761E164C7F003E1589 /* ExpandTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69267B751E164C7F003E1589 /* ExpandTableViewCell.swift */; };
 		69267B7A1E17723B003E1589 /* ExpandTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69267B791E17723B003E1589 /* ExpandTableViewController.swift */; };
 		69267B7C1E17A5E0003E1589 /* AlbumCollectionDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69267B7B1E17A5E0003E1589 /* AlbumCollectionDatasource.swift */; };
@@ -109,7 +108,6 @@
 		691FDBE11DD2247F000122EF /* TrackTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackTableViewCell.xib; sourceTree = "<group>"; };
 		69210A9C1DFB0D7100F8C436 /* ArtistPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistPageViewController.swift; sourceTree = "<group>"; };
 		69210AA01DFB1CF800F8C436 /* ArtistBarBehavior.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistBarBehavior.swift; sourceTree = "<group>"; };
-		69267B731E14C79D003E1589 /* Keys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		69267B751E164C7F003E1589 /* ExpandTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandTableViewCell.swift; sourceTree = "<group>"; };
 		69267B791E17723B003E1589 /* ExpandTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandTableViewController.swift; sourceTree = "<group>"; };
 		69267B7B1E17A5E0003E1589 /* AlbumCollectionDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumCollectionDatasource.swift; sourceTree = "<group>"; };
@@ -233,7 +231,6 @@
 				69281CA71DE3D041007F749F /* PlayerViewController.xib */,
 				69B459F21DB555EB0013D71A /* AppDelegate.swift */,
 				69AD12E91DDF7A0800FDA308 /* Constants.swift */,
-				69267B731E14C79D003E1589 /* Keys.swift */,
 				6959AE5B1DEE1508003D2B35 /* LevenshteinDistance.swift */,
 				F8D386701D70C274002A13FC /* Assets.xcassets */,
 				F8D386721D70C274002A13FC /* LaunchScreen.storyboard */,
@@ -541,7 +538,6 @@
 				6916E0721DF9CCE6002A7D66 /* ArtistTableViewCell.swift in Sources */,
 				6973F05B1DDB96AE0057946E /* QueueTableViewController.swift in Sources */,
 				694450E51DE2430A007DEF55 /* WebViewController.swift in Sources */,
-				69267B741E14C79D003E1589 /* Keys.swift in Sources */,
 				698BFB881DF0BF2B00DD4217 /* BLKDelegateSplitter.m in Sources */,
 				695526EF1DCB909D0023C4C5 /* SearchEntity.swift in Sources */,
 				69B459EF1DB555B10013D71A /* SpotifyEndpoint.swift in Sources */,
